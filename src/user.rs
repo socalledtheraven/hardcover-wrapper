@@ -268,6 +268,54 @@ request: Object {
 
  */
 
+const QUERY_FIELDS: &str = r"
+            access_level
+            account_privacy_setting_id
+            activity_privacy_settings_id
+            admin
+            bio
+            birthdate
+            books_count
+            cached_cover
+            cached_genres
+            cached_image
+            confirmation_sent_at
+            confirmed_at
+            created_at
+            current_sign_in_at
+            email
+            email_verified
+            flair
+            followed_users_count
+            followers_count
+            id
+            image_id
+            last_activity_at
+            last_sign_in_at
+            librarian_roles
+            link
+            location
+            locked_at
+            membership
+            membership_ends_at
+            name
+            object_type
+            onboarded
+            payment_system_id
+            pro
+            pronoun_personal
+            pronoun_possessive
+            referrer_id
+            referrer_url
+            remember_created_at
+            reset_password_sent_at
+            sign_in_count
+            status_id
+            timezone
+            unconfirmed_email
+            updated_at
+            username";
+
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct User {
     access_level: Option<u64>,
@@ -368,60 +416,32 @@ impl User {
     pub(crate) async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($user: citext!) {
-          users(where: {username: {_eq: $user}}, limit: 1) {
-            access_level
-            account_privacy_setting_id
-            activity_privacy_settings_id
-            admin
-            bio
-            birthdate
-            books_count
-            cached_cover
-            cached_genres
-            cached_image
-            confirmation_sent_at
-            confirmed_at
-            created_at
-            current_sign_in_at
-            email
-            email_verified
-            flair
-            followed_users_count
-            followers_count
-            id
-            image_id
-            last_activity_at
-            last_sign_in_at
-            librarian_roles
-            link
-            location
-            locked_at
-            membership
-            membership_ends_at
-            name
-            object_type
-            onboarded
-            payment_system_id
-            pro
-            pronoun_personal
-            pronoun_possessive
-            referrer_id
-            referrer_url
-            remember_created_at
-            reset_password_sent_at
-            sign_in_count
-            status_id
-            timezone
-            unconfirmed_email
-            updated_at
-            username
+          users(where: {username: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
-    "#;
+        "#;
 
         let mut vars = HashMap::new();
-        vars.insert("user", username);
+        vars.insert("user", username.to_string());
 
+        Self::new(query, vars).await
+    }
+
+    pub(crate) async fn from_user_id(user_id: u64) -> Result<Self, reqwest::Error> {
+        let query = r#"
+        query GetUser($user: Int!) {
+          users(where: {id: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          }
+        }
+        "#;
+
+        let mut vars = HashMap::new();
+        vars.insert("user", user_id.to_string());
+
+        Self::new(query, vars).await
+    }
+
+    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
         let resp = graphql_req(query, vars).await?;
 
         let data = &resp["data"]["users"][0];

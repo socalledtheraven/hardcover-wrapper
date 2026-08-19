@@ -22,7 +22,7 @@ fn create_headers(api_key: &str) -> HeaderMap {
     headers
 }
 
-pub(crate) async fn graphql_req(query: &str, variables: HashMap<&str, &str>) -> Result<Value, reqwest::Error> {
+pub(crate) async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
     let headers = create_headers(env!("API_KEY"));
 
     let payload = serde_json::json!({
