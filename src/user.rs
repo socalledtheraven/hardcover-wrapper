@@ -1,10 +1,28 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
-use crate::{AccountStatus, BlockedUser, Follow, Genre, Goal, Image, Import, Link, List, MaybeInit, NotificationDelivery, PrivacySetting, Prompt, PromptAnswer, Tagging, UserBook, UserFlag};
 use crate::activity::Activity;
-use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, get_privacysetting_from_resp};
-
+use crate::enums::{AccountStatus, MaybeInit, PrivacySetting};
+use crate::follow::Follow;
+use crate::genre::Genre;
+use crate::goal::Goal;
+use crate::graphql::{graphql_req,
+                     get_bool_from_resp,
+                     get_date_from_resp,
+                     get_offsetdatetime_from_resp,
+                     get_plaindatetime_from_resp,
+                     get_str_from_resp,
+                     get_u64_from_resp,
+                     get_privacysetting_from_resp};
+use crate::image::Image;
+use crate::import::Import;
+use crate::link::Link;
+use crate::list::List;
+use crate::notification::NotificationDelivery;
+use crate::prompt::{Prompt, PromptAnswer};
+use crate::tagging::Tagging;
+use crate::user_book::UserBook;
+use crate::user_flag::UserFlag;
 
 const QUERY_FIELDS: &str = r"
             access_level
@@ -357,3 +375,7 @@ impl User {
         })
     }
 }
+
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+struct BlockedUser {}

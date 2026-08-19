@@ -3,7 +3,7 @@ use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
-use crate::PrivacySetting;
+use crate::enums::PrivacySetting;
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();

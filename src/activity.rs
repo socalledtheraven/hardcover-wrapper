@@ -2,8 +2,10 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
-use crate::{Book, Like, MaybeInit, PrivacySetting};
+use crate::book::Book;
+use crate::enums::{MaybeInit, PrivacySetting};
 use crate::graphql::graphql_req;
+use crate::like::Like;
 use crate::user::User;
 
 const QUERY_FIELDS: &str = r#"
