@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
-use crate::{Activity, BlockedUser, Follow, Genre, Goal, Image, Import, Link, List, MaybeInit, NotificationDelivery, PrivacySetting, Prompt, PromptAnswer, Tagging, UserBook, UserFlag};
+use crate::{AccountStatus, Activity, BlockedUser, Follow, Genre, Goal, Image, Import, Link, List, MaybeInit, NotificationDelivery, PrivacySetting, Prompt, PromptAnswer, Tagging, UserBook, UserFlag};
 
-use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp};
+use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, get_privacysetting_from_resp};
 
 
 /*
@@ -398,7 +398,7 @@ pub(crate) struct User {
     reset_password_sent_at: Option<PlainDateTime>,
     sign_in_count: Option<u64>,
     // todo!
-    status_id: u64,
+    status_id: AccountStatus,
     // todo!
     taggings: MaybeInit<Vec<Tagging>>,
     // todo!
@@ -465,17 +465,7 @@ impl User {
             },
             activities: { MaybeInit::Uninitialised },
             activity_privacy_settings_id: {
-                // in either case of it being unknown, we default to private,
-                // this will never happen, but better to fail closed
-                data["activity_privacy_settings_id"]
-                    .as_u64()
-                    .map(|v| match v {
-                        1 => PrivacySetting::Public,
-                        2 => PrivacySetting::FollowersOnly,
-                        3 => PrivacySetting::Private,
-                        _ => PrivacySetting::Private,
-                    })
-                    .unwrap_or(PrivacySetting::Private)
+                get_privacysetting_from_resp(data, "activity_privacy_settings_id")
             },
             admin: {
                 // should always be present
@@ -608,7 +598,16 @@ impl User {
                 get_u64_from_resp(data, "sign_in_count")
             },
             status_id: {
-                get_u64_from_resp(data, "status_id").unwrap()
+                // we default to activated if the status is unknown, this will never happen, but better to fail open
+                data["status_id"]
+                    .as_u64()
+                    .map(|v| match v {
+                        1 => AccountStatus::Created,
+                        2 => AccountStatus::Activated,
+                        3 => AccountStatus::Banned,
+                        _ => AccountStatus::Activated,
+                    })
+                    .unwrap_or(AccountStatus::Activated)
             },
             taggings: { MaybeInit::Uninitialised },
             timezone: {

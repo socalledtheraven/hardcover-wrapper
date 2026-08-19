@@ -3,6 +3,7 @@ use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
+use crate::PrivacySetting;
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -80,4 +81,18 @@ pub(crate) fn get_bool_from_resp(data: &Value, key: &str) -> bool {
     data[key]
         .as_bool()
         .unwrap()
+}
+
+pub(crate) fn get_privacysetting_from_resp(data: &Value, key: &str) -> PrivacySetting {
+    // in either case of it being unknown, we default to private,
+    // this will never happen, but better to fail closed
+    data[key]
+        .as_u64()
+        .map(|v| match v {
+            1 => PrivacySetting::Public,
+            2 => PrivacySetting::FollowersOnly,
+            3 => PrivacySetting::Private,
+            _ => PrivacySetting::Private,
+        })
+        .unwrap_or(PrivacySetting::Private)
 }

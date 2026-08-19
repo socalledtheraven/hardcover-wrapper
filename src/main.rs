@@ -14,6 +14,13 @@ enum PrivacySetting {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+enum AccountStatus {
+    Created,
+    Activated,
+    Banned,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 enum MaybeInit<T> {
     Uninitialised,
     Initialised(T),
