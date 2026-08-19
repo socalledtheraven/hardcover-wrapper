@@ -452,10 +452,68 @@ struct BlockedUser {}
 struct Activity {}
 
 impl User {
-    fn new(resp: Value) -> Self {
+    async fn new(username: &str) -> Result<Self, reqwest::Error> {
+        let query = r#"
+        query GetUser($user: citext!) {
+          users(where: {username: {_eq: $user}}, limit: 1) {
+            access_level
+            account_privacy_setting_id
+            activity_privacy_settings_id
+            admin
+            bio
+            birthdate
+            books_count
+            cached_cover
+            cached_genres
+            cached_image
+            confirmation_sent_at
+            confirmed_at
+            created_at
+            current_sign_in_at
+            email
+            email_verified
+            flair
+            followed_users_count
+            followers_count
+            id
+            image_id
+            last_activity_at
+            last_sign_in_at
+            librarian_roles
+            link
+            location
+            locked_at
+            membership
+            membership_ends_at
+            name
+            object_type
+            onboarded
+            payment_system_id
+            pro
+            pronoun_personal
+            pronoun_possessive
+            referrer_id
+            referrer_url
+            remember_created_at
+            reset_password_sent_at
+            sign_in_count
+            status_id
+            timezone
+            unconfirmed_email
+            updated_at
+            username
+          }
+        }
+    "#;
+
+        let mut vars = HashMap::new();
+        vars.insert("user", username);
+
+        let resp = graphql_req(query, vars).await?;
+
         let data = &resp["data"]["users"][0];
 
-        User {
+        Ok(User {
             access_level: {
                 get_u64_from_resp(data, "access_level")
             },
@@ -634,68 +692,13 @@ impl User {
             username: {
                 get_str_from_resp(data, "username").unwrap()
             },
-        }
+        })
     }
 }
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
-    let query = r#"
-        query GetCurrentUser {
-          users(where: {username: {_eq: "adam"}}, limit: 1) {
-            access_level
-            account_privacy_setting_id
-            activity_privacy_settings_id
-            admin
-            bio
-            birthdate
-            books_count
-            cached_cover
-            cached_genres
-            cached_image
-            confirmation_sent_at
-            confirmed_at
-            created_at
-            current_sign_in_at
-            email
-            email_verified
-            flair
-            followed_users_count
-            followers_count
-            id
-            image_id
-            last_activity_at
-            last_sign_in_at
-            librarian_roles
-            link
-            location
-            locked_at
-            membership
-            membership_ends_at
-            name
-            object_type
-            onboarded
-            payment_system_id
-            pro
-            pronoun_personal
-            pronoun_possessive
-            referrer_id
-            referrer_url
-            remember_created_at
-            reset_password_sent_at
-            sign_in_count
-            status_id
-            timezone
-            unconfirmed_email
-            updated_at
-            username
-          }
-        }
-    "#;
-
-    let resp = graphql_req(query, HashMap::new()).await?;
-    print!("{}", resp);
-    let me = User::new(resp);
+    let me = User::new("adam").await;
 
     println!("{me:#?}");
     Ok(())
@@ -719,7 +722,7 @@ fn create_headers(api_key: &str) -> HeaderMap {
     headers
 }
 
-async fn graphql_req(query: &str, variables: HashMap<String, Value>) -> Result<Value, reqwest::Error> {
+async fn graphql_req(query: &str, variables: HashMap<&str, &str>) -> Result<Value, reqwest::Error> {
     let headers = create_headers(env!("API_KEY"));
 
     let payload = serde_json::json!({
@@ -737,8 +740,6 @@ async fn graphql_req(query: &str, variables: HashMap<String, Value>) -> Result<V
         .await?;
 
     // todo! add error handling for internal request errors
-
-    println!("request: {request:#?}");
 
     Ok(request)
 }
