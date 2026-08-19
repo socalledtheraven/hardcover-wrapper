@@ -8,7 +8,7 @@ pub(crate) struct Country {
     code3: Option<String>,
     created_at: PlainDateTime,
     editions: Vec<Edition>,
-    id: u32,
+    id: u64,
     intermediate_region: Option<String>,
     intermediate_region_code: Option<String>,
     iso_3166: Option<String>,

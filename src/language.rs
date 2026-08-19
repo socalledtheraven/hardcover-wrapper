@@ -4,6 +4,6 @@ use serde::{Deserialize, Serialize};
 pub(crate) struct Language {
     code2: Option<String>,
     code3: Option<String>,
-    id: u32,
+    id: u64,
     language: String,
 }

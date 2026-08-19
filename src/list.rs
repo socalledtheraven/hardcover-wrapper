@@ -9,7 +9,7 @@ use crate::user::User;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct List {
-    books_count: u32,
+    books_count: u64,
     created_at: Option<PlainDateTime>,
     default_view: String,
     description: Option<String>,
@@ -19,32 +19,32 @@ pub(crate) struct List {
     followed_lists: Vec<Value>,
     // todo!
     followers: Vec<Value>,
-    followers_count: Option<u32>,
-    id: u32,
+    followers_count: Option<u64>,
+    id: u64,
     imported: bool,
     likes: Vec<Like>,
-    likes_count: u32,
+    likes_count: u64,
     list_books: Vec<ListBook>,
     name: String,
     object_type: String,
     privacy_setting: PrivacySetting,
-    privacy_setting_id: u32,
+    privacy_setting_id: u64,
     public: bool,
     ranked: bool,
     slug: Option<String>,
     updated_at: Option<OffsetDateTime>,
     url: Option<String>,
     user: User,
-    user_id: u32,
+    user_id: u64,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct ListBook {
-    id: Option<u32>,
-    list_id: Option<u32>,
-    book_id: Option<u32>,
-    edition_id: Option<u32>,
-    position: Option<u32>,
+    id: Option<u64>,
+    list_id: Option<u64>,
+    book_id: Option<u64>,
+    edition_id: Option<u64>,
+    position: Option<u64>,
     date_added: Option<OffsetDateTime>,
     book: Option<Book>,
     list: Option<List>,

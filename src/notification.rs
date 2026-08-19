@@ -6,14 +6,14 @@ use crate::user::User;
 pub(crate) struct NotificationDelivery {
     created_at: OffsetDateTime,
     description: String,
-    id: u32,
+    id: u64,
     link: Option<String>,
     link_text: Option<String>,
     notification_deliveries: Vec<NotificationDelivery>,
-    notification_type_id: u32,
+    notification_type_id: u64,
     notifierUser: User,
-    notifier_user_id: u32,
-    priority: Option<u32>,
+    notifier_user_id: u64,
+    priority: Option<u64>,
     title: String,
     uid: String,
 }
