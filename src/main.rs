@@ -18,6 +18,10 @@ pub mod image;
 pub mod link;
 pub mod notification;
 pub mod contribution;
+pub mod character;
+pub mod mappings;
+pub mod series;
+pub mod edition;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
