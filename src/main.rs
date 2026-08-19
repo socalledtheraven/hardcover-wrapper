@@ -22,6 +22,10 @@ pub mod character;
 pub mod mappings;
 pub mod series;
 pub mod edition;
+pub mod country;
+pub mod language;
+pub mod publisher;
+pub mod reading_format;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {

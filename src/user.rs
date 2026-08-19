@@ -379,3 +379,11 @@ impl User {
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct BlockedUser {}
+
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub(crate) enum AccountStatus {
+    Created,
+    Activated,
+    Banned,
+}
