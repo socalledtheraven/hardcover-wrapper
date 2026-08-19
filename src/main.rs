@@ -106,7 +106,5 @@ async fn main() -> Result<(), reqwest::Error> {
 
     println!("{me:#?}");
 
-    me.activities().await?;
-
     Ok(())
 }
