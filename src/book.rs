@@ -8,7 +8,7 @@ use crate::enums::{RecordState2};
 use crate::image::Image;
 use crate::list::List;
 use crate::mappings::Mapping;
-use crate::prompt::{PromptAnswer, PromptSummary};
+use crate::prompt::{PromptAnswer, PromptBook};
 use crate::series::Series;
 use crate::tagging::Tagging;
 use crate::user_book::UserBook;
@@ -75,7 +75,7 @@ pub(crate) struct Book {
     parent_book: Option<Box<Book>>,
     parent_book_id: Option<u32>,
     prompt_answers: Vec<PromptAnswer>,
-    prompt_summaries: Vec<PromptSummary>,
+    prompt_summaries: Vec<PromptBook>,
     prompts_count: u32,
     rating: Option<f32>,
     ratings_count: u32,
