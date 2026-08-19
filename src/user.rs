@@ -1,272 +1,10 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
-use crate::{AccountStatus, Activity, BlockedUser, Follow, Genre, Goal, Image, Import, Link, List, MaybeInit, NotificationDelivery, PrivacySetting, Prompt, PromptAnswer, Tagging, UserBook, UserFlag};
-
+use crate::{AccountStatus, BlockedUser, Follow, Genre, Goal, Image, Import, Link, List, MaybeInit, NotificationDelivery, PrivacySetting, Prompt, PromptAnswer, Tagging, UserBook, UserFlag};
+use crate::activity::Activity;
 use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, get_privacysetting_from_resp};
 
-
-/*
-request: Object {
-    "data": Object {
-        "me": Array [
-            Object {
-                "access_level": Number(10),
-                "account_privacy_setting_id": Number(1),
-                "activity_privacy_settings_id": Number(1),
-                "admin": Bool(false),
-                "bio": Null,
-                "birthdate": Null,
-                "books_count": Number(537),
-                "cached_cover": Object {
-                    "color": String("#000000"),
-                    "color_name": String("Black"),
-                    "height": Number(400),
-                    "id": Number(4744686),
-                    "url": String("https://assets.hardcover.app/static/bookHeaders/bookstore.webp"),
-                    "width": Number(2000),
-                },
-                "cached_genres": Array [],
-                "cached_image": Object {
-                    "color": String("#000000"),
-                    "color_name": String("Black"),
-                    "height": Number(500),
-                    "id": Number(3455125),
-                    "url": String("https://assets.hardcover.app/static/avatars/profile3.png"),
-                    "width": Number(500),
-                },
-                "confirmation_sent_at": String("2025-10-31T11:44:46.631696"),
-                "confirmed_at": String("2025-10-31T11:45:28.99063"),
-                "created_at": String("2025-10-31T11:44:46.631601+00:00"),
-                "current_sign_in_at": String("2025-12-22T15:11:39.85551"),
-                "email": String("cassie.dalrymple3@gmail.com"),
-                "email_verified": Null,
-                "flair": Null,
-                "followed_users_count": Number(0),
-                "followers_count": Number(1),
-                "id": Number(52626),
-                "image_id": Number(3455125),
-                "last_activity_at": String("2026-08-19T08:36:30.693079"),
-                "last_sign_in_at": String("2025-11-26T02:58:07.409246"),
-                "librarian_roles": Array [
-                    String("appender"),
-                    String("editor"),
-                    String("librarian"),
-                ],
-                "link": String(""),
-                "location": String(""),
-                "locked_at": Null,
-                "membership": Null,
-                "membership_ends_at": Null,
-                "name": String("prophecyreviews"),
-                "object_type": String("User"),
-                "onboarded": Bool(true),
-                "payment_system_id": Null,
-                "pro": Bool(false),
-                "pronoun_personal": String("she"),
-                "pronoun_possessive": String("her"),
-                "referrer_id": Number(28377),
-                "referrer_url": String("https://news.ycombinator.com/"),
-                "remember_created_at": String("2025-11-05T19:46:20.95935"),
-                "reset_password_sent_at": Null,
-                "sign_in_count": Number(4),
-                "status_id": Number(2),
-                "timezone": String("Europe/London"),
-                "unconfirmed_email": Null,
-                "updated_at": String("2026-08-19T08:36:30.703543+00:00"),
-                "username": String("prophecyreviews"),
-            },
-        ],
-    },
-}
- */
-
-/*
-request: Object {
-    "data": Object {
-        "users": Array [
-            Object {
-                "access_level": Null,
-                "account_privacy_setting_id": Number(1),
-                "activity_privacy_settings_id": Number(1),
-                "admin": Bool(true),
-                "bio": String("Hey hey! I'm Adam, Hardcover's founder. I love science fiction, fantasy, sciencey-nonfiction and anything that helps me learn a little bit more about the world, or help empathize with others."),
-                "birthdate": String("1982-05-18"),
-                "books_count": Number(1262),
-                "cached_cover": Object {
-                    "color": String("#000000"),
-                    "color_name": String("Black"),
-                    "height": Number(400),
-                    "id": Number(4744706),
-                    "url": String("https://assets.hardcover.app/static/bookHeaders/science-fiction.webp"),
-                    "width": Number(2000),
-                },
-                "cached_genres": Array [
-                    Object {
-                        "count": Number(499),
-                        "tag": String("Fantasy"),
-                        "tagSlug": String("fantasy"),
-                    },
-                    Object {
-                        "count": Number(438),
-                        "tag": String("Science fiction"),
-                        "tagSlug": String("science-fiction"),
-                    },
-                    Object {
-                        "count": Number(182),
-                        "tag": String("Classics"),
-                        "tagSlug": String("classics"),
-                    },
-                    Object {
-                        "count": Number(180),
-                        "tag": String("Fiction"),
-                        "tagSlug": String("fiction"),
-                    },
-                    Object {
-                        "count": Number(267),
-                        "tag": String("Young Adult"),
-                        "tagSlug": String("young-adult"),
-                    },
-                    Object {
-                        "count": Number(30),
-                        "tag": String("History"),
-                        "tagSlug": String("history"),
-                    },
-                    Object {
-                        "count": Number(8),
-                        "tag": String("Literature"),
-                        "tagSlug": String("literature"),
-                    },
-                    Object {
-                        "count": Number(11),
-                        "tag": String("Poetry"),
-                        "tagSlug": String("poetry"),
-                    },
-                    Object {
-                        "count": Number(3),
-                        "tag": String("Fairy tales"),
-                        "tagSlug": String("fairy-tales"),
-                    },
-                    Object {
-                        "count": Number(1),
-                        "tag": String("Ancient Greece"),
-                        "tagSlug": String("ancient-greece"),
-                    },
-                    Object {
-                        "count": Number(352),
-                        "tag": String("Adventure"),
-                        "tagSlug": String("adventure"),
-                    },
-                    Object {
-                        "count": Number(205),
-                        "tag": String("Dystopian"),
-                        "tagSlug": String("dystopian"),
-                    },
-                    Object {
-                        "count": Number(105),
-                        "tag": String("Comics"),
-                        "tagSlug": String("comics"),
-                    },
-                    Object {
-                        "count": Number(121),
-                        "tag": String("Space"),
-                        "tagSlug": String("space"),
-                    },
-                    Object {
-                        "count": Number(75),
-                        "tag": String("Aliens"),
-                        "tagSlug": String("aliens"),
-                    },
-                    Object {
-                        "count": Number(112),
-                        "tag": String("War"),
-                        "tagSlug": String("war"),
-                    },
-                    Object {
-                        "count": Number(1),
-                        "tag": String("Tragedy"),
-                        "tagSlug": String("tragedy"),
-                    },
-                    Object {
-                        "count": Number(121),
-                        "tag": String("Nonfiction"),
-                        "tagSlug": String("nonfiction"),
-                    },
-                    Object {
-                        "count": Number(42),
-                        "tag": String("Biography"),
-                        "tagSlug": String("biography"),
-                    },
-                    Object {
-                        "count": Number(2),
-                        "tag": String("Sports"),
-                        "tagSlug": String("sports"),
-                    },
-                    Object {
-                        "count": Number(4),
-                        "tag": String("Middle Grade"),
-                        "tagSlug": String("middle-grade"),
-                    },
-                ],
-                "cached_image": Object {
-                    "color": String("#c2aca2"),
-                    "color_name": String("Silver"),
-                    "height": Number(946),
-                    "id": Number(3462414),
-                    "url": String("https://assets.hardcover.app/users/1/4971270866700959.jpg"),
-                    "width": Number(946),
-                },
-                "confirmation_sent_at": Null,
-                "confirmed_at": Null,
-                "created_at": String("2021-10-02T21:11:34.232537+00:00"),
-                "current_sign_in_at": Null,
-                "email": Null,
-                "email_verified": Null,
-                "flair": String("Supporter"),
-                "followed_users_count": Number(1009),
-                "followers_count": Number(9627),
-                "id": Number(1),
-                "image_id": Number(3462414),
-                "last_activity_at": String("2026-08-18T21:57:25.009025"),
-                "last_sign_in_at": Null,
-                "librarian_roles": Array [
-                    String(""),
-                    String("appender"),
-                    String("editor"),
-                    String("librarian"),
-                    String("reporter_admin"),
-                    String("book_mapper"),
-                    String("admin"),
-                    String("edition_splitter"),
-                ],
-                "link": Null,
-                "location": String("Salt Lake City, UT"),
-                "locked_at": Null,
-                "membership": String("Supporter"),
-                "membership_ends_at": Null,
-                "name": String("Adam"),
-                "object_type": Null,
-                "onboarded": Bool(true),
-                "payment_system_id": Null,
-                "pro": Bool(true),
-                "pronoun_personal": String("he"),
-                "pronoun_possessive": String("his"),
-                "referrer_id": Null,
-                "referrer_url": Null,
-                "remember_created_at": Null,
-                "reset_password_sent_at": Null,
-                "sign_in_count": Null,
-                "status_id": Number(2),
-                "timezone": Null,
-                "unconfirmed_email": Null,
-                "updated_at": String("2026-08-19T10:10:29.894336+00:00"),
-                "username": String("adam"),
-            },
-        ],
-    },
-}
-
- */
 
 const QUERY_FIELDS: &str = r"
             access_level
@@ -316,14 +54,12 @@ const QUERY_FIELDS: &str = r"
             updated_at
             username";
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct User {
     access_level: Option<u64>,
-    // todo!
     account_privacy_settings_id: PrivacySetting,
     // todo!
     activities: MaybeInit<Vec<Activity>>,
-    // todo!
     activity_privacy_settings_id: PrivacySetting,
     admin: bool,
     bio: Option<String>,
@@ -337,11 +73,9 @@ pub(crate) struct User {
     collection_imports: MaybeInit<Vec<Import>>,
     confirmation_sent_at: Option<PlainDateTime>,
     confirmed_at: Option<PlainDateTime>,
-    // todo!
     created_at: Option<OffsetDateTime>,
     current_sign_in_at: Option<PlainDateTime>,
     email: Option<String>,
-    // todo!
     email_verified: Option<OffsetDateTime>,
     flair: Option<String>,
     // todo!
@@ -364,7 +98,6 @@ pub(crate) struct User {
     image_id: u64,
     last_activity_at: Option<PlainDateTime>,
     last_sign_in_at: Option<PlainDateTime>,
-    // todo!
     librarian_roles: Vec<String>,
     link: Option<String>,
     // todo!
@@ -397,14 +130,11 @@ pub(crate) struct User {
     reported_user_flags: MaybeInit<Vec<UserFlag>>,
     reset_password_sent_at: Option<PlainDateTime>,
     sign_in_count: Option<u64>,
-    // todo!
     status_id: AccountStatus,
     // todo!
     taggings: MaybeInit<Vec<Tagging>>,
-    // todo!
     timezone: Option<String>,
     unconfirmed_email: Option<String>,
-    // todo!
     updated_at: OffsetDateTime,
     // todo!
     user_books: MaybeInit<Vec<UserBook>>,
@@ -625,5 +355,269 @@ impl User {
                 get_str_from_resp(data, "username").unwrap()
             },
         })
+    }
+
+    pub fn access_level(&self) -> Option<u64> {
+        self.access_level
+    }
+
+    pub fn account_privacy_settings_id(&self) -> &PrivacySetting {
+        &self.account_privacy_settings_id
+    }
+
+    pub async fn activities(&self) -> Result<Vec<Activity>, reqwest::Error> {
+        Activity::of_user(self.id).await
+    }
+
+    pub fn activity_privacy_settings_id(&self) -> &PrivacySetting {
+        &self.activity_privacy_settings_id
+    }
+
+    pub fn admin(&self) -> bool {
+        self.admin
+    }
+
+    pub fn bio(&self) -> &Option<String> {
+        &self.bio
+    }
+
+    pub fn birthdate(&self) -> Option<Date> {
+        self.birthdate
+    }
+
+    pub fn blocked_users(&self) -> &MaybeInit<Vec<BlockedUser>> {
+        &self.blocked_users
+    }
+
+    pub fn books_count(&self) -> u64 {
+        self.books_count
+    }
+
+    pub fn cached_cover(&self) -> &Image {
+        &self.cached_cover
+    }
+
+    pub fn cached_genres(&self) -> &Vec<Genre> {
+        &self.cached_genres
+    }
+
+    pub fn cached_image(&self) -> &Image {
+        &self.cached_image
+    }
+
+    pub fn collection_imports(&self) -> &MaybeInit<Vec<Import>> {
+        &self.collection_imports
+    }
+
+    pub fn confirmation_sent_at(&self) -> Option<PlainDateTime> {
+        self.confirmation_sent_at
+    }
+
+    pub fn confirmed_at(&self) -> Option<PlainDateTime> {
+        self.confirmed_at
+    }
+
+    pub fn created_at(&self) -> Option<OffsetDateTime> {
+        self.created_at
+    }
+
+    pub fn current_sign_in_at(&self) -> Option<PlainDateTime> {
+        self.current_sign_in_at
+    }
+
+    pub fn email(&self) -> &Option<String> {
+        &self.email
+    }
+
+    pub fn email_verified(&self) -> Option<OffsetDateTime> {
+        self.email_verified
+    }
+
+    pub fn flair(&self) -> &Option<String> {
+        &self.flair
+    }
+
+    pub fn followed_by_users(&self) -> &MaybeInit<Vec<User>> {
+        &self.followed_by_users
+    }
+
+    pub fn followed_lists(&self) -> &MaybeInit<Vec<List>> {
+        &self.followed_lists
+    }
+
+    pub fn followed_prompts(&self) -> &MaybeInit<Vec<Prompt>> {
+        &self.followed_prompts
+    }
+
+    pub fn followed_users(&self) -> &MaybeInit<Vec<User>> {
+        &self.followed_users
+    }
+
+    pub fn followed_users_count(&self) -> u64 {
+        self.followed_users_count
+    }
+
+    pub fn followers_count(&self) -> u64 {
+        self.followers_count
+    }
+
+    pub fn follows(&self) -> &MaybeInit<Vec<Follow>> {
+        &self.follows
+    }
+
+    pub fn goals(&self) -> &MaybeInit<Vec<Goal>> {
+        &self.goals
+    }
+
+    pub fn id(&self) -> u64 {
+        self.id
+    }
+
+    pub fn images(&self) -> &MaybeInit<Vec<Image>> {
+        &self.images
+    }
+
+    pub fn image_id(&self) -> u64 {
+        self.image_id
+    }
+
+    pub fn last_activity_at(&self) -> Option<PlainDateTime> {
+        self.last_activity_at
+    }
+
+    pub fn last_sign_in_at(&self) -> Option<PlainDateTime> {
+        self.last_sign_in_at
+    }
+
+    pub fn librarian_roles(&self) -> &Vec<String> {
+        &self.librarian_roles
+    }
+
+    pub fn link(&self) -> &Option<String> {
+        &self.link
+    }
+
+    pub fn links(&self) -> &MaybeInit<Option<Vec<Option<Link>>>> {
+        &self.links
+    }
+
+    pub fn lists(&self) -> &MaybeInit<Vec<List>> {
+        &self.lists
+    }
+
+    pub fn location(&self) -> &Option<String> {
+        &self.location
+    }
+
+    pub fn locked_at(&self) -> Option<PlainDateTime> {
+        self.locked_at
+    }
+
+    pub fn membership(&self) -> &Option<String> {
+        &self.membership
+    }
+
+    pub fn membership_ends_at(&self) -> Option<PlainDateTime> {
+        self.membership_ends_at
+    }
+
+    pub fn name(&self) -> &Option<String> {
+        &self.name
+    }
+
+    pub fn notification_deliveries(&self) -> &MaybeInit<Vec<NotificationDelivery>> {
+        &self.notification_deliveries
+    }
+
+    pub fn object_type(&self) -> &Option<String> {
+        &self.object_type
+    }
+
+    pub fn onboarded(&self) -> bool {
+        self.onboarded
+    }
+
+    pub fn payment_system_id(&self) -> Option<u64> {
+        self.payment_system_id
+    }
+
+    pub fn pro(&self) -> bool {
+        self.pro
+    }
+
+    pub fn prompt_answers(&self) -> &MaybeInit<Vec<PromptAnswer>> {
+        &self.prompt_answers
+    }
+
+    pub fn prompts(&self) -> &MaybeInit<Vec<Prompt>> {
+        &self.prompts
+    }
+
+    pub fn pronoun_personal(&self) -> &str {
+        &self.pronoun_personal
+    }
+
+    pub fn pronoun_possessive(&self) -> &str {
+        &self.pronoun_possessive
+    }
+
+    pub fn referrer_id(&self) -> Option<u64> {
+        self.referrer_id
+    }
+
+    pub fn referrer_url(&self) -> &Option<String> {
+        &self.referrer_url
+    }
+
+    pub fn referred_users(&self) -> &MaybeInit<Vec<UserBook>> {
+        &self.referred_users
+    }
+
+    pub fn remember_created_at(&self) -> Option<PlainDateTime> {
+        self.remember_created_at
+    }
+
+    pub fn reported_user_flags(&self) -> &MaybeInit<Vec<UserFlag>> {
+        &self.reported_user_flags
+    }
+
+    pub fn reset_password_sent_at(&self) -> Option<PlainDateTime> {
+        self.reset_password_sent_at
+    }
+
+    pub fn sign_in_count(&self) -> Option<u64> {
+        self.sign_in_count
+    }
+
+    pub fn status_id(&self) -> &AccountStatus {
+        &self.status_id
+    }
+
+    pub fn taggings(&self) -> &MaybeInit<Vec<Tagging>> {
+        &self.taggings
+    }
+
+    pub fn timezone(&self) -> &Option<String> {
+        &self.timezone
+    }
+
+    pub fn unconfirmed_email(&self) -> &Option<String> {
+        &self.unconfirmed_email
+    }
+
+    pub fn updated_at(&self) -> OffsetDateTime {
+        self.updated_at
+    }
+
+    pub fn user_books(&self) -> &MaybeInit<Vec<UserBook>> {
+        &self.user_books
+    }
+
+    pub fn user_flags(&self) -> &MaybeInit<Vec<UserFlag>> {
+        &self.user_flags
+    }
+
+    pub fn username(&self) -> &str {
+        &self.username
     }
 }
