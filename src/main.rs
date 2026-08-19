@@ -17,6 +17,7 @@ pub mod goal;
 pub mod image;
 pub mod link;
 pub mod notification;
+pub mod contribution;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {

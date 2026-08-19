@@ -1,39 +1,46 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use time::Date;
+use crate::contribution::Contribution;
+use crate::enums::{Gender, MaybeInit, RecordState};
 use crate::image::Image;
 use crate::user::User;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct Author {
-    alias: Author,
-    alias_id: u32,
-    alternate_names: Vec<String>,
-    bio: String,
+    alias: MaybeInit<Box<Author>>,
+    alias_id: Option<u32>,
+    // todo!
+    alternate_names: Value,
+    bio: Option<String>,
     books_count: u32,
-    born_date: date,
-    born_year: u32,
-    cached_image: jsonb,
-    canonical: Author,
-    canonical_id: u32,
-    contributions: Contribution,
-    creator: User,
-    death_date:	date,
-    death_year: u32,
-    gender_id: u32,
+    born_date: Option<Date>,
+    born_year: Option<u32>,
+    cached_image: Image,
+    canonical: MaybeInit<Box<Author>>,
+    canonical_id: Option<u32>,
+    contributions: Vec<Contribution>,
+    creator: Option<User>,
+    death_date:	Option<Date>,
+    death_year: Option<u32>,
+    gender_id: Option<Gender>,
     id: u32,
-    identifiers: jsonb,
-    image: Image,
-    image_id: u32,
-    is_bipoc: bool,
-    is_lgbtq: bool,
-    links: jsonb,
-    location: String,
+    // todo!
+    identifiers: Value,
+    image: Option<Image>,
+    image_id: Option<u32>,
+    is_bipoc: Option<bool>,
+    is_lgbtq: Option<bool>,
+    // todo!
+    links: Value,
+    location: Option<String>,
     locked:	bool,
     name: String,
-    name_personal: String,
+    name_personal: Option<String>,
     object_type: String,
-    slug: String,
-    state: String,
-    title: String,
-    user_id: u32,
+    slug: Option<String>,
+    state: RecordState,
+    title: Option<String>,
+    user_id: Option<u32>,
     users_count: u32,
 }
