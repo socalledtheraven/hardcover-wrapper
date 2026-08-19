@@ -1,14 +1,9 @@
-//! This example illustrates the way to send and receive statically typed JSON.
-//!
-//! In contrast to the arbitrary JSON example, this brings up the full power of
-//! Rust compile-time type system guarantees, though it requires a little bit
-//! more code.
-
 use std::collections::HashMap;
 use reqwest::header::{AUTHORIZATION, CONTENT_TYPE, USER_AGENT, HeaderMap};
-// These require the `serde` dependency.
+
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
+
 use serde_json;
 use serde_json::Value;
 
@@ -20,13 +15,6 @@ struct User {
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
-    // let new_post = Post {
-    //     id: None,
-    //     title: "Reqwest.rs".into(),
-    //     body: "https://docs.rs/reqwest".into(),
-    //     user_id: 1,
-    // };
-
     let query = r#"
         query GetCurrentUser {
           me {
@@ -40,22 +28,14 @@ async fn main() -> Result<(), reqwest::Error> {
     let me: User = parse_resp(req);
 
     println!("{me:#?}");
-    // Post {
-    //     id: Some(
-    //         101
-    //     ),
-    //     title: "Reqwest.rs",
-    //     body: "https://docs.rs/reqwest",
-    //     user_id: 1
-    // }
     Ok(())
 }
 
-fn create_headers() -> HeaderMap {
+fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
     headers.insert(
         AUTHORIZATION,
-        "".parse().unwrap()
+        format!("Bearer {}", api_key).parse().unwrap()
     );
     headers.insert(
         USER_AGENT,
@@ -70,7 +50,7 @@ fn create_headers() -> HeaderMap {
 }
 
 async fn graphql_req(query: &str, variables: HashMap<String, Value>) -> Result<Value, reqwest::Error> {
-    let headers = create_headers();
+    let headers = create_headers(env!("API_KEY"));
 
     let payload = serde_json::json!({
         "query": query,
