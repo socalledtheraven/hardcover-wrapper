@@ -423,6 +423,7 @@ impl User {
         vars.insert("user", username);
 
         let resp = graphql_req(query, vars).await?;
+        println!("resp: {:#?}", resp);
 
         let data = &resp["data"]["users"][0];
 
