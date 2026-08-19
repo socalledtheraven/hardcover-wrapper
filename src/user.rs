@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::activity::Activity;
-use crate::enums::{AccountStatus, MaybeInit, PrivacySetting};
+use crate::enums::{MaybeInit, PrivacySetting};
 use crate::follow::Follow;
 use crate::genre::Genre;
 use crate::goal::Goal;

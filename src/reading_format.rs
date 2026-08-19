@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};ReadingFormat
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct ReadingFormat {}
