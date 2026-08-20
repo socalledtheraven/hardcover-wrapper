@@ -53,7 +53,7 @@ pub(crate) struct Book {
     default_physical_edition: Option<Edition>,
     default_physical_edition_id: Option<u64>,
     description: Option<String>,
-    editions: Vec<Edition>,
+    editions: Vec<Box<Edition>>,
     editions_count: u64,
     featured_book_series: Option<Series>,
     featured_book_series_id: Option<u64>,

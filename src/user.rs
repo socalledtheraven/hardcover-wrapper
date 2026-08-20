@@ -374,6 +374,10 @@ impl User {
             },
         })
     }
+    
+    pub(crate) fn get_id(&self) -> u64 {
+        self.id
+    }
 }
 
 

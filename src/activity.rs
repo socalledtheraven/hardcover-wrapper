@@ -4,7 +4,7 @@ use serde_json::Value;
 use time::OffsetDateTime;
 use crate::book::Book;
 use crate::enums::{MaybeInit, PrivacySetting};
-use crate::graphql::graphql_req;
+use crate::graphql::{get_offsetdatetime_from_resp, graphql_req};
 use crate::like::Like;
 use crate::user::User;
 
@@ -81,8 +81,10 @@ impl Activity {
         Activity {
             book: MaybeInit::Uninitialised,
             book_id: data["book_id"].as_u64(),
-            created_at: None,
-            data: Default::default(),
+            created_at: {
+                get_offsetdatetime_from_resp(data, "created_at")
+            },
+            data: todo!(),
             event: ActivityType::UserBookActivity,
             followers: MaybeInit::Uninitialised,
             id: 0,

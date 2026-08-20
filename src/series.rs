@@ -10,7 +10,7 @@ pub(crate) struct Series {
     author_id: Option<u64>,
     book_series: Vec<Book>,
     books_count: u64,
-    canonical: Option<Series>,
+    canonical: Option<Box<Series>>,
     canonical_id: Option<u64>,
     creator: Option<User>,
     description: Option<String>,
