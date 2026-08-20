@@ -4,9 +4,13 @@ use serde_json::Value;
 use time::OffsetDateTime;
 use crate::book::Book;
 use crate::enums::{MaybeInit, PrivacySetting};
+use crate::goal::Goal;
 use crate::graphql::{get_offsetdatetime_from_resp, graphql_req};
 use crate::like::Like;
+use crate::list::List;
+use crate::prompt::Prompt;
 use crate::user::User;
+use crate::user_book::UserBook;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -17,7 +21,6 @@ id
 likes_count
 object_type
 original_book_id
-privacy_setting
 privacy_setting_id
 uid
 user_id"#;
@@ -28,7 +31,7 @@ pub(crate) struct Activity {
     book_id: Option<u64>,
     created_at: Option<OffsetDateTime>,
     // todo!
-    data: Value,
+    data: MaybeInit<ActivityData>,
     event: ActivityType,
     followers: MaybeInit<Vec<User>>,
     id: u64,
@@ -37,7 +40,7 @@ pub(crate) struct Activity {
     object_type: String,
     original_book_id: Option<u64>,
     // todo!
-    privacy_setting: String,
+    privacy_setting: MaybeInit<PrivacySetting2>,
     privacy_setting_id: PrivacySetting,
     uid: String,
     user: MaybeInit<User>,
@@ -61,7 +64,9 @@ impl Activity {
 
         let resp = graphql_req(query, vars).await?;
 
-        let data = &resp["data"]["users"];
+        println!("Activity response: {resp:#?}");
+
+        let data = &resp["data"]["activities"];
 
         println!("Activity data: {data:#?}");
 
@@ -84,17 +89,31 @@ impl Activity {
             created_at: {
                 get_offsetdatetime_from_resp(data, "created_at")
             },
-            data: todo!(),
-            event: ActivityType::UserBookActivity,
+            data: {
+                MaybeInit::Uninitialised
+            },
+            event: {
+                match data["event"].as_str() {
+                    Some("UserBookActivity") => ActivityType::UserBookActivity,
+                    Some("GoalActivity") => ActivityType::GoalActivity,
+                    Some("PromptActivity") => ActivityType::PromptActivity,
+                    Some("ListActivity") => ActivityType::ListActivity,
+                    _ => panic!("Unknown activity type"),
+                }
+            },
             followers: MaybeInit::Uninitialised,
-            id: 0,
+            id: data["id"].as_u64().expect("REASON"),
             likes: MaybeInit::Uninitialised,
-            likes_count: 0,
-            object_type: "".to_string(),
-            original_book_id: None,
-            privacy_setting: "".to_string(),
+            likes_count: data["likes_count"].as_u64().expect("REASON"),
+            object_type: data["object_type"].to_string(),
+            original_book_id: {
+                data.get("original_book_id").and_then(|v| v.as_u64())
+            },
+            privacy_setting: MaybeInit::Uninitialised,
             privacy_setting_id: PrivacySetting::Public,
-            uid: "".to_string(),
+            uid: {
+                data["uid"].as_str().expect("REASON").to_string()
+            },
             user: MaybeInit::Uninitialised,
             user_id,
         }
@@ -107,4 +126,12 @@ enum ActivityType {
     GoalActivity,
     PromptActivity,
     ListActivity
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+enum ActivityData {
+    UserBookActivityData(UserBook),
+    GoalActivityData(Goal),
+    PromptActivityData(Prompt),
+    ListActivityData(List),
 }

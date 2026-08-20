@@ -31,8 +31,8 @@ pub mod reading_format;
 async fn main() -> Result<(), reqwest::Error> {
     let me = user::User::from_username("prophecyreviews").await?;
 
-    println!("{me:#?}");
-    
+    // println!("{me:#?}");
+
     let activities = activity::Activity::of_user(me.get_id()).await?;
 
     println!("{activities:#?}");
