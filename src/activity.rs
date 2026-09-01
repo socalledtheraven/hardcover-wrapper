@@ -12,27 +12,27 @@ use crate::user_book::UserBook;
 const QUERY_FIELDS: &str = r#"
 book_id
 created_at
+data
 event
 id
 likes_count
 object_type
-original_book_id
 privacy_setting_id
 uid
 user_id"#;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct Activity {
-    book_id: Option<u64>,
-    created_at: Option<OffsetDateTime>,
-    event: ActivityType,
-    id: u64,
-    likes_count: u64,
-    object_type: String,
-    original_book_id: Option<u64>,
-    privacy_setting_id: PrivacySetting,
-    uid: String,
-    user_id: u64,
+    pub(crate) book_id: Option<u64>,
+    pub(crate) created_at: Option<OffsetDateTime>,
+    pub(crate) data: Value,
+    pub(crate) event: ActivityType,
+    pub(crate) id: u64,
+    pub(crate) likes_count: u64,
+    pub(crate) object_type: String,
+    pub(crate) privacy_setting_id: PrivacySetting,
+    pub(crate) uid: String,
+    pub(crate) user_id: u64,
 }
 
 impl Activity {
@@ -88,10 +88,18 @@ impl Activity {
             id: data["id"].as_u64().expect("REASON"),
             likes_count: data["likes_count"].as_u64().expect("REASON"),
             object_type: data["object_type"].to_string(),
-            original_book_id: {
-                data.get("original_book_id").and_then(|v| v.as_u64())
+            data: {
+                // todo!
+                data["data"].clone()
             },
-            privacy_setting_id: PrivacySetting::Public,
+            privacy_setting_id: {
+                match data["privacy_setting_id"].as_u64() {
+                    Some(1) => PrivacySetting::Public,
+                    Some(2) => PrivacySetting::FollowersOnly,
+                    Some(3) => PrivacySetting::Private,
+                    _ => panic!("Unknown privacy setting"),
+                }
+            },
             uid: {
                 data["uid"].as_str().expect("REASON").to_string()
             },
@@ -101,7 +109,7 @@ impl Activity {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-enum ActivityType {
+pub(crate) enum ActivityType {
     UserBookActivity,
     GoalActivity,
     PromptActivity,
@@ -109,7 +117,7 @@ enum ActivityType {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-enum ActivityData {
+pub(crate) enum ActivityData {
     UserBookActivityData(UserBook),
     GoalActivityData(Goal),
     PromptActivityData(Prompt),

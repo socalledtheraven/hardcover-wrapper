@@ -34,8 +34,10 @@ async fn main() -> Result<(), reqwest::Error> {
     // println!("{me:#?}");
 
     let activities = activity::Activity::of_user(me.get_id()).await?;
+    let activity = activities.get(0).unwrap();
+    let d = &activity.created_at;
 
-    println!("{activities:#?}");
+    println!("{d:#?}");
 
     Ok(())
 }
