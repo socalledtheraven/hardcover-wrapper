@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::activity::Activity;
-use crate::enums::{MaybeInit, PrivacySetting};
+use crate::enums::PrivacySetting;
 use crate::follow::Follow;
 use crate::genre::Genre;
 use crate::goal::Goal;
@@ -76,19 +76,14 @@ const QUERY_FIELDS: &str = r"
 pub(crate) struct User {
     access_level: Option<u64>,
     account_privacy_settings_id: PrivacySetting,
-    // todo!
-    activities: MaybeInit<Vec<Activity>>,
     activity_privacy_settings_id: PrivacySetting,
     admin: bool,
     bio: Option<String>,
     birthdate: Option<Date>,
-    // todo!
-    blocked_users: MaybeInit<Vec<BlockedUser>>,
     books_count: u64,
     cached_cover: Image,
     cached_genres: Vec<Genre>,
     cached_image: Image,
-    collection_imports: MaybeInit<Vec<Import>>,
     confirmation_sent_at: Option<PlainDateTime>,
     confirmed_at: Option<PlainDateTime>,
     created_at: Option<OffsetDateTime>,
@@ -96,68 +91,34 @@ pub(crate) struct User {
     email: Option<String>,
     email_verified: Option<OffsetDateTime>,
     flair: Option<String>,
-    // todo!
-    followed_by_users: MaybeInit<Vec<User>>,
-    // todo!
-    followed_lists: MaybeInit<Vec<List>>,
-    // todo!
-    followed_prompts: MaybeInit<Vec<Prompt>>,
-    // todo!
-    followed_users: MaybeInit<Vec<User>>,
     followed_users_count: u64,
     followers_count: u64,
-    // todo!
-    follows: MaybeInit<Vec<Follow>>,
-    // todo!
-    goals: MaybeInit<Vec<Goal>>,
     id: u64,
-    // todo!
-    images: MaybeInit<Vec<Image>>,
     image_id: u64,
     last_activity_at: Option<PlainDateTime>,
     last_sign_in_at: Option<PlainDateTime>,
     librarian_roles: Vec<String>,
     link: Option<String>,
-    // todo!
-    links: MaybeInit<Option<Vec<Option<Link>>>>,
-    // todo!
-    lists: MaybeInit<Vec<List>>,
     location: Option<String>,
     locked_at: Option<PlainDateTime>,
     membership: Option<String>,
     membership_ends_at: Option<PlainDateTime>,
     name: Option<String>,
-    // todo!
-    notification_deliveries: MaybeInit<Vec<NotificationDelivery>>,
     object_type: Option<String>,
     onboarded: bool,
     payment_system_id: Option<u64>,
     pro: bool,
-    // todo!
-    prompt_answers: MaybeInit<Vec<PromptAnswer>>,
-    // todo!
-    prompts: MaybeInit<Vec<Prompt>>,
     pronoun_personal: String,
     pronoun_possessive: String,
     referrer_id: Option<u64>,
     referrer_url: Option<String>,
-    // todo!
-    referred_users: MaybeInit<Vec<UserBook>>,
     remember_created_at: Option<PlainDateTime>,
-    // todo!
-    reported_user_flags: MaybeInit<Vec<UserFlag>>,
     reset_password_sent_at: Option<PlainDateTime>,
     sign_in_count: Option<u64>,
     status_id: AccountStatus,
-    // todo!
-    taggings: MaybeInit<Vec<Tagging>>,
     timezone: Option<String>,
     unconfirmed_email: Option<String>,
     updated_at: OffsetDateTime,
-    // todo!
-    user_books: MaybeInit<Vec<UserBook>>,
-    // todo!
-    user_flags: MaybeInit<Vec<UserFlag>>,
     username: String,
 }
 impl User {
@@ -211,7 +172,6 @@ impl User {
                     })
                     .unwrap_or(PrivacySetting::Private)
             },
-            activities: { MaybeInit::Uninitialised },
             activity_privacy_settings_id: {
                 get_privacysetting_from_resp(data, "activity_privacy_settings_id")
             },
@@ -225,7 +185,6 @@ impl User {
             birthdate: {
                 get_date_from_resp(data, "birthdate")
             },
-            blocked_users: { MaybeInit::Uninitialised },
             books_count: {
                 get_u64_from_resp(data, "books_count").unwrap()
             },
@@ -242,7 +201,6 @@ impl User {
                 }).collect()
             },
             cached_image: { Image::new(data["cached_image"].clone()) },
-            collection_imports: { MaybeInit::Uninitialised },
             confirmation_sent_at: {
                 get_plaindatetime_from_resp(data, "confirmation_sent_at")
             },
@@ -264,20 +222,13 @@ impl User {
             flair: {
                 get_str_from_resp(data, "flair")
             },
-            followed_by_users: { MaybeInit::Uninitialised },
-            followed_lists: { MaybeInit::Uninitialised },
-            followed_prompts: { MaybeInit::Uninitialised },
-            followed_users: { MaybeInit::Uninitialised },
             followed_users_count: {
                 get_u64_from_resp(data, "followed_users_count").unwrap()
             },
             followers_count: {
                 get_u64_from_resp(data, "followers_count").unwrap()
             },
-            follows: { MaybeInit::Uninitialised },
-            goals: { MaybeInit::Uninitialised },
             id: get_u64_from_resp(data, "id").unwrap(),
-            images: { MaybeInit::Uninitialised },
             image_id: get_u64_from_resp(data, "image_id").unwrap(),
             last_activity_at: get_plaindatetime_from_resp(data, "last_activity_at"),
             last_sign_in_at: get_plaindatetime_from_resp(data, "last_sign_in_at"),
@@ -290,8 +241,6 @@ impl User {
             link: {
                 get_str_from_resp(data, "link")
             },
-            links: { MaybeInit::Uninitialised },
-            lists: { MaybeInit::Uninitialised },
             location: {
                 get_str_from_resp(data, "location")
             },
@@ -307,7 +256,6 @@ impl User {
             name: {
                 get_str_from_resp(data, "name")
             },
-            notification_deliveries: { MaybeInit::Uninitialised },
             object_type: {
                 get_str_from_resp(data, "object_type")
             },
@@ -320,8 +268,6 @@ impl User {
             pro: {
                 get_bool_from_resp(data, "pro")
             },
-            prompt_answers: { MaybeInit::Uninitialised },
-            prompts: { MaybeInit::Uninitialised },
             pronoun_personal: {
                 get_str_from_resp(data, "pronoun_personal").unwrap()
             },
@@ -334,11 +280,9 @@ impl User {
             referrer_url: {
                 get_str_from_resp(data, "referrer_url")
             },
-            referred_users: { MaybeInit::Uninitialised },
             remember_created_at: {
                 get_plaindatetime_from_resp(data, "remember_created_at")
             },
-            reported_user_flags: { MaybeInit::Uninitialised },
             reset_password_sent_at: {
                 get_plaindatetime_from_resp(data, "reset_password_sent_at")
             },
@@ -357,7 +301,6 @@ impl User {
                     })
                     .unwrap_or(AccountStatus::Activated)
             },
-            taggings: { MaybeInit::Uninitialised },
             timezone: {
                 get_str_from_resp(data, "timezone")
             },
@@ -367,8 +310,6 @@ impl User {
             updated_at: {
                 get_offsetdatetime_from_resp(data, "updated_at").unwrap()
             },
-            user_books: { MaybeInit::Uninitialised },
-            user_flags: { MaybeInit::Uninitialised },
             username: {
                 get_str_from_resp(data, "username").unwrap()
             },

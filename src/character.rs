@@ -12,7 +12,6 @@ pub(crate) struct Character {
     books_count: u64,
     // todo!
     cached_tags: Value,
-    canonical: Option<Box<Character>>,
     canonical_books_count: u64,
     canonical_id: Option<u64>,
     contributions: Vec<Contribution>,

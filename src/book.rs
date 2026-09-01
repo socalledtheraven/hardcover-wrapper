@@ -34,7 +34,6 @@ pub(crate) struct Book {
     cached_image: Image,
     // todo!
     cached_tags: Value,
-    canonical: Option<Box<Book>>,
     canonical_id: Option<u64>,
     // todo!
     collection_import_results: Vec<Value>,
@@ -53,7 +52,6 @@ pub(crate) struct Book {
     default_physical_edition: Option<Edition>,
     default_physical_edition_id: Option<u64>,
     description: Option<String>,
-    editions: Vec<Box<Edition>>,
     editions_count: u64,
     featured_book_series: Option<Series>,
     featured_book_series_id: Option<u64>,
@@ -72,7 +70,6 @@ pub(crate) struct Book {
     literary_type_id: Option<LiteraryType>,
     locked: bool,
     pages: Option<u64>,
-    parent_book: Option<Box<Book>>,
     parent_book_id: Option<u64>,
     prompt_answers: Vec<PromptAnswer>,
     prompt_summaries: Vec<PromptBook>,

@@ -8,12 +8,6 @@ pub(crate) enum PrivacySetting {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub(crate) enum MaybeInit<T> {
-    Uninitialised,
-    Initialised(T),
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) enum Gender {
     Male,
     Female,

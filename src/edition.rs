@@ -17,7 +17,6 @@ pub(crate) struct Edition {
     alternative_titles: Value,
     asin: Option<String>,
     audio_seconds: Option<u64>,
-    book: Box<Book>,
     book_id: u64,
     book_mappings: Vec<Mapping>,
     // todo!

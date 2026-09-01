@@ -2,13 +2,12 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::Date;
 use crate::contribution::Contribution;
-use crate::enums::{Gender, MaybeInit, RecordState};
+use crate::enums::{Gender, RecordState};
 use crate::image::Image;
 use crate::user::User;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct Author {
-    alias: MaybeInit<Box<Author>>,
     alias_id: Option<u64>,
     // todo!
     alternate_names: Value,
@@ -17,7 +16,6 @@ pub(crate) struct Author {
     born_date: Option<Date>,
     born_year: Option<u64>,
     cached_image: Image,
-    canonical: MaybeInit<Box<Author>>,
     canonical_id: Option<u64>,
     contributions: Vec<Contribution>,
     creator: Option<User>,
