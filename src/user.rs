@@ -130,10 +130,7 @@ impl User {
         }
         "#;
 
-        let mut vars = HashMap::new();
-        vars.insert("user", username.to_string());
-
-        Self::new(query, vars).await
+        Self::from_data(query, username).await
     }
 
     pub(crate) async fn from_user_id(user_id: u64) -> Result<Self, reqwest::Error> {
@@ -144,8 +141,12 @@ impl User {
         }
         "#;
 
+        Self::from_data(query, user_id).await
+    }
+
+    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("user", user_id.to_string());
+        vars.insert("user", user_data.to_string());
 
         Self::new(query, vars).await
     }
