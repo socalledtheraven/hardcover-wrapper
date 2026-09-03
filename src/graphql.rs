@@ -96,3 +96,7 @@ pub(crate) fn get_privacysetting_from_resp(data: &Value, key: &str) -> PrivacySe
         })
         .unwrap_or(PrivacySetting::Private)
 }
+
+pub(crate) fn get_date_from_str(date_str: &str) -> Option<Date> {
+    Date::parse(date_str, &Iso8601::DATE).ok()
+}

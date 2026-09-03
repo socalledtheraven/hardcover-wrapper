@@ -29,15 +29,19 @@ pub mod reading_format;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
+    // todo: turn these into test cases
     let me = user::User::from_username("prophecyreviews").await?;
 
     // println!("{me:#?}");
 
-    let activities = activity::Activity::of_user(me.get_id()).await?;
-    let activity = activities.get(0).unwrap();
-    let d = &activity.created_at;
+    // let activities = activity::Activity::of_user(me.get_id()).await?;
+    // let activity = activities.get(0).unwrap();
+    // let d = &activity.created_at;
+    //
+    // println!("{d:#?}");
 
-    println!("{d:#?}");
+    let author = author::Author::from_author_id(132049).await?;
+    println!("{}", author.born_year.unwrap());
 
     Ok(())
 }
