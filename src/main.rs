@@ -63,8 +63,11 @@ async fn main() -> Result<(), reqwest::Error> {
     // let notification = notification::Notification::from_notification_id(440096).await?;
     // println!("{notification:#?}");
 
-    let prompt = prompt::Prompt::from_prompt_id(122).await?;
-    println!("{prompt:#?}");
+    // let prompt = prompt::Prompt::from_prompt_id(122).await?;
+    // println!("{prompt:#?}");
+
+    let publisher = publisher::Publisher::from_publisher_id(8).await?;
+    println!("{publisher:#?}");
 
     Ok(())
 }
