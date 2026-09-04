@@ -223,7 +223,7 @@ impl Book {
                 data["cached_similar_book_ids"].clone()
             },
             cached_similar_books_updated_at: {
-                data.get_plaindatetime("cached_similar_books_updated_at")
+                data.get_plaindt("cached_similar_books_updated_at")
             },
             cached_tags: {
                 data["cached_tags"].clone()
@@ -235,7 +235,7 @@ impl Book {
                 data.get_bool("compilation")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             created_by_user_id: {
                 data["created_by_user_id"].as_u64()

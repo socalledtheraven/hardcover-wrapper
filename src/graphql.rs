@@ -50,7 +50,7 @@ pub(crate) trait GraphQLResponse {
     fn get_f64(&self, key: &str) -> Option<f64>;
     fn get_str(&self, key: &str) -> Option<String>;
     fn get_date(&self, key: &str) -> Option<Date>;
-    fn get_plaindatetime(&self, key: &str) -> Option<PlainDateTime>;
+    fn get_plaindt(&self, key: &str) -> Option<PlainDateTime>;
     fn get_offsetdt(&self, key: &str) -> Option<OffsetDateTime>;
     fn get_bool(&self, key: &str) -> bool;
     fn get_privacysetting(&self, key: &str) -> PrivacySetting;
@@ -81,7 +81,7 @@ impl GraphQLResponse for Value {
             .and_then(|d| Some(d))
     }
 
-    fn get_plaindatetime(&self, key: &str) -> Option<PlainDateTime> {
+    fn get_plaindt(&self, key: &str) -> Option<PlainDateTime> {
         self.get(key)
             .and_then(|v| v.as_str())
             .and_then(|s| PlainDateTime::parse(s, &Iso8601::DATE_TIME).ok())

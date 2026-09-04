@@ -55,8 +55,11 @@ async fn main() -> Result<(), reqwest::Error> {
     // let goal = goal::Goal::from_goal_id(16).await?;
     // println!("{goal:#?}");
 
-    let like = like::Like::from_like_id(1).await?;
-    println!("{like:#?}");
+    // let like = like::Like::from_like_id(1).await?;
+    // println!("{like:#?}");
+
+    let list = list::List::from_list_id(11325).await?;
+    println!("{list:#?}");
 
     Ok(())
 }

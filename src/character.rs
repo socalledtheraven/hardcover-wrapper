@@ -93,7 +93,7 @@ impl Character {
                 data.get_u64("canonical_id")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             gender_id: {
                 // there is not a single character with a listed gender in the api
@@ -138,7 +138,7 @@ impl Character {
                 }
             },
             updated_at: {
-                data.get_plaindatetime("updated_at").unwrap()
+                data.get_plaindt("updated_at").unwrap()
             },
             user_id: {
                 data.get_u64("user_id")

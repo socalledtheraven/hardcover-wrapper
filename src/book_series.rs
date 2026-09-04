@@ -58,7 +58,7 @@ impl BookSeries {
                 data.get_bool("compilation")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             details: {
                 data.get_str("details").unwrap()
@@ -76,7 +76,7 @@ impl BookSeries {
                 data.get_u64("series_id").unwrap()
             },
             updated_at: {
-                data.get_plaindatetime("updated_at").unwrap()
+                data.get_plaindt("updated_at").unwrap()
             },
         })
     }

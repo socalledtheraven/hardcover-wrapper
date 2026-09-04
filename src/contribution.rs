@@ -104,13 +104,13 @@ impl Contribution {
                 data.get_u64("contributor_specialization_id")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             id: {
                 data.get_u64("id").unwrap()
             },
             updated_at: {
-                data.get_plaindatetime("updated_at").unwrap()
+                data.get_plaindt("updated_at").unwrap()
             },
         })
     }

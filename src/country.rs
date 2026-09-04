@@ -70,7 +70,7 @@ impl Country {
                 data.get_str("code3")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             id: {
                 data.get_u64("id").unwrap()
@@ -103,7 +103,7 @@ impl Country {
                 data.get_str("sub_region_code")
             },
             updated_at: {
-                data.get_plaindatetime("updated_at").unwrap()
+                data.get_plaindt("updated_at").unwrap()
             },
         })
     }

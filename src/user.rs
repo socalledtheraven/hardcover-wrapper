@@ -185,16 +185,16 @@ impl User {
             },
             cached_image: { Image::new(data["cached_image"].clone()) },
             confirmation_sent_at: {
-                data.get_plaindatetime("confirmation_sent_at")
+                data.get_plaindt("confirmation_sent_at")
             },
             confirmed_at: {
-                data.get_plaindatetime("confirmed_at")
+                data.get_plaindt("confirmed_at")
             },
             created_at: {
                 data.get_offsetdt("created_at")
             },
             current_sign_in_at: {
-                data.get_plaindatetime("current_sign_in_at")
+                data.get_plaindt("current_sign_in_at")
             },
             email: {
                 data.get_str("email")
@@ -213,8 +213,8 @@ impl User {
             },
             id: data.get_u64("id").unwrap(),
             image_id: data.get_u64("image_id").unwrap(),
-            last_activity_at: data.get_plaindatetime("last_activity_at"),
-            last_sign_in_at: data.get_plaindatetime("last_sign_in_at"),
+            last_activity_at: data.get_plaindt("last_activity_at"),
+            last_sign_in_at: data.get_plaindt("last_sign_in_at"),
             librarian_roles: {
                 data.get_str_vec("librarian_roles")
             },
@@ -225,13 +225,13 @@ impl User {
                 data.get_str("location")
             },
             locked_at: {
-                data.get_plaindatetime("locked_at")
+                data.get_plaindt("locked_at")
             },
             membership: {
                 data.get_str("membership")
             },
             membership_ends_at: {
-                data.get_plaindatetime("membership_ends_at")
+                data.get_plaindt("membership_ends_at")
             },
             name: {
                 data.get_str("name")
@@ -261,10 +261,10 @@ impl User {
                 data.get_str("referrer_url")
             },
             remember_created_at: {
-                data.get_plaindatetime("remember_created_at")
+                data.get_plaindt("remember_created_at")
             },
             reset_password_sent_at: {
-                data.get_plaindatetime("reset_password_sent_at")
+                data.get_plaindt("reset_password_sent_at")
             },
             sign_in_count: {
                 data.get_u64("sign_in_count")

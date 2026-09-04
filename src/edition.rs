@@ -173,7 +173,7 @@ impl Edition {
                 data.get_u64("country_id")
             },
             created_at: {
-                data.get_plaindatetime("created_at").unwrap()
+                data.get_plaindt("created_at").unwrap()
             },
             created_by_user_id: {
                 data.get_u64("created_by_user_id")
@@ -218,7 +218,7 @@ impl Edition {
                 data["locked"].as_bool().unwrap_or(false)
             },
             normalized_at: {
-                data.get_plaindatetime("normalized_at")
+                data.get_plaindt("normalized_at")
             },
             object_type: {
                 data.get_str("object_type").unwrap()
@@ -280,7 +280,7 @@ impl Edition {
                 data.get_str("title")
             },
             updated_at: {
-                data.get_plaindatetime("updated_at").unwrap()
+                data.get_plaindt("updated_at").unwrap()
             },
             users_count: {
                 data.get_u64("users_count").unwrap()
