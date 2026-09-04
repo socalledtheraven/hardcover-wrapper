@@ -54,5 +54,8 @@ async fn main() -> Result<(), reqwest::Error> {
     // let edition = edition::Edition::from_edition_id(31529525).await?;
     // println!("{edition:#?}");
 
+    let goal = goal::Goal::from_goal_id(16).await?;
+    println!("{goal:#?}");
+
     Ok(())
 }
