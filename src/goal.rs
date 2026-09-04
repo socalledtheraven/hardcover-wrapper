@@ -40,8 +40,8 @@ pub(crate) struct Goal {
 impl Goal {
     pub(crate) async fn from_goal_id(goal_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($goal: Int!) {
-          goals(where: {id: {_eq: $goal}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          goals(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -51,7 +51,7 @@ impl Goal {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("goal", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

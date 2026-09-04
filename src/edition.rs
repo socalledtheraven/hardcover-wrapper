@@ -120,8 +120,8 @@ pub(crate) struct Edition {
 impl Edition {
     pub(crate) async fn from_edition_id(edition_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($edition: Int!) {
-          editions(where: {id: {_eq: $edition}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          editions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -131,7 +131,7 @@ impl Edition {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("edition", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

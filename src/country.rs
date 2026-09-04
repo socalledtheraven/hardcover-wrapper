@@ -41,8 +41,8 @@ pub(crate) struct Country {
 impl Country {
     pub(crate) async fn from_country_id(country_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($country: Int!) {
-          countries(where: {id: {_eq: $country}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          countries(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -52,7 +52,7 @@ impl Country {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("country", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

@@ -82,8 +82,8 @@ impl Author {
 
     pub(crate) async fn from_author_id(author_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($author: Int!) {
-          authors(where: {id: {_eq: $author}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          authors(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -93,7 +93,7 @@ impl Author {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("author", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

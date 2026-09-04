@@ -24,8 +24,8 @@ pub(crate) struct Like {
 impl Like {
     pub(crate) async fn from_like_id(like_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($like: Int!) {
-          likes(where: {id: {_eq: $like}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          likes(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -35,7 +35,7 @@ impl Like {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("like", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

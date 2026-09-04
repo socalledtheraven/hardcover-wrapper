@@ -52,8 +52,8 @@ pub(crate) struct List {
 impl List {
     pub(crate) async fn from_list_id(list_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($list: Int!) {
-          lists_by_pk(id: $list) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          lists_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -63,7 +63,7 @@ impl List {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("list", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

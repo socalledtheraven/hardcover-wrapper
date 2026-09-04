@@ -35,8 +35,8 @@ pub(crate) struct Prompt {
 impl Prompt {
     pub(crate) async fn from_prompt_id(prompt_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($prompt: Int!) {
-          prompts_by_pk(id: $prompt) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          prompts_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -46,7 +46,7 @@ impl Prompt {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("prompt", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

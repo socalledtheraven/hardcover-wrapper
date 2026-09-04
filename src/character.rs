@@ -55,8 +55,8 @@ pub(crate) struct Character {
 impl Character {
     pub(crate) async fn from_character_id(character_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetBook($character: bigint!) {
-          characters(where: {id: {_eq: $character}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetBook($id: bigint!) {
+          characters(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -66,7 +66,7 @@ impl Character {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("character", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

@@ -33,8 +33,8 @@ pub(crate) struct Notification {
 impl Notification {
     pub(crate) async fn from_notification_id(notification_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($notification: Int!) {
-          notifications_by_pk(id: $notification) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: Int!) {
+          notifications_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -44,7 +44,7 @@ impl Notification {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("notification", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }

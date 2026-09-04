@@ -38,17 +38,17 @@ pub(crate) struct Activity {
 impl Activity {
     pub(crate) async fn of_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
-        query GetActivitiesOfUser($user: Int!) {
+        query GetActivitiesOfUser($id: Int!) {
           activities(
               order_by: {created_at: desc}
-              where: {user_id: {_eq: $user}}
+              where: {user_id: {_eq: $id}}
           ) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let mut vars = HashMap::new();
-        vars.insert("user", user_id.to_string());
+        vars.insert("id", user_id.to_string());
 
         let resp = graphql_req(query, vars).await?;
 

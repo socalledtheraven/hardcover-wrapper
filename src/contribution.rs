@@ -49,8 +49,8 @@ pub(crate) struct Contribution {
 impl Contribution {
     pub(crate) async fn from_contribution_id(contribution_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($contribution: bigint!) {
-          contributions(where: {id: {_eq: $contribution}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetAuthor($id: bigint!) {
+          contributions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
@@ -60,7 +60,7 @@ impl Contribution {
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
         let mut vars = HashMap::new();
-        vars.insert("contribution", user_data.to_string());
+        vars.insert("id", user_data.to_string());
 
         Self::new(query, vars).await
     }
