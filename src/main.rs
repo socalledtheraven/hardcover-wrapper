@@ -24,6 +24,7 @@ pub mod publisher;
 pub mod reading_format;
 pub mod book_series;
 pub mod platform;
+pub mod reading_journal;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
@@ -69,6 +70,9 @@ async fn main() -> Result<(), reqwest::Error> {
 
     // let publisher = publisher::Publisher::from_publisher_id(8).await?;
     // println!("{publisher:#?}");
+
+    let reading_journal = reading_journal::ReadingJournal::from_reading_journal_id(15497756).await?;
+    println!("{reading_journal:#?}");
 
     Ok(())
 }
