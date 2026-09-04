@@ -3,14 +3,7 @@ use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::enums::PrivacySetting;
 use crate::genre::Genre;
-use crate::graphql::{graphql_req,
-                     get_bool_from_resp,
-                     get_date_from_resp,
-                     get_offsetdatetime_from_resp,
-                     get_plaindatetime_from_resp,
-                     get_str_from_resp,
-                     get_u64_from_resp,
-                     get_privacysetting_from_resp};
+use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, get_privacysetting_from_resp, get_str_vec};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r"
@@ -223,10 +216,7 @@ impl User {
             last_activity_at: get_plaindatetime_from_resp(data, "last_activity_at"),
             last_sign_in_at: get_plaindatetime_from_resp(data, "last_sign_in_at"),
             librarian_roles: {
-                let x = data["librarian_roles"].as_array().unwrap();
-                x.iter().filter_map(|v| {
-                    v.as_str().map(|s| s.to_string())
-                }).collect()
+                get_str_vec(data["librarian_roles"].as_array())
             },
             link: {
                 get_str_from_resp(data, "link")

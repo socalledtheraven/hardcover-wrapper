@@ -40,8 +40,11 @@ async fn main() -> Result<(), reqwest::Error> {
     //
     // println!("{d:#?}");
 
-    let author = author::Author::from_author_id(132049).await?;
-    println!("{}", author.born_year.unwrap());
+    // let author = author::Author::from_author_id(132049).await?;
+    // println!("{}", author.born_year.unwrap());
+
+    let book = book::Book::from_book_id(484946).await?;
+    println!("{:?}", book.updated_at);
 
     Ok(())
 }
