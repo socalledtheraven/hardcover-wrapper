@@ -16,7 +16,6 @@ pub mod image;
 pub mod notification;
 pub mod contribution;
 pub mod character;
-pub mod mappings;
 pub mod series;
 pub mod edition;
 pub mod country;
@@ -58,8 +57,11 @@ async fn main() -> Result<(), reqwest::Error> {
     // let like = like::Like::from_like_id(1).await?;
     // println!("{like:#?}");
 
-    let list = list::List::from_list_id(11325).await?;
-    println!("{list:#?}");
+    // let list = list::List::from_list_id(11325).await?;
+    // println!("{list:#?}");
+
+    let notification = notification::Notification::from_notification_id(440096).await?;
+    println!("{notification:#?}");
 
     Ok(())
 }
