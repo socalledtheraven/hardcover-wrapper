@@ -1,20 +1,19 @@
+use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::PlainDateTime;
-use crate::author::Author;
-use crate::book::Book;
+use crate::graphql::{get_plaindatetime_from_resp, get_u64_from_resp, graphql_req};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub(crate) struct Contribution {
-    author: Option<Author>,
-    author_id: u64,
-    book: Option<Book>,
-    contributable_id: u64,
-    contributable_type: ContributableType,
-    contribution: Option<ContributionRole>,
-    created_at: PlainDateTime,
-    id: u64,
-    updated_at: PlainDateTime,
-}
+const QUERY_FIELDS: &str = r#"
+author_id
+contributable_id
+contributable_type
+contribution
+contributor_role_id
+contributor_specialization_id
+created_at
+id
+updated_at
+"#;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 enum ContributableType {
@@ -32,4 +31,87 @@ enum ContributionRole {
     Foreword,
     Afterword,
     CoverArtist
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub(crate) struct Contribution {
+    author_id: u64,
+    contributable_id: u64,
+    contributable_type: ContributableType,
+    contribution: Option<ContributionRole>,
+    contributor_role_id: Option<u64>,
+    contributor_specialization_id: Option<u64>,
+    created_at: PlainDateTime,
+    id: u64,
+    updated_at: PlainDateTime,
+}
+
+impl Contribution {
+    pub(crate) async fn from_contribution_id(contribution_id: u64) -> Result<Self, reqwest::Error> {
+        let query = r#"
+        query GetAuthor($contribution: Int!) {
+          contributions(where: {id: {_eq: $contribution}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          }
+        }
+        "#;
+
+        Self::from_data(query, contribution_id).await
+    }
+
+    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
+        let mut vars = HashMap::new();
+        vars.insert("contribution", user_data.to_string());
+
+        Self::new(query, vars).await
+    }
+
+    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
+        let resp = graphql_req(query, vars).await?;
+
+        let data = &resp["data"]["contributions"][0];
+
+        Ok(Contribution {
+            author_id: {
+                get_u64_from_resp(data, "author_id").unwrap()
+            },
+            contributable_id: {
+                get_u64_from_resp(data, "contributable_id").unwrap()
+            },
+            contributable_type: {
+                match data["contributable_type"].as_str().unwrap() {
+                    "Book" => ContributableType::Book,
+                    "Edition" => ContributableType::Edition,
+                    _ => panic!("Unexpected contributable type"),
+                }
+            },
+            contribution: {
+                match data["contribution"].as_str() {
+                    Some("Author") => Some(ContributionRole::Author),
+                    Some("Illustrator") => Some(ContributionRole::Illustrator),
+                    Some("Translator") => Some(ContributionRole::Translator),
+                    Some("Editor") => Some(ContributionRole::Editor),
+                    Some("Narrator") => Some(ContributionRole::Narrator),
+                    Some("Foreword") => Some(ContributionRole::Foreword),
+                    Some("Afterword") => Some(ContributionRole::Afterword),
+                    Some("CoverArtist") => Some(ContributionRole::CoverArtist),
+                    _ => None,
+                }
+            },
+            contributor_role_id: {
+                get_u64_from_resp(data, "contributor_role_id")
+            },
+            contributor_specialization_id: {
+                get_u64_from_resp(data, "contributor_specialization_id")
+            },
+            created_at: {
+                get_plaindatetime_from_resp(data, "created_at").unwrap()
+            },
+            id: {
+                get_u64_from_resp(data, "id").unwrap()
+            },
+            updated_at: {
+                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+            },
+        })
+    }
 }
