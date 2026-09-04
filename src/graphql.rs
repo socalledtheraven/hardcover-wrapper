@@ -45,69 +45,79 @@ pub(crate) async fn graphql_req(query: String, variables: HashMap<&str, String>)
     Ok(request)
 }
 
-pub(crate) fn get_u64_from_resp(data: &Value, key: &str) -> Option<u64> {
-    data.get(key)
-        .and_then(|v| v.as_u64())
+pub(crate) trait GraphQLResponse {
+    fn get_u64(&self, key: &str) -> Option<u64>;
+    fn get_str(&self, key: &str) -> Option<String>;
+    fn get_date(&self, key: &str) -> Option<Date>;
+    fn get_plaindatetime(&self, key: &str) -> Option<PlainDateTime>;
+    fn get_offsetdt(&self, key: &str) -> Option<OffsetDateTime>;
+    fn get_bool(&self, key: &str) -> bool;
+    fn get_privacysetting(&self, key: &str) -> PrivacySetting;
+    fn get_str_vec(&self, key: &str) -> Vec<String>;
 }
 
-pub(crate) fn get_str_from_resp(data: &Value, key: &str) -> Option<String> {
-    data.get(key)
-        .and_then(|v| v.as_str())
-        .map(|s| s.to_string())
-}
+impl GraphQLResponse for Value {
+    fn get_u64(&self, key: &str) -> Option<u64> {
+        self.get(key)
+            .and_then(|v| v.as_u64())
+    }
 
-pub(crate) fn get_date_from_resp(data: &Value, key: &str) -> Option<Date> {
-    data.get(key)
-        .and_then(|v| v.as_str())
-        .and_then(|s| Date::parse(s, &Iso8601::DATE).ok())
-        .and_then(|d| Some(d))
-}
+    fn get_str(&self, key: &str) -> Option<String> {
+        self.get(key)
+            .and_then(|v| v.as_str())
+            .map(|s| s.to_string())
+    }
 
-pub(crate) fn get_plaindatetime_from_resp(data: &Value, key: &str) -> Option<PlainDateTime> {
-    data.get(key)
-        .and_then(|v| v.as_str())
-        .and_then(|s| PlainDateTime::parse(s, &Iso8601::DATE_TIME).ok())
-        .and_then(|d| Some(d))
-}
+    fn get_date(&self, key: &str) -> Option<Date> {
+        self.get(key)
+            .and_then(|v| v.as_str())
+            .and_then(|s| Date::parse(s, &Iso8601::DATE).ok())
+            .and_then(|d| Some(d))
+    }
 
-pub(crate) fn get_offsetdatetime_from_resp(data: &Value, key: &str) -> Option<OffsetDateTime> {
-    data.get(key)
-        .and_then(|v| v.as_str())
-        .and_then(|s| OffsetDateTime::parse(s, &Iso8601::DATE_TIME).ok())
-        .and_then(|d| Some(d))
-}
+    fn get_plaindatetime(&self, key: &str) -> Option<PlainDateTime> {
+        self.get(key)
+            .and_then(|v| v.as_str())
+            .and_then(|s| PlainDateTime::parse(s, &Iso8601::DATE_TIME).ok())
+            .and_then(|d| Some(d))
+    }
 
-pub(crate) fn get_bool_from_resp(data: &Value, key: &str) -> bool {
-    data[key]
-        .as_bool()
-        .unwrap()
-}
+    fn get_offsetdt(&self, key: &str) -> Option<OffsetDateTime> {
+        self.get(key)
+            .and_then(|v| v.as_str())
+            .and_then(|s| OffsetDateTime::parse(s, &Iso8601::DATE_TIME).ok())
+            .and_then(|d| Some(d))
+    }
 
-pub(crate) fn get_privacysetting_from_resp(data: &Value, key: &str) -> PrivacySetting {
-    // in either case of it being unknown, we default to private,
-    // this will never happen, but better to fail closed
-    data[key]
-        .as_u64()
-        .map(|v| match v {
-            1 => PrivacySetting::Public,
-            2 => PrivacySetting::FollowersOnly,
-            3 => PrivacySetting::Private,
-            _ => PrivacySetting::Private,
-        })
-        .unwrap_or(PrivacySetting::Private)
-}
+    fn get_bool(&self, key: &str) -> bool {
+        self[key]
+            .as_bool()
+            .unwrap()
+    }
 
-pub(crate) fn get_date_from_str(date_str: &str) -> Option<Date> {
-    Date::parse(date_str, &Iso8601::DATE).ok()
-}
+    fn get_privacysetting(&self, key: &str) -> PrivacySetting {
+        // in either case of it being unknown, we panic
+        self[key]
+            .as_u64()
+            .map(|v| match v {
+                1 => PrivacySetting::Public,
+                2 => PrivacySetting::FollowersOnly,
+                3 => PrivacySetting::Private,
+                _ => panic!("Unknown privacy setting"),
+            })
+            .expect("Privacy setting is missing")
+    }
 
-pub(crate) fn get_str_vec(x: Option<&Vec<Value>>) -> Vec<String> {
-    x.map(|arr| arr
-            .iter()
-            .filter_map(|v| v
-                .as_str()
-                .map(|s| s.to_string())
-            ).collect()
-        )
-        .unwrap_or_default()
+    fn get_str_vec(&self, key: &str) -> Vec<String> {
+        self.get(key)
+            .and_then(|v| v.as_array())
+            .map(|arr| arr
+                .iter()
+                .filter_map(|v| v
+                    .as_str()
+                    .map(|s| s.to_string())
+                ).collect()
+            )
+            .expect("String vector is missing")
+    }
 }

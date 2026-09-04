@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::PlainDateTime;
-use crate::graphql::{get_plaindatetime_from_resp, get_u64_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 author_id
@@ -72,10 +72,10 @@ impl Contribution {
 
         Ok(Contribution {
             author_id: {
-                get_u64_from_resp(data, "author_id").unwrap()
+                data.get_u64("author_id").unwrap()
             },
             contributable_id: {
-                get_u64_from_resp(data, "contributable_id").unwrap()
+                data.get_u64("contributable_id").unwrap()
             },
             contributable_type: {
                 match data["contributable_type"].as_str().unwrap() {
@@ -98,19 +98,19 @@ impl Contribution {
                 }
             },
             contributor_role_id: {
-                get_u64_from_resp(data, "contributor_role_id")
+                data.get_u64("contributor_role_id")
             },
             contributor_specialization_id: {
-                get_u64_from_resp(data, "contributor_specialization_id")
+                data.get_u64("contributor_specialization_id")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             updated_at: {
-                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+                data.get_plaindatetime("updated_at").unwrap()
             },
         })
     }

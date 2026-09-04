@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, PlainDateTime};
 use crate::enums::RecordState3;
-use crate::graphql::{get_bool_from_resp, get_date_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
@@ -148,13 +148,13 @@ impl Edition {
                 data["alternative_titles"].clone()
             },
             asin: {
-                get_str_from_resp(data, "asin")
+                data.get_str("asin")
             },
             audio_seconds: {
-                get_u64_from_resp(data, "audio_seconds")
+                data.get_u64("audio_seconds")
             },
             book_id: {
-                get_u64_from_resp(data, "book_id").unwrap()
+                data.get_u64("book_id").unwrap()
             },
             cached_contributors: {
                 data["cached_contributors"].clone()
@@ -166,19 +166,19 @@ impl Edition {
                 data["cached_tags"].clone()
             },
             canonical_id: {
-                get_u64_from_resp(data, "canonical_id")
+                data.get_u64("canonical_id")
             },
             compilation: {
-                get_bool_from_resp(data, "compilation")
+                data.get_bool("compilation")
             },
             country_id: {
-                get_u64_from_resp(data, "country_id")
+                data.get_u64("country_id")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             created_by_user_id: {
-                get_u64_from_resp(data, "created_by_user_id")
+                data.get_u64("created_by_user_id")
             },
             curation_status: {
                 data["curation_status"].clone()
@@ -187,25 +187,25 @@ impl Edition {
                 data["edition_format"].clone()
             },
             edition_information: {
-                get_str_from_resp(data, "edition_information")
+                data.get_str("edition_information")
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             cover_image: {
                 data["cover_image"].clone()
             },
             image_id: {
-                get_u64_from_resp(data, "image_id")
+                data.get_u64("image_id")
             },
             isbn_10: {
-                get_str_from_resp(data, "isbn_10")
+                data.get_str("isbn_10")
             },
             isbn_10_valid: {
                 data["isbn_10_valid"].as_bool()
             },
             isbn_13: {
-                get_str_from_resp(data, "isbn_13")
+                data.get_str("isbn_13")
             },
             isbn_13_valid: {
                 data["isbn_13_valid"].as_bool()
@@ -214,34 +214,34 @@ impl Edition {
                 data["isbns_match"].as_bool()
             },
             language_id: {
-                get_u64_from_resp(data, "language_id")
+                data.get_u64("language_id")
             },
             lists_count: {
-                get_u64_from_resp(data, "lists_count").unwrap()
+                data.get_u64("lists_count").unwrap()
             },
             locked: {
                 data["locked"].as_bool().unwrap_or(false)
             },
             normalized_at: {
-                get_plaindatetime_from_resp(data, "normalized_at")
+                data.get_plaindatetime("normalized_at")
             },
             object_type: {
-                get_str_from_resp(data, "object_type").unwrap()
+                data.get_str("object_type").unwrap()
             },
             original_book_id: {
-                get_u64_from_resp(data, "original_book_id")
+                data.get_u64("original_book_id")
             },
             pages: {
-                get_u64_from_resp(data, "pages")
+                data.get_u64("pages")
             },
             physical_format: {
-                get_str_from_resp(data, "physical_format")
+                data.get_str("physical_format")
             },
             physical_information: {
-                get_str_from_resp(data, "physical_information")
+                data.get_str("physical_information")
             },
             publisher_id: {
-                get_u64_from_resp(data, "publisher_id")
+                data.get_u64("publisher_id")
             },
             rating: {
                 data["rating"].as_f64()
@@ -256,16 +256,16 @@ impl Edition {
                 }
             },
             release_date: {
-                get_date_from_resp(data, "release_date")
+                data.get_date("release_date")
             },
             release_year: {
-                get_u64_from_resp(data, "release_year")
+                data.get_u64("release_year")
             },
             score: {
-                get_u64_from_resp(data, "score").unwrap()
+                data.get_u64("score").unwrap()
             },
             source: {
-                get_str_from_resp(data, "source")
+                data.get_str("source")
             },
             state: {
                 match data["state"].as_str() {
@@ -279,19 +279,19 @@ impl Edition {
                 }
             },
             subtitle: {
-                get_str_from_resp(data, "subtitle")
+                data.get_str("subtitle")
             },
             title: {
-                get_str_from_resp(data, "title")
+                data.get_str("title")
             },
             updated_at: {
-                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+                data.get_plaindatetime("updated_at").unwrap()
             },
             users_count: {
-                get_u64_from_resp(data, "users_count").unwrap()
+                data.get_u64("users_count").unwrap()
             },
             users_read_count: {
-                get_u64_from_resp(data, "users_read_count").unwrap()
+                data.get_u64("users_read_count").unwrap()
             },
         })
     }

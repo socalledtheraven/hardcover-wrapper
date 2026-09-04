@@ -4,7 +4,7 @@ use serde_json::Value;
 use time::OffsetDateTime;
 use crate::enums::PrivacySetting;
 use crate::goal::Goal;
-use crate::graphql::{get_offsetdatetime_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::list::List;
 use crate::prompt::Prompt;
 use crate::user_book::UserBook;
@@ -74,7 +74,7 @@ impl Activity {
         Activity {
             book_id: data["book_id"].as_u64(),
             created_at: {
-                get_offsetdatetime_from_resp(data, "created_at")
+                data.get_offsetdt("created_at")
             },
             event: {
                 match data["event"].as_str() {

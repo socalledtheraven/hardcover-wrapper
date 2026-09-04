@@ -3,14 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::enums::{RecordState2};
-use crate::graphql::{get_bool_from_resp,
-                     get_date_from_resp,
-                     get_offsetdatetime_from_resp,
-                     get_plaindatetime_from_resp,
-                     get_str_from_resp,
-                     get_str_vec,
-                     get_u64_from_resp,
-                     graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::image::Image;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -179,7 +172,7 @@ impl Book {
                 data["activities_count"].as_u64().unwrap()
             },
             alternative_titles: {
-                get_str_vec(data["alternative_titles"].as_array())
+                data.get_str_vec("alternative_titles")
             },
             audio_seconds: {
                 data["audio_seconds"].as_u64()
@@ -230,7 +223,7 @@ impl Book {
                 data["cached_similar_book_ids"].clone()
             },
             cached_similar_books_updated_at: {
-                get_plaindatetime_from_resp(data, "cached_similar_books_updated_at")
+                data.get_plaindatetime("cached_similar_books_updated_at")
             },
             cached_tags: {
                 data["cached_tags"].clone()
@@ -239,10 +232,10 @@ impl Book {
                 data["canonical_id"].as_u64()
             },
             compilation: {
-                get_bool_from_resp(data, "compilation")
+                data.get_bool("compilation")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             created_by_user_id: {
                 data["created_by_user_id"].as_u64()
@@ -251,52 +244,52 @@ impl Book {
                 data["curation_status"].clone()
             },
             default_audio_edition_id: {
-                get_u64_from_resp(data, "default_audio_edition_id")
+                data.get_u64("default_audio_edition_id")
             },
             default_cover_edition_id: {
-                get_u64_from_resp(data, "default_cover_edition_id")
+                data.get_u64("default_cover_edition_id")
             },
             default_ebook_edition_id: {
-                get_u64_from_resp(data, "default_ebook_edition_id")
+                data.get_u64("default_ebook_edition_id")
             },
             default_physical_edition_id: {
-                get_u64_from_resp(data, "default_physical_edition_id")
+                data.get_u64("default_physical_edition_id")
             },
             description: {
-                get_str_from_resp(data, "description")
+                data.get_str("description")
             },
             editions_count: {
-                get_u64_from_resp(data, "editions_count").unwrap()
+                data.get_u64("editions_count").unwrap()
             },
             featured_book_series_id: {
-                get_u64_from_resp(data, "featured_book_series_id")
+                data.get_u64("featured_book_series_id")
             },
             header_image_id: {
-                get_u64_from_resp(data, "header_image_id")
+                data.get_u64("header_image_id")
             },
             headline: {
-                get_str_from_resp(data, "headline")
+                data.get_str("headline")
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             image_id: {
-                get_u64_from_resp(data, "image_id")
+                data.get_u64("image_id")
             },
             import_platform_id: {
-                get_u64_from_resp(data, "import_platform_id").unwrap()
+                data.get_u64("import_platform_id").unwrap()
             },
             is_partial_book: {
                 data["is_partial_book"].as_bool()
             },
             journals_count: {
-                get_u64_from_resp(data, "journals_count").unwrap()
+                data.get_u64("journals_count").unwrap()
             },
             links: {
                 data["links"].clone()
             },
             lists_count: {
-                get_u64_from_resp(data, "lists_count")
+                data.get_u64("lists_count")
             },
             literary_type_id: {
                 match data["literary_type_id"].as_u64() {
@@ -306,37 +299,37 @@ impl Book {
                 }
             },
             locked: {
-                get_bool_from_resp(data, "locked")
+                data.get_bool("locked")
             },
             pages: {
-                get_u64_from_resp(data, "pages")
+                data.get_u64("pages")
             },
             parent_book_id: {
-                get_u64_from_resp(data, "parent_book_id")
+                data.get_u64("parent_book_id")
             },
             prompts_count: {
-                get_u64_from_resp(data, "prompts_count").unwrap()
+                data.get_u64("prompts_count").unwrap()
             },
             rating: {
                 data["rating"].as_f64()
             },
             ratings_count: {
-                get_u64_from_resp(data, "ratings_count").unwrap()
+                data.get_u64("ratings_count").unwrap()
             },
             ratings_distribution: {
                 data["ratings_distribution"].clone()
             },
             release_date: {
-                get_date_from_resp(data, "release_date")
+                data.get_date("release_date")
             },
             release_year: {
-                get_u64_from_resp(data, "release_year")
+                data.get_u64("release_year")
             },
             reviews_count: {
-                get_u64_from_resp(data, "reviews_count").unwrap()
+                data.get_u64("reviews_count").unwrap()
             },
             slug: {
-                get_str_from_resp(data, "slug")
+                data.get_str("slug")
             },
             state: {
                 match data["state"].as_str() {
@@ -351,19 +344,19 @@ impl Book {
                 }
             },
             subtitle: {
-                get_str_from_resp(data, "subtitle")
+                data.get_str("subtitle")
             },
             title: {
-                get_str_from_resp(data, "title")
+                data.get_str("title")
             },
             updated_at: {
-                get_offsetdatetime_from_resp(data, "updated_at")
+                data.get_offsetdt("updated_at")
             },
             users_count: {
-                get_u64_from_resp(data, "users_count").unwrap()
+                data.get_u64("users_count").unwrap()
             },
             users_read_count: {
-                get_u64_from_resp(data, "users_read_count").unwrap()
+                data.get_u64("users_read_count").unwrap()
             },
         })
     }

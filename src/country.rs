@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use time::PlainDateTime;
-use crate::graphql::{get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 code2
@@ -64,46 +64,46 @@ impl Country {
 
         Ok(Country{
             code2: {
-                get_str_from_resp(data, "code2")
+                data.get_str("code2")
             },
             code3: {
-                get_str_from_resp(data, "code3")
+                data.get_str("code3")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             intermediate_region: {
-                get_str_from_resp(data, "intermediate_region")
+                data.get_str("intermediate_region")
             },
             intermediate_region_code: {
-                get_str_from_resp(data, "intermediate_region_code")
+                data.get_str("intermediate_region_code")
             },
             iso_3166: {
-                get_str_from_resp(data, "iso_3166")
+                data.get_str("iso_3166")
             },
             name: {
-                get_str_from_resp(data, "name")
+                data.get_str("name")
             },
             phone_code: {
-                get_str_from_resp(data, "phone_code")
+                data.get_str("phone_code")
             },
             region: {
-                get_str_from_resp(data, "region")
+                data.get_str("region")
             },
             region_code: {
-                get_str_from_resp(data, "region_code")
+                data.get_str("region_code")
             },
             sub_region: {
-                get_str_from_resp(data, "sub_region")
+                data.get_str("sub_region")
             },
             sub_region_code: {
-                get_str_from_resp(data, "sub_region_code")
+                data.get_str("sub_region_code")
             },
             updated_at: {
-                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+                data.get_plaindatetime("updated_at").unwrap()
             },
         })
     }

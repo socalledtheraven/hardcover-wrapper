@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use time::PlainDateTime;
-use crate::graphql::{get_bool_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -52,31 +52,31 @@ impl BookSeries {
 
         Ok(BookSeries{
             book_id: {
-                get_u64_from_resp(data, "book_id").unwrap()
+                data.get_u64("book_id").unwrap()
             },
             compilation: {
-                get_bool_from_resp(data, "compilation")
+                data.get_bool("compilation")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             details: {
-                get_str_from_resp(data, "details").unwrap()
+                data.get_str("details").unwrap()
             },
             featured: {
-                get_bool_from_resp(data, "featured")
+                data.get_bool("featured")
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             position: {
                 data["position"].as_f64().unwrap()
             },
             series_id: {
-                get_u64_from_resp(data, "series_id").unwrap()
+                data.get_u64("series_id").unwrap()
             },
             updated_at: {
-                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+                data.get_plaindatetime("updated_at").unwrap()
             },
         })
     }

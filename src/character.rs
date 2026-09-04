@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::enums::{Gender, RecordState};
-use crate::graphql::{get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 biography
@@ -78,22 +78,22 @@ impl Character {
 
         Ok(Character{
             biography: {
-                get_str_from_resp(data, "biography")
+                data.get_str("biography")
             },
             books_count: {
-                get_u64_from_resp(data, "books_count").unwrap()
+                data.get_u64("books_count").unwrap()
             },
             cached_tags: {
                 data["cached_tags"].clone()
             },
             canonical_books_count: {
-                get_u64_from_resp(data, "canonical_books_count").unwrap()
+                data.get_u64("canonical_books_count").unwrap()
             },
             canonical_id: {
-                get_u64_from_resp(data, "canonical_id")
+                data.get_u64("canonical_id")
             },
             created_at: {
-                get_plaindatetime_from_resp(data, "created_at").unwrap()
+                data.get_plaindatetime("created_at").unwrap()
             },
             gender_id: {
                 // there is not a single character with a listed gender in the api
@@ -103,10 +103,10 @@ impl Character {
                 data["has_disability"].as_bool()
             },
             id: {
-                get_u64_from_resp(data, "id").unwrap()
+                data.get_u64("id").unwrap()
             },
             image_id: {
-                get_u64_from_resp(data, "image_id")
+                data.get_u64("image_id")
             },
             is_lgbtq: {
                 data["is_lgbtq"].as_bool()
@@ -118,16 +118,16 @@ impl Character {
                 data["locked"].as_bool()
             },
             name: {
-                get_str_from_resp(data, "name").unwrap()
+                data.get_str("name").unwrap()
             },
             object_type: {
-                get_str_from_resp(data, "object_type").unwrap()
+                data.get_str("object_type").unwrap()
             },
             openlibrary_url: {
-                get_str_from_resp(data, "openlibrary_url")
+                data.get_str("openlibrary_url")
             },
             slug: {
-                get_str_from_resp(data, "slug").unwrap()
+                data.get_str("slug").unwrap()
             },
             state: {
                 match data["state"].as_str() {
@@ -138,10 +138,10 @@ impl Character {
                 }
             },
             updated_at: {
-                get_plaindatetime_from_resp(data, "updated_at").unwrap()
+                data.get_plaindatetime("updated_at").unwrap()
             },
             user_id: {
-                get_u64_from_resp(data, "user_id")
+                data.get_u64("user_id")
             },
         })
     }

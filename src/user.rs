@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::enums::PrivacySetting;
 use crate::genre::Genre;
-use crate::graphql::{graphql_req, get_bool_from_resp, get_date_from_resp, get_offsetdatetime_from_resp, get_plaindatetime_from_resp, get_str_from_resp, get_u64_from_resp, get_privacysetting_from_resp, get_str_vec};
+use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r"
@@ -140,7 +140,7 @@ impl User {
 
         Ok(User {
             access_level: {
-                get_u64_from_resp(data, "access_level")
+                data.get_u64("access_level")
             },
             account_privacy_settings_id: {
                 // in either case of it being unknown, we default to private
@@ -156,20 +156,20 @@ impl User {
                     .unwrap_or(PrivacySetting::Private)
             },
             activity_privacy_settings_id: {
-                get_privacysetting_from_resp(data, "activity_privacy_settings_id")
+                data.get_privacysetting("activity_privacy_settings_id")
             },
             admin: {
                 // should always be present
-                get_bool_from_resp(data, "admin")
+                data.get_bool("admin")
             },
             bio: {
-                get_str_from_resp(data, "bio")
+                data.get_str("bio")
             },
             birthdate: {
-                get_date_from_resp(data, "birthdate")
+                data.get_date("birthdate")
             },
             books_count: {
-                get_u64_from_resp(data, "books_count").unwrap()
+                data.get_u64("books_count").unwrap()
             },
             cached_cover: {
                 Image::new(data["cached_cover"].clone())
@@ -185,94 +185,93 @@ impl User {
             },
             cached_image: { Image::new(data["cached_image"].clone()) },
             confirmation_sent_at: {
-                get_plaindatetime_from_resp(data, "confirmation_sent_at")
+                data.get_plaindatetime("confirmation_sent_at")
             },
             confirmed_at: {
-                get_plaindatetime_from_resp(data, "confirmed_at")
+                data.get_plaindatetime("confirmed_at")
             },
             created_at: {
-                get_offsetdatetime_from_resp(data, "created_at")
+                data.get_offsetdt("created_at")
             },
             current_sign_in_at: {
-                get_plaindatetime_from_resp(data, "current_sign_in_at")
+                data.get_plaindatetime("current_sign_in_at")
             },
             email: {
-                get_str_from_resp(data, "email")
+                data.get_str("email")
             },
             email_verified: {
-                get_offsetdatetime_from_resp(data, "email_verified")
+                data.get_offsetdt("email_verified")
             },
             flair: {
-                get_str_from_resp(data, "flair")
+                data.get_str("flair")
             },
             followed_users_count: {
-                get_u64_from_resp(data, "followed_users_count").unwrap()
+                data.get_u64("followed_users_count").unwrap()
             },
             followers_count: {
-                get_u64_from_resp(data, "followers_count").unwrap()
+                data.get_u64("followers_count").unwrap()
             },
-            id: get_u64_from_resp(data, "id").unwrap(),
-            image_id: get_u64_from_resp(data, "image_id").unwrap(),
-            last_activity_at: get_plaindatetime_from_resp(data, "last_activity_at"),
-            last_sign_in_at: get_plaindatetime_from_resp(data, "last_sign_in_at"),
+            id: data.get_u64("id").unwrap(),
+            image_id: data.get_u64("image_id").unwrap(),
+            last_activity_at: data.get_plaindatetime("last_activity_at"),
+            last_sign_in_at: data.get_plaindatetime("last_sign_in_at"),
             librarian_roles: {
-                get_str_vec(data["librarian_roles"].as_array())
+                data.get_str_vec("librarian_roles")
             },
             link: {
-                get_str_from_resp(data, "link")
+                data.get_str("link")
             },
             location: {
-                get_str_from_resp(data, "location")
+                data.get_str("location")
             },
             locked_at: {
-                get_plaindatetime_from_resp(data, "locked_at")
+                data.get_plaindatetime("locked_at")
             },
             membership: {
-                get_str_from_resp(data, "membership")
+                data.get_str("membership")
             },
             membership_ends_at: {
-                get_plaindatetime_from_resp(data, "membership_ends_at")
+                data.get_plaindatetime("membership_ends_at")
             },
             name: {
-                get_str_from_resp(data, "name")
+                data.get_str("name")
             },
             object_type: {
-                get_str_from_resp(data, "object_type")
+                data.get_str("object_type")
             },
             onboarded: {
-                get_bool_from_resp(data, "onboarded")
+                data.get_bool("onboarded")
             },
             payment_system_id: {
-                get_u64_from_resp(data, "payment_system_id")
+                data.get_u64("payment_system_id")
             },
             pro: {
-                get_bool_from_resp(data, "pro")
+                data.get_bool("pro")
             },
             pronoun_personal: {
-                get_str_from_resp(data, "pronoun_personal").unwrap()
+                data.get_str("pronoun_personal").unwrap()
             },
             pronoun_possessive: {
-                get_str_from_resp(data, "pronoun_possessive").unwrap()
+                data.get_str("pronoun_possessive").unwrap()
             },
             referrer_id: {
-                get_u64_from_resp(data, "referrer_id")
+                data.get_u64("referrer_id")
             },
             referrer_url: {
-                get_str_from_resp(data, "referrer_url")
+                data.get_str("referrer_url")
             },
             remember_created_at: {
-                get_plaindatetime_from_resp(data, "remember_created_at")
+                data.get_plaindatetime("remember_created_at")
             },
             reset_password_sent_at: {
-                get_plaindatetime_from_resp(data, "reset_password_sent_at")
+                data.get_plaindatetime("reset_password_sent_at")
             },
             sign_in_count: {
-                get_u64_from_resp(data, "sign_in_count")
+                data.get_u64("sign_in_count")
             },
             status_id: {
                 // we default to activated if the status is unknown, this will never happen, but better to fail open
-                data["status_id"]
-                    .as_u64()
+                data.get_u64("status_id")
                     .map(|v| match v {
                         1 => AccountStatus::Created,
                         2 => AccountStatus::Activated,
@@ -282,16 +281,16 @@ impl User {
                     .unwrap_or(AccountStatus::Activated)
             },
             timezone: {
-                get_str_from_resp(data, "timezone")
+                data.get_str("timezone")
             },
             unconfirmed_email: {
-                get_str_from_resp(data, "unconfirmed_email")
+                data.get_str("unconfirmed_email")
             },
             updated_at: {
-                get_offsetdatetime_from_resp(data, "updated_at").unwrap()
+                data.get_offsetdt("updated_at").unwrap()
             },
             username: {
-                get_str_from_resp(data, "username").unwrap()
+                data.get_str("username").unwrap()
             },
         })
     }

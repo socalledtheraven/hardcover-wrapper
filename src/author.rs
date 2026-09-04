@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::Date;
 use crate::enums::{Gender, RecordState};
-use crate::graphql::{get_date_from_str, get_str_vec, graphql_req};
+use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
@@ -108,7 +108,7 @@ impl Author {
                 data["alias_id"].as_u64()
             },
             alternate_names: {
-                get_str_vec(data["alternate_names"].as_array())
+                data.get_str_vec("alternate_names")
             },
             bio: {
                 data["bio"].as_str().map(|s| s.to_string())
@@ -117,7 +117,7 @@ impl Author {
                 data["books_count"].as_u64().unwrap_or(0)
             },
             born_date: {
-                get_date_from_str(data["born_date"].as_str().unwrap_or_default())
+                data.get_date("born_date")
             },
             born_year: {
                 data["born_year"].as_u64()
@@ -129,7 +129,7 @@ impl Author {
                 data["canonical_id"].as_u64()
             },
             death_date: {
-                get_date_from_str(data["death_date"].as_str().unwrap_or_default())
+                data.get_date("death_date")
             },
             death_year: {
                 data["death_year"].as_u64()
