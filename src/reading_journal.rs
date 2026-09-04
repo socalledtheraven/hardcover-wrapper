@@ -39,7 +39,7 @@ pub(crate) struct ReadingJournal {
 }
 
 impl ReadingJournal {
-    pub(crate) async fn from_reading_journal_id(publisher_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: bigint!) {
           reading_journals_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -47,7 +47,7 @@ impl ReadingJournal {
         }
         "#;
 
-        Self::from_data(query, publisher_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
@@ -60,11 +60,7 @@ impl ReadingJournal {
     async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error> {
         let resp = graphql_req(query, vars).await?;
 
-        println!("resp: {:#?}", resp);
-
         let data = &resp["data"]["reading_journals_by_pk"];
-
-        println!("data: {:#?}", data);
 
         Ok(ReadingJournal{
             action_at: {

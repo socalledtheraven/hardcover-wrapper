@@ -22,7 +22,7 @@ pub(crate) struct Like {
 }
 
 impl Like {
-    pub(crate) async fn from_like_id(like_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           likes(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -30,7 +30,7 @@ impl Like {
         }
         "#;
 
-        Self::from_data(query, like_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

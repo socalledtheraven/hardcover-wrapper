@@ -47,7 +47,7 @@ pub(crate) struct Contribution {
 }
 
 impl Contribution {
-    pub(crate) async fn from_contribution_id(contribution_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: bigint!) {
           contributions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -55,7 +55,7 @@ impl Contribution {
         }
         "#;
 
-        Self::from_data(query, contribution_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

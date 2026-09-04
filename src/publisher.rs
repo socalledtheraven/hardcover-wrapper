@@ -35,7 +35,7 @@ pub(crate) struct Publisher {
 }
 
 impl Publisher {
-    pub(crate) async fn from_publisher_id(publisher_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: bigint!) {
           publishers_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -43,7 +43,7 @@ impl Publisher {
         }
         "#;
 
-        Self::from_data(query, publisher_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

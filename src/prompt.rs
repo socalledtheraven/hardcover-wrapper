@@ -33,7 +33,7 @@ pub(crate) struct Prompt {
 }
 
 impl Prompt {
-    pub(crate) async fn from_prompt_id(prompt_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           prompts_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -41,7 +41,7 @@ impl Prompt {
         }
         "#;
 
-        Self::from_data(query, prompt_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

@@ -50,7 +50,7 @@ pub(crate) struct List {
 }
 
 impl List {
-    pub(crate) async fn from_list_id(list_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           lists_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -58,7 +58,7 @@ impl List {
         }
         "#;
 
-        Self::from_data(query, list_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

@@ -115,7 +115,7 @@ impl User {
         Self::from_data(query, username).await
     }
 
-    pub(crate) async fn from_user_id(user_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($user: Int!) {
           users(where: {id: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -123,7 +123,7 @@ impl User {
         }
         "#;
 
-        Self::from_data(query, user_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

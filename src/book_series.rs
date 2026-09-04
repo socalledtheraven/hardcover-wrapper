@@ -27,7 +27,7 @@ pub(crate) struct BookSeries {
 }
 
 impl BookSeries {
-    pub(crate) async fn from_book_series_id(book_series_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($id: Int!) {
           book_series(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -35,7 +35,7 @@ impl BookSeries {
         }
         "#;
 
-        Self::from_data(query, book_series_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

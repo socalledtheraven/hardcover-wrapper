@@ -36,7 +36,7 @@ pub(crate) struct Activity {
 }
 
 impl Activity {
-    pub(crate) async fn of_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
+    pub(crate) async fn from_id(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
         query GetActivitiesOfUser($id: Int!) {
           activities(

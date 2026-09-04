@@ -31,7 +31,7 @@ pub(crate) struct Notification {
 }
 
 impl Notification {
-    pub(crate) async fn from_notification_id(notification_id: u64) -> Result<Self, reqwest::Error> {
+    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           notifications_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -39,7 +39,7 @@ impl Notification {
         }
         "#;
 
-        Self::from_data(query, notification_id).await
+        Self::from_data(query, id).await
     }
 
     async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {

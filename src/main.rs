@@ -33,45 +33,45 @@ async fn main() -> Result<(), reqwest::Error> {
     // let me = user::User::from_username("prophecyreviews").await?;
     // println!("{me:#?}");
 
-    // let activities = activity::Activity::of_user(me.get_id()).await?;
+    // let activities = activity::Activity::from_id(me.get_id()).await?;
     // let activity = activities.get(0).unwrap();
     // let d = &activity.created_at;
     // println!("{d:#?}");
 
-    // let author = author::Author::from_author_id(132049).await?;
+    // let author = author::Author::from_id(132049).await?;
     // println!("{}", author.born_year.unwrap());
 
-    // let book = book::Book::from_book_id(484946).await?;
+    // let book = book::Book::from_id(484946).await?;
     // println!("{:?}", book.updated_at);
 
-    // let char = character::Character::from_character_id(2135).await?;
+    // let char = character::Character::from_id(2135).await?;
     // print!("{char:#?}");
 
-    // let contribution = contribution::Contribution::from_contribution_id(1).await?;
+    // let contribution = contribution::Contribution::from_id(1).await?;
     // println!("{contribution:#?}");
 
-    // let edition = edition::Edition::from_edition_id(31529525).await?;
+    // let edition = edition::Edition::from_id(31529525).await?;
     // println!("{edition:#?}");
 
-    // let goal = goal::Goal::from_goal_id(16).await?;
+    // let goal = goal::Goal::from_id(16).await?;
     // println!("{goal:#?}");
 
-    // let like = like::Like::from_like_id(1).await?;
+    // let like = like::Like::from_id(1).await?;
     // println!("{like:#?}");
 
-    // let list = list::List::from_list_id(11325).await?;
+    // let list = list::List::from_id(11325).await?;
     // println!("{list:#?}");
 
-    // let notification = notification::Notification::from_notification_id(440096).await?;
+    // let notification = notification::Notification::from_id(440096).await?;
     // println!("{notification:#?}");
 
-    // let prompt = prompt::Prompt::from_prompt_id(122).await?;
+    // let prompt = prompt::Prompt::from_id(122).await?;
     // println!("{prompt:#?}");
 
-    // let publisher = publisher::Publisher::from_publisher_id(8).await?;
+    // let publisher = publisher::Publisher::from_id(8).await?;
     // println!("{publisher:#?}");
 
-    let reading_journal = reading_journal::ReadingJournal::from_reading_journal_id(15497756).await?;
+    let reading_journal = reading_journal::ReadingJournal::from_id(15497756).await?;
     println!("{reading_journal:#?}");
 
     Ok(())
