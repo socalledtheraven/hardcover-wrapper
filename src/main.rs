@@ -13,7 +13,6 @@ pub mod book;
 pub mod list;
 pub mod goal;
 pub mod image;
-pub mod link;
 pub mod notification;
 pub mod contribution;
 pub mod character;
@@ -53,8 +52,11 @@ async fn main() -> Result<(), reqwest::Error> {
     // let edition = edition::Edition::from_edition_id(31529525).await?;
     // println!("{edition:#?}");
 
-    let goal = goal::Goal::from_goal_id(16).await?;
-    println!("{goal:#?}");
+    // let goal = goal::Goal::from_goal_id(16).await?;
+    // println!("{goal:#?}");
+
+    let like = like::Like::from_like_id(1).await?;
+    println!("{like:#?}");
 
     Ok(())
 }
