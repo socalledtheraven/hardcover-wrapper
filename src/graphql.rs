@@ -47,6 +47,7 @@ pub(crate) async fn graphql_req(query: String, variables: HashMap<&str, String>)
 
 pub(crate) trait GraphQLResponse {
     fn get_u64(&self, key: &str) -> Option<u64>;
+    fn get_f64(&self, key: &str) -> Option<f64>;
     fn get_str(&self, key: &str) -> Option<String>;
     fn get_date(&self, key: &str) -> Option<Date>;
     fn get_plaindatetime(&self, key: &str) -> Option<PlainDateTime>;
@@ -60,6 +61,11 @@ impl GraphQLResponse for Value {
     fn get_u64(&self, key: &str) -> Option<u64> {
         self.get(key)
             .and_then(|v| v.as_u64())
+    }
+
+    fn get_f64(&self, key: &str) -> Option<f64> {
+        self.get(key)
+            .and_then(|v| v.as_f64())
     }
 
     fn get_str(&self, key: &str) -> Option<String> {

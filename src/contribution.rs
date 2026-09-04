@@ -49,7 +49,7 @@ pub(crate) struct Contribution {
 impl Contribution {
     pub(crate) async fn from_contribution_id(contribution_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($contribution: Int!) {
+        query GetAuthor($contribution: bigint!) {
           contributions(where: {id: {_eq: $contribution}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }

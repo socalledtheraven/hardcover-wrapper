@@ -36,7 +36,7 @@ pub(crate) struct UserBook {
     privacy_setting: PrivacySetting,
     privacy_setting_id: u64,
     private_notes: Option<String>,
-    rating: Option<f32>	,
+    rating: Option<f64>	,
     read_count: u64,
     // todo!
     reading_journal_summary: Vec<Value>,

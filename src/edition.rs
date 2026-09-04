@@ -23,7 +23,6 @@ curation_status
 edition_format
 edition_information
 id
-cover_image
 image_id
 isbn_10
 isbn_10_valid
@@ -88,7 +87,6 @@ pub(crate) struct Edition {
     edition_format: Value,
     edition_information: Option<String>,
     id: u64,
-    cover_image: Value,
     image_id: Option<u64>,
     isbn_10: Option<String>,
     isbn_10_valid: Option<bool>,
@@ -191,9 +189,6 @@ impl Edition {
             },
             id: {
                 data.get_u64("id").unwrap()
-            },
-            cover_image: {
-                data["cover_image"].clone()
             },
             image_id: {
                 data.get_u64("image_id")

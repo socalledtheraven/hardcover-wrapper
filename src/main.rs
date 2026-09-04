@@ -12,7 +12,6 @@ pub mod like;
 pub mod book;
 pub mod import;
 pub mod list;
-pub mod follow;
 pub mod goal;
 pub mod image;
 pub mod link;
@@ -46,8 +45,14 @@ async fn main() -> Result<(), reqwest::Error> {
     // let book = book::Book::from_book_id(484946).await?;
     // println!("{:?}", book.updated_at);
 
-    let char = character::Character::from_character_id(2135).await?;
-    print!("{char:#?}");
+    // let char = character::Character::from_character_id(2135).await?;
+    // print!("{char:#?}");
+
+    // let contribution = contribution::Contribution::from_contribution_id(1).await?;
+    // println!("{contribution:#?}");
+
+    // let edition = edition::Edition::from_edition_id(31529525).await?;
+    // println!("{edition:#?}");
 
     Ok(())
 }
