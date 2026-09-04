@@ -1,16 +1,15 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use crate::graphql::GraphQLResponse;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct Image {
     color: Option<String>,
-    // todo!
     colors: Option<Value>,
     color_name: Option<String>,
     height: Option<u64>,
     id: u64,
     imageable_id: Option<u64>,
-    // todo!
     imageable_type: Option<Value>,
     ratio: Option<f64>,
     url: Option<String>,
@@ -20,16 +19,24 @@ pub(crate) struct Image {
 impl Image {
     pub(crate) fn new(resp: Value) -> Self {
         Image {
-            color: resp["color"].as_str().map(|s| s.to_string()),
-            colors: None,
-            color_name: resp["color_name"].as_str().map(|s| s.to_string()),
-            height: resp["height"].as_u64(),
-            id: resp["id"].as_u64().expect("REASON"),
-            imageable_id: None,
-            imageable_type: None,
-            ratio: None,
-            url: resp["url"].as_str().map(|s| s.to_string()),
-            width: resp["width"].as_u64(),
+            color: resp.get_str("color"),
+            colors: {
+                resp.get("colors").cloned()
+            },
+            color_name: resp.get_str("color_name"),
+            height: resp.get_u64("height"),
+            id: resp.get_u64("id").unwrap(),
+            imageable_id: {
+                resp.get_u64("imageable_id")
+            },
+            imageable_type: {
+                resp.get("imageable_type").cloned()
+            },
+            ratio: {
+                resp.get_f64("ratio")
+            },
+            url: resp.get_str("url"),
+            width: resp.get_u64("width"),
         }
     }
 }
