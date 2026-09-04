@@ -30,7 +30,7 @@ impl BookSeries {
     pub(crate) async fn from_book_series_id(book_series_id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($series: Int!) {
-          books(where: {id: {_eq: $series}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          book_series(where: {id: {_eq: $series}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;

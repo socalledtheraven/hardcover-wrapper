@@ -46,5 +46,8 @@ async fn main() -> Result<(), reqwest::Error> {
     // let book = book::Book::from_book_id(484946).await?;
     // println!("{:?}", book.updated_at);
 
+    let char = character::Character::from_character_id(2135).await?;
+    print!("{char:#?}");
+
     Ok(())
 }
