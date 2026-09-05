@@ -83,8 +83,11 @@ async fn main() -> Result<(), reqwest::Error> {
     // let tag = tag::Tag::from_id(12).await?;
     // println!("{tag:#?}");
     //
-    let user_book = user_book::UserBook::from_id(452432).await?;
-    println!("{user_book:#?}");
+    // let user_book = user_book::UserBook::from_id(452432).await?;
+    // println!("{user_book:#?}");
+
+    // let vibe = vibe::Vibe::from_id(6).await?;
+    // println!("{vibe:#?}");
 
     Ok(())
 }

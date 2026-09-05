@@ -55,6 +55,7 @@ pub(crate) trait GraphQLResponse {
     fn get_bool(&self, key: &str) -> bool;
     fn get_privacysetting(&self, key: &str) -> PrivacySetting;
     fn get_str_vec(&self, key: &str) -> Vec<String>;
+    fn get_u64_vec(&self, key: &str) -> Vec<u64>;
 }
 
 impl GraphQLResponse for Value {
@@ -125,5 +126,17 @@ impl GraphQLResponse for Value {
                 ).collect()
             )
             .expect("String vector is missing")
+    }
+    
+    fn get_u64_vec(&self, key: &str) -> Vec<u64> {
+        self.get(key)
+            .and_then(|v| v.as_array())
+            .map(|arr| arr
+                .iter()
+                .filter_map(|v| v
+                    .as_u64()
+                ).collect()
+            )
+            .expect("u64 vector is missing")
     }
 }
