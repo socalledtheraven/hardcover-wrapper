@@ -43,14 +43,14 @@ impl BaseHardcoverItem for Country {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetCountry($id: Int!) {
-          countries(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          countries_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["countries"][0].clone()))
+        Ok(Self::new(data["countries_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

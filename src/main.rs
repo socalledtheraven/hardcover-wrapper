@@ -27,6 +27,7 @@ pub mod book_series;
 pub mod platform;
 pub mod reading_journal;
 pub mod base_hardcover_item;
+pub mod vibe;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {

@@ -121,14 +121,14 @@ impl BaseHardcoverItem for Edition {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetEdition($id: Int!) {
-          editions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          editions_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["editions"][0].clone()))
+        Ok(Self::new(data["editions_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

@@ -31,14 +31,14 @@ impl BaseHardcoverItem for BookSeries {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($id: Int!) {
-          book_series(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          book_series_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["book_series"][0].clone()))
+        Ok(Self::new(data["book_series_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

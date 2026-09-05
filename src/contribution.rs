@@ -51,14 +51,14 @@ impl BaseHardcoverItem for Contribution {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetContribution($id: bigint!) {
-          contributions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          contributions_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["contributions"][0].clone()))
+        Ok(Self::new(data["contributions_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

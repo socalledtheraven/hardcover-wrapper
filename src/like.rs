@@ -25,14 +25,14 @@ impl BaseHardcoverItem for Like {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetLike($id: Int!) {
-          likes(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          likes_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["likes"][0].clone()))
+        Ok(Self::new(data["likes_by_pk"].clone()))
     }
 
     fn new(resp: Value) -> Self {

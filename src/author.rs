@@ -83,14 +83,14 @@ impl BaseHardcoverItem for Author {
     async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
-          authors(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          authors_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["authors"][0].clone()))
+        Ok(Self::new(data["authors_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {
