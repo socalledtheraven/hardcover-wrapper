@@ -6,7 +6,7 @@ pub mod activity;
 pub mod author;
 pub mod enums;
 pub mod genre;
-pub mod tagging;
+pub mod tag;
 pub mod user_flag;
 pub mod user_book;
 pub mod prompt;
@@ -79,6 +79,9 @@ async fn main() -> Result<(), reqwest::Error> {
     //
     // let series = series::Series::from_id(147942).await?;
     // println!("{series:#?}");
+    //
+    // let tag = tag::Tag::from_id(12).await?;
+    // println!("{tag:#?}");
 
     Ok(())
 }
