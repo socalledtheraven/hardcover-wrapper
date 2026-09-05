@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -19,7 +18,7 @@ updated_at
 user_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Publisher {
     canonical_id: Option<u64>,
     created_at: PlainDateTime,

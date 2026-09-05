@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -53,7 +52,7 @@ users_count
 users_read_count
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 enum EditionFormat {
     Hardcover,
     Paperback,
@@ -61,7 +60,7 @@ enum EditionFormat {
     Audiobook,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 enum ReadingFormat {
     Physical,
     Audio,
@@ -69,7 +68,7 @@ enum ReadingFormat {
     Ebook,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Edition {
     alternative_titles: Value,
     asin: Option<String>,

@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::graphql::GraphQLResponse;
@@ -20,7 +19,7 @@ state
 user_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Series {
     author_id: Option<u64>,
     books_count: u64,

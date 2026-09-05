@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -22,7 +21,7 @@ privacy_setting_id
 uid
 user_id"#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Activity {
     pub(crate) book_id: Option<u64>,
     pub(crate) created_at: Option<OffsetDateTime>,
@@ -126,7 +125,7 @@ impl Activity {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum ActivityType {
     UserBookActivity,
     GoalActivity,
@@ -134,7 +133,7 @@ pub(crate) enum ActivityType {
     ListActivity
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum ActivityData {
     UserBookActivityData(UserBook),
     GoalActivityData(Goal),

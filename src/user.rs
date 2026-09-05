@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -55,7 +54,7 @@ const QUERY_FIELDS: &str = r"
             updated_at
             username";
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct User {
     access_level: Option<u64>,
     account_privacy_settings_id: PrivacySetting,
@@ -293,11 +292,11 @@ impl User {
 }
 
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 struct BlockedUser {}
 
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum AccountStatus {
     Created,
     Activated,

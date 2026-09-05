@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -16,13 +15,13 @@ id
 updated_at
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 enum ContributableType {
     Book,
     Edition,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 enum ContributionRole {
     Author,
     Illustrator,
@@ -34,7 +33,7 @@ enum ContributionRole {
     CoverArtist
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Contribution {
     author_id: u64,
     contributable_id: u64,

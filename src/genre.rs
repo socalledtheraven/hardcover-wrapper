@@ -1,6 +1,5 @@
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Genre {
     pub(crate) count: u64,
     pub(crate) tag: String,

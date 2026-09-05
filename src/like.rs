@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -12,7 +11,7 @@ likeable_type
 user_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Like {
     created_at: Option<OffsetDateTime>,
     id: u64,

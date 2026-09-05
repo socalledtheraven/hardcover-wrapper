@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -20,7 +19,7 @@ state
 user_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Goal {
     archived: bool,
     completed_at: Option<OffsetDateTime>,

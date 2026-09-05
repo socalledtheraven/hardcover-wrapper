@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -21,7 +20,7 @@ sub_region_code
 updated_at
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Country {
     code2: Option<String>,
     code3: Option<String>,

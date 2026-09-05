@@ -1,26 +1,25 @@
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum PrivacySetting {
     Public,
     FollowersOnly,
     Private,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum Gender {
     Male,
     Female,
     Nonbinary
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum RecordState {
     Active,
     Duplicate
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum RecordState2 {
     Pending,
     Processing,
@@ -30,7 +29,7 @@ pub(crate) enum RecordState2 {
     Duplicate
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum RecordState3 {
     Pending,
     Linking,

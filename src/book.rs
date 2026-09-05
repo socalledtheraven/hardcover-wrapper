@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -6,7 +5,7 @@ use crate::enums::{RecordState2};
 use crate::graphql::{GraphQLResponse};
 use crate::image::Image;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum BookCategory {
     Book,
     Novella,
@@ -20,7 +19,7 @@ pub(crate) enum BookCategory {
     LightNovel
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum BookStatus {
     OK,
     ToReview,
@@ -28,7 +27,7 @@ pub(crate) enum BookStatus {
     Deduplicated
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) enum LiteraryType {
     Fiction,
     NonFiction
@@ -88,7 +87,7 @@ users_count
 users_read_count
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Book {
     pub(crate) activities_count: u64,
     pub(crate) alternative_titles: Vec<String>,

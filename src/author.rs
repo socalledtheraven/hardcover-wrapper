@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::Date;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -36,7 +35,7 @@ user_id
 users_count
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Author {
     pub(crate) alias_id: Option<u64>,
     pub(crate) alternate_names: Vec<String>,

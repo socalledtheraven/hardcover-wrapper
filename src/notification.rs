@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -17,7 +16,7 @@ title
 uid
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Notification {
     created_at: OffsetDateTime,
     description: String,

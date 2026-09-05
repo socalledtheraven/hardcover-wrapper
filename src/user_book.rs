@@ -1,5 +1,4 @@
 use reqwest::Error;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
@@ -48,7 +47,7 @@ url
 user_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 enum ReadingStatus {
     WantToRead,
     CurrentlyReading,
@@ -58,7 +57,7 @@ enum ReadingStatus {
     Ignored,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct UserBook {
     book_id: u64,
     created_at: OffsetDateTime,

@@ -1,5 +1,4 @@
 use reqwest::Error;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::graphql::GraphQLResponse;
@@ -12,7 +11,7 @@ const QUERY_FIELDS: &str = r#"
     tag_category_id
 "#;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
 pub(crate) struct Tag {
     count: u64,
     id: u64,
