@@ -7,7 +7,6 @@ pub mod author;
 pub mod enums;
 pub mod genre;
 pub mod tag;
-pub mod user_flag;
 pub mod user_book;
 pub mod prompt;
 pub mod like;
@@ -82,6 +81,9 @@ async fn main() -> Result<(), reqwest::Error> {
     //
     // let tag = tag::Tag::from_id(12).await?;
     // println!("{tag:#?}");
+    //
+    // let user_book = user_book::UserBook::from_id(452432).await?;
+    // println!("{user_book:#?}");
 
     Ok(())
 }
