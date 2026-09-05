@@ -201,11 +201,9 @@ impl BaseHardcoverItem for Book {
                 data.get("cached_featured_series").cloned()
             },
             cached_header_image: {
-                if data["cached_header_image"].is_null() {
-                    None
-                } else {
-                    Some(Image::new(data["cached_header_image"].clone()))
-                }
+                // optional images need figuring out
+                // Some(Image::new(data["cached_header_image"].clone()))
+                None
             },
             cached_image: {
                 Image::new(data["cached_image"].clone())

@@ -44,7 +44,7 @@ impl BaseHardcoverItem for Prompt {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["prompts_by_pk"][0].clone()))
+        Ok(Self::new(data["prompts_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

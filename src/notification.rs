@@ -42,7 +42,7 @@ impl BaseHardcoverItem for Notification {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["notifications_by_pk"][0].clone()))
+        Ok(Self::new(data["notifications_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

@@ -22,7 +22,7 @@ user_id
 
 #[derive(Debug)]
 pub(crate) struct ReadingJournal {
-    action_at: OffsetDateTime,
+    action_at: PlainDateTime,
     book_id: Option<u64>,
     created_at: PlainDateTime,
     edition_id: Option<u64>,
@@ -49,13 +49,15 @@ impl BaseHardcoverItem for ReadingJournal {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["reading_journals_by_pk"][0].clone()))
+        println!("Data {:#?}", data);
+
+        Ok(Self::new(data["reading_journals_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {
         ReadingJournal {
             action_at: {
-                data.get_offsetdt("action_at").unwrap()
+                data.get_plaindt("action_at").unwrap()
             },
             book_id: {
                 data.get_u64("book_id")

@@ -61,7 +61,7 @@ impl BaseHardcoverItem for List {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["lists_by_pk"][0].clone()))
+        Ok(Self::new(data["lists_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

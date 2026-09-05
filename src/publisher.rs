@@ -46,7 +46,7 @@ impl BaseHardcoverItem for Publisher {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["publishers_by_pk"][0].clone()))
+        Ok(Self::new(data["publishers_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {

@@ -280,8 +280,8 @@ impl BaseHardcoverItem for User {
 impl User {
     pub(crate) async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetUser($user: citext!) {
-          users(where: {username: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetUser($id: citext!) {
+          users(where: {username: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
