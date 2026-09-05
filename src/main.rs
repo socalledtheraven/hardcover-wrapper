@@ -76,6 +76,9 @@ async fn main() -> Result<(), reqwest::Error> {
     //
     // let reading_journal = reading_journal::ReadingJournal::from_id(15497756).await?;
     // println!("{reading_journal:#?}");
+    //
+    // let series = series::Series::from_id(147942).await?;
+    // println!("{series:#?}");
 
     Ok(())
 }
