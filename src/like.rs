@@ -1,8 +1,8 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::graphql::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 created_at
@@ -21,34 +21,21 @@ pub(crate) struct Like {
     user_id: u64,
 }
 
-impl Like {
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for Like {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($id: Int!) {
+        query GetLike($id: Int!) {
           likes(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["likes"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["likes"][0];
-
-        Ok(Self::from_response(data.clone()))
-    }
-
-    pub(crate) fn from_response(resp: Value) -> Self {
+    fn new(resp: Value) -> Self {
         Like {
             created_at: resp.get_offsetdt("created_at"),
             id: resp.get_u64("id").unwrap(),

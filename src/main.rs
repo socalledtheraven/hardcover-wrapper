@@ -1,3 +1,5 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+
 pub mod graphql;
 pub mod user;
 pub mod activity;
@@ -25,6 +27,7 @@ pub mod reading_format;
 pub mod book_series;
 pub mod platform;
 pub mod reading_journal;
+pub mod base_hardcover_item;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {

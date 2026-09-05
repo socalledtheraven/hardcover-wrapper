@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{Date, PlainDateTime};
+use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::enums::RecordState3;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::graphql::{GraphQLResponse};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
@@ -117,31 +117,22 @@ pub(crate) struct Edition {
     users_read_count: u64,
 }
 
-impl Edition {
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for Edition {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($id: Int!) {
+        query GetEdition($id: Int!) {
           editions(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["editions"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["editions"][0];
-
-        Ok(Edition{
+    fn new(data: Value) -> Self {
+        Edition{
             alternative_titles: {
                 data["alternative_titles"].clone()
             },
@@ -288,6 +279,6 @@ impl Edition {
             users_read_count: {
                 data.get_u64("users_read_count").unwrap()
             },
-        })
+        }
     }
 }

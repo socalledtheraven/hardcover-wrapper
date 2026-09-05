@@ -1,6 +1,7 @@
-use std::collections::HashMap;
+use serde_json::Value;
 use time::PlainDateTime;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::graphql::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -26,8 +27,8 @@ pub(crate) struct BookSeries {
     updated_at: PlainDateTime
 }
 
-impl BookSeries {
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for BookSeries {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($id: Int!) {
           book_series(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -35,22 +36,13 @@ impl BookSeries {
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["book_series"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["book_series"][0];
-
-        Ok(BookSeries{
+    fn new(data: Value) -> Self {
+        BookSeries {
             book_id: {
                 data.get_u64("book_id").unwrap()
             },
@@ -78,6 +70,6 @@ impl BookSeries {
             updated_at: {
                 data.get_plaindt("updated_at").unwrap()
             },
-        })
+        }
     }
 }

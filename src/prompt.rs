@@ -1,7 +1,8 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use time::OffsetDateTime;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::graphql::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 answers_count
@@ -32,31 +33,22 @@ pub(crate) struct Prompt {
     users_count: u64,
 }
 
-impl Prompt {
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for Prompt {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($id: Int!) {
+        query GetPrompt($id: Int!) {
           prompts_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["prompts_by_pk"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error> {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["prompts_by_pk"];
-
-        Ok(Prompt{
+    fn new(data: Value) -> Self {
+        Prompt {
             answers_count: {
                 data.get_u64("answers_count").unwrap()
             },
@@ -90,6 +82,6 @@ impl Prompt {
             users_count: {
                 data.get_u64("users_count").unwrap()
             },
-        })
+        }
     }
 }

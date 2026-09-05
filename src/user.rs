@@ -1,9 +1,10 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
+use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::enums::PrivacySetting;
 use crate::genre::Genre;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::graphql::{GraphQLResponse};
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r"
@@ -103,19 +104,8 @@ pub(crate) struct User {
     updated_at: OffsetDateTime,
     username: String,
 }
-impl User {
-    pub(crate) async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
-        let query = r#"
-        query GetUser($user: citext!) {
-          users(where: {username: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
-          }
-        }
-        "#;
-
-        Self::from_data(query, username).await
-    }
-
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for User {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($user: Int!) {
           users(where: {id: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -123,22 +113,13 @@ impl User {
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["users"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("user", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["users"][0];
-
-        Ok(User {
+    fn new(data: Value) -> Self {
+        User {
             access_level: {
                 data.get_u64("access_level")
             },
@@ -292,11 +273,22 @@ impl User {
             username: {
                 data.get_str("username").unwrap()
             },
-        })
+        }
     }
-    
-    pub(crate) fn get_id(&self) -> u64 {
-        self.id
+}
+
+impl User {
+    pub(crate) async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
+        let query = r#"
+        query GetUser($user: citext!) {
+          users(where: {username: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
+          }
+        }
+        "#;
+
+        let data = Self::from_data(query, username).await?;
+
+        Ok(Self::new(data["users"][0].clone()))
     }
 }
 

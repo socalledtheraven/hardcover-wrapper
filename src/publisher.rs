@@ -1,7 +1,8 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use time::PlainDateTime;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::graphql::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 canonical_id
@@ -34,31 +35,22 @@ pub(crate) struct Publisher {
     user_id: Option<u64>,
 }
 
-impl Publisher {
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+impl BaseHardcoverItem for Publisher {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetAuthor($id: bigint!) {
+        query GetPublisher($id: bigint!) {
           publishers_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["publishers_by_pk"][0].clone()))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error> {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["publishers_by_pk"];
-
-        Ok(Publisher{
+    fn new(data: Value) -> Self {
+        Publisher {
             canonical_id: {
                 data.get_u64("canonical_id")
             },
@@ -95,6 +87,6 @@ impl Publisher {
             user_id: {
                 data.get_u64("user_id")
             },
-        })
+        }
     }
 }

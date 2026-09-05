@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
-use crate::BaseHardcoverItem::BaseHardcoverItem;
+use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::enums::PrivacySetting;
 use crate::goal::Goal;
 use crate::graphql::{graphql_req, GraphQLResponse};
@@ -47,7 +47,7 @@ impl BaseHardcoverItem for Activity {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["activities_by_pk"]))
+        Ok(Self::new(data["activities_by_pk"].clone()))
     }
 
     fn new(data: Value) -> Self {
@@ -118,7 +118,7 @@ impl Activity {
             .unwrap()
             .iter()
             .map(|activity_data| {
-                Activity::new(*activity_data)
+                Activity::new(activity_data.clone())
             })
             .collect();
 

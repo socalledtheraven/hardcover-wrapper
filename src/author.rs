@@ -1,10 +1,9 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::Date;
-use crate::BaseHardcoverItem::BaseHardcoverItem;
+use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::enums::{Gender, RecordState};
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::graphql::GraphQLResponse;
 use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
@@ -91,11 +90,11 @@ impl BaseHardcoverItem for Author {
 
         let data = Self::from_data(query, id).await?;
 
-        Ok(Self::new(data["authors"][0]))
+        Ok(Self::new(data["authors"][0].clone()))
     }
 
-    async fn new(data: Value) -> Result<Self, reqwest::Error>  {
-        Ok(Author {
+    fn new(data: Value) -> Self {
+        Author {
             alias_id: {
                 data["alias_id"].as_u64()
             },
@@ -191,6 +190,6 @@ impl BaseHardcoverItem for Author {
             users_count: {
                 data["users_count"].as_u64().unwrap_or(0)
             },
-        })
+        }
     }
 }
