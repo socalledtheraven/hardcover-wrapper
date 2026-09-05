@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::Date;
+use crate::BaseHardcoverItem::BaseHardcoverItem;
 use crate::enums::{Gender, RecordState};
 use crate::graphql::{graphql_req, GraphQLResponse};
 use crate::image::Image;
@@ -67,7 +68,7 @@ pub(crate) struct Author {
     pub(crate) users_count: u64,
 }
 
-impl Author {
+impl BaseHardcoverItem for Author {
     // this is extra complicated because of duplicates and stuff
     // pub(crate) async fn from_name(name: &str) -> Result<Self, reqwest::Error> {
     //     let query = r#"
@@ -80,7 +81,7 @@ impl Author {
     //     Self::from_data(query, name).await
     // }
 
-    pub(crate) async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           authors(where: {id: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -88,21 +89,12 @@ impl Author {
         }
         "#;
 
-        Self::from_data(query, id).await
+        let data = Self::from_data(query, id).await?;
+
+        Ok(Self::new(data["authors"][0]))
     }
 
-    async fn from_data<T: ToString>(query: String, user_data: T) -> Result<Self, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        Self::new(query, vars).await
-    }
-
-    async fn new(query: String, vars: HashMap<&str, String>) -> Result<Self, reqwest::Error>  {
-        let resp = graphql_req(query, vars).await?;
-
-        let data = &resp["data"]["authors"][0];
-
+    async fn new(data: Value) -> Result<Self, reqwest::Error>  {
         Ok(Author {
             alias_id: {
                 data["alias_id"].as_u64()

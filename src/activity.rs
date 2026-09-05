@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::OffsetDateTime;
+use crate::BaseHardcoverItem::BaseHardcoverItem;
 use crate::enums::PrivacySetting;
 use crate::goal::Goal;
 use crate::graphql::{graphql_req, GraphQLResponse};
@@ -35,42 +36,21 @@ pub(crate) struct Activity {
     pub(crate) user_id: u64,
 }
 
-impl Activity {
-    pub(crate) async fn from_id(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
+impl BaseHardcoverItem for Activity {
+    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetActivitiesOfUser($id: Int!) {
-          activities(
-              order_by: {created_at: desc}
-              where: {user_id: {_eq: $id}}
-          ) {"#.to_string() + QUERY_FIELDS + r#"
+        query GetActivity($id: Int!) {
+          activities_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
           }
         }
         "#;
 
-        let mut vars = HashMap::new();
-        vars.insert("id", user_id.to_string());
+        let data = Self::from_data(query, id).await?;
 
-        let resp = graphql_req(query, vars).await?;
-
-        println!("Activity response: {resp:#?}");
-
-        let data = &resp["data"]["activities"];
-
-        println!("Activity data: {data:#?}");
-
-        let activities: Vec<Activity> = data
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|activity_data| {
-                Activity::from_graphql(activity_data, user_id)
-            })
-            .collect();
-        
-        Ok(activities)
+        Ok(Self::new(data["activities_by_pk"]))
     }
-    
-    fn from_graphql(data: &Value, user_id: u64) -> Self {
+
+    fn new(data: Value) -> Self {
         Activity {
             book_id: data["book_id"].as_u64(),
             created_at: {
@@ -103,8 +83,46 @@ impl Activity {
             uid: {
                 data["uid"].as_str().expect("REASON").to_string()
             },
-            user_id,
+            user_id: {
+                data.get_u64("user_id").unwrap()
+            }
         }
+    }
+}
+
+impl Activity {
+    async fn activities_from_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
+        let query = r#"
+        query GetActivitiesOfUser($id: Int!) {
+          activities(
+              order_by: {created_at: desc}
+              where: {user_id: {_eq: $id}}
+          ) {"#.to_string() + QUERY_FIELDS + r#"
+          }
+        }
+        "#;
+
+        let mut vars = HashMap::new();
+        vars.insert("id", user_id.to_string());
+
+        let resp = graphql_req(query, vars).await?;
+
+        println!("Activity response: {resp:#?}");
+
+        let data = &resp["data"]["activities"];
+
+        println!("Activity data: {data:#?}");
+
+        let activities: Vec<Activity> = data
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|activity_data| {
+                Activity::new(*activity_data)
+            })
+            .collect();
+
+        Ok(activities)
     }
 }
 
