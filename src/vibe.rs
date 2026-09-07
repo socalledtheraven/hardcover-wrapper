@@ -2,7 +2,7 @@ use reqwest::Error;
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::PrivacySetting;
+use crate::util::PrivacySetting;
 use crate::graphql::GraphQLResponse;
 
 const QUERY_FIELDS: &str = r#"

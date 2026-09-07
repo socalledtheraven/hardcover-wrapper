@@ -3,7 +3,8 @@ use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
-use crate::enums::{PrivacySetting, ReadingStatus};
+use crate::book::Rating;
+use crate::util::{Link, PrivacySetting, ReadingStatus};
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -58,6 +59,8 @@ pub(crate) trait GraphQLResponse {
     fn get_str_vec(&self, key: &str) -> Vec<String>;
     fn get_opt_str_vec(&self, key: &str) -> Option<Vec<String>>;
     fn get_u64_vec(&self, key: &str) -> Vec<u64>;
+    fn get_link_vec(&self, key: &str) -> Vec<Link>;
+    fn get_rating_vec(&self, key: &str) -> Vec<Rating>;
 }
 
 impl GraphQLResponse for Value {
@@ -136,7 +139,7 @@ impl GraphQLResponse for Value {
         self.get_opt_str_vec(key)
             .expect("String vector is missing")
     }
-    
+
     fn get_opt_str_vec(&self, key: &str) -> Option<Vec<String>> {
         self.get(key)
             .and_then(|v| v.as_array())
@@ -159,5 +162,29 @@ impl GraphQLResponse for Value {
                 ).collect()
             )
             .expect("u64 vector is missing")
+    }
+
+    fn get_link_vec(&self, key: &str) -> Vec<Link> {
+        self.get(key)
+            .and_then(|v| v.as_array())
+            .unwrap_or(&vec![])
+            .iter()
+            .map(|link| Link {
+                url: link.get_str("url").unwrap(),
+                title: link.get_str("title").unwrap(),
+            })
+            .collect()
+    }
+
+    fn get_rating_vec(&self, key: &str) -> Vec<Rating> {
+        self.get(key)
+            .and_then(|v| v.as_array())
+            .unwrap_or(&vec![])
+            .iter()
+            .map(|rating| Rating {
+                count: rating.get_u64("count").unwrap(),
+                rating: rating.get_f64("rating").unwrap(),
+            })
+            .collect()
     }
 }

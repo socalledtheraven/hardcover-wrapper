@@ -1,7 +1,7 @@
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::PrivacySetting;
+use crate::util::PrivacySetting;
 use crate::genre::Genre;
 use crate::graphql::{GraphQLResponse};
 use crate::image::Image;

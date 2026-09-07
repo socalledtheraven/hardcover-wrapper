@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use serde_json::Value;
 use time::{OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::{PrivacySetting, ReadingStatus};
+use crate::util::{PrivacySetting, ReadingStatus};
 use crate::graphql::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"

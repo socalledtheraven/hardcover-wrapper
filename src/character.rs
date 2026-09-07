@@ -1,7 +1,7 @@
 use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::{Gender, RecordState};
+use crate::util::{Gender, RecordState};
 use crate::graphql::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"

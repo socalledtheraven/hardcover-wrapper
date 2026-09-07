@@ -4,7 +4,7 @@ pub mod graphql;
 pub mod user;
 pub mod activity;
 pub mod author;
-pub mod enums;
+pub mod util;
 pub mod genre;
 pub mod tag;
 pub mod user_book;

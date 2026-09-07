@@ -48,3 +48,9 @@ pub(crate) enum ReadingStatus {
     DidNotFinish,
     Ignored,
 }
+
+#[derive(Clone, Debug)]
+pub(crate) struct Link {
+    pub(crate) url: String,
+    pub(crate) title: String,
+}
