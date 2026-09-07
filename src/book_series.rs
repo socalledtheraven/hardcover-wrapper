@@ -47,7 +47,7 @@ impl BaseHardcoverItem for BookSeries {
                 data.get_u64("book_id").unwrap()
             },
             compilation: {
-                data.get_bool("compilation")
+                data.get_bool("locked").unwrap()
             },
             created_at: {
                 data.get_plaindt("created_at").unwrap()
@@ -56,7 +56,7 @@ impl BaseHardcoverItem for BookSeries {
                 data.get_str("details").unwrap()
             },
             featured: {
-                data.get_bool("featured")
+                data.get_bool("locked").unwrap()
             },
             id: {
                 data.get_u64("id").unwrap()

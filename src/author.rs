@@ -140,10 +140,10 @@ impl BaseHardcoverItem for Author {
                 data.get_u64("image_id")
             },
             is_bipoc: {
-                data["is_bipoc"].as_bool()
+                data.get_bool("locked")
             },
             is_lgbtq: {
-                data["is_lgbtq"].as_bool()
+                data.get_bool("locked")
             },
             links: {
                 data.get_link_vec("links")
@@ -152,7 +152,7 @@ impl BaseHardcoverItem for Author {
                 data.get_str("location")
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             name: {
                 data.get_str("name").unwrap()

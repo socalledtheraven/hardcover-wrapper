@@ -137,7 +137,7 @@ impl BaseHardcoverItem for User {
             },
             admin: {
                 // should always be present
-                data.get_bool("admin")
+                data.get_bool("locked").unwrap()
             },
             bio: {
                 data.get_str("bio")
@@ -204,13 +204,13 @@ impl BaseHardcoverItem for User {
                 data.get_str("object_type")
             },
             onboarded: {
-                data.get_bool("onboarded")
+                data.get_bool("locked").unwrap()
             },
             payment_system_id: {
                 data.get_u64("payment_system_id")
             },
             pro: {
-                data.get_bool("pro")
+                data.get_bool("locked").unwrap()
             },
             pronoun_personal: {
                 data.get_str("pronoun_personal").unwrap()

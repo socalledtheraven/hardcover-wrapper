@@ -78,10 +78,10 @@ impl BaseHardcoverItem for List {
                 data.get_str("description")
             },
             featured: {
-                data.get_bool("featured")
+                data.get_bool("locked").unwrap()
             },
             featured_profile: {
-                data.get_bool("featured_profile")
+                data.get_bool("locked").unwrap()
             },
             followers_count: {
                 data.get_u64("followers_count")
@@ -90,7 +90,7 @@ impl BaseHardcoverItem for List {
                 data.get_u64("id").unwrap()
             },
             imported: {
-                data.get_bool("imported")
+                data.get_bool("locked").unwrap()
             },
             likes_count: {
                 data.get_u64("likes_count").unwrap()
@@ -105,10 +105,10 @@ impl BaseHardcoverItem for List {
                 data.get_privacysetting("privacy_setting_id")
             },
             public: {
-                data.get_bool("public")
+                data.get_bool("locked").unwrap()
             },
             ranked: {
-                data.get_bool("ranked")
+                data.get_bool("locked").unwrap()
             },
             slug: {
                 data.get_str("slug")

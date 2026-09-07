@@ -53,7 +53,7 @@ pub(crate) trait GraphQLResponse {
     fn get_date(&self, key: &str) -> Option<Date>;
     fn get_plaindt(&self, key: &str) -> Option<PlainDateTime>;
     fn get_offsetdt(&self, key: &str) -> Option<OffsetDateTime>;
-    fn get_bool(&self, key: &str) -> bool;
+    fn get_bool(&self, key: &str) -> Option<bool>;
     fn get_privacysetting(&self, key: &str) -> PrivacySetting;
     fn get_readingstatus(&self, key: &str) -> ReadingStatus;
     fn get_str_vec(&self, key: &str) -> Vec<String>;
@@ -102,10 +102,9 @@ impl GraphQLResponse for Value {
             .and_then(|d| Some(d))
     }
 
-    fn get_bool(&self, key: &str) -> bool {
+    fn get_bool(&self, key: &str) -> Option<bool> {
         self[key]
             .as_bool()
-            .unwrap()
     }
 
     fn get_privacysetting(&self, key: &str) -> PrivacySetting {

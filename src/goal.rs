@@ -73,7 +73,7 @@ impl BaseHardcoverItem for Goal {
     fn new(data: Value) -> Self {
         Goal {
             archived: {
-                data.get_bool("archived")
+                data.get_bool("locked").unwrap()
             },
             completed_at: {
                 data.get_offsetdt("completed_at")
@@ -108,10 +108,10 @@ impl BaseHardcoverItem for Goal {
                             data.get_u64("readingFormatId")
                         },
                         specific_end_date: {
-                            data["specificEndDate"].as_bool()
+                            data.get_bool("locked")
                         },
                         specific_start_date: {
-                            data["specificStartDate"].as_bool()
+                            data.get_bool("locked")
                         },
                     })
                 }

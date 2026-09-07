@@ -76,7 +76,7 @@ impl BaseHardcoverItem for Series {
                 data.as_bool()
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             name: {
                 data.get_str("name").unwrap()

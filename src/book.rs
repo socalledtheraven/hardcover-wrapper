@@ -193,7 +193,7 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("canonical_id")
             },
             compilation: {
-                data.get_bool("compilation")
+                data.get_bool("locked").unwrap()
             },
             created_at: {
                 data.get_plaindt("created_at").unwrap()
@@ -241,7 +241,7 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("import_platform_id").unwrap()
             },
             is_partial_book: {
-                data["is_partial_book"].as_bool()
+                data.get_bool("locked")
             },
             journals_count: {
                 data.get_u64("journals_count").unwrap()
@@ -260,7 +260,7 @@ impl BaseHardcoverItem for Book {
                 }
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             pages: {
                 data.get_u64("pages")
