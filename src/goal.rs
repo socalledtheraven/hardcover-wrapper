@@ -20,10 +20,29 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
+pub(crate) struct GoalConditions {
+    goal: u64,
+    r#type: Option<String>,
+    metric: GoalMetric,
+    end_date: Date,
+    start_date: Date,
+    reading_format_id: Option<u64>,
+    specific_end_date: Option<bool>,
+    specific_start_date: Option<bool>
+}
+
+#[derive(Debug, Clone)]
+pub(crate) enum GoalMetric {
+    Page,
+    Book
+}
+
+
+#[derive(Debug, Clone)]
 pub(crate) struct Goal {
     archived: bool,
     completed_at: Option<OffsetDateTime>,
-    conditions: Value,
+    conditions: Option<GoalConditions>,
     description: Option<String>,
     end_date: Date,
     goal: u64,
@@ -60,7 +79,42 @@ impl BaseHardcoverItem for Goal {
                 data.get_offsetdt("completed_at")
             },
             conditions: {
-                data["conditions"].clone()
+                let data = data.get("conditions");
+                if data.is_none() {
+                    None
+                } else {
+                    let data = data.unwrap();
+                    Some(GoalConditions {
+                        goal: {
+                            data.get_u64("goal").unwrap()
+                        },
+                        r#type: {
+                            data.get_str("type")
+                        },
+                        metric: {
+                            match data["metric"].as_str().unwrap() {
+                                "page" => GoalMetric::Page,
+                                "book" => GoalMetric::Book,
+                                _ => panic!("Unknown metric type")
+                            }
+                        },
+                        end_date: {
+                            data.get_date("endDate").unwrap()
+                        },
+                        start_date: {
+                            data.get_date("startDate").unwrap()
+                        },
+                        reading_format_id: {
+                            data.get_u64("readingFormatId")
+                        },
+                        specific_end_date: {
+                            data["specificEndDate"].as_bool()
+                        },
+                        specific_start_date: {
+                            data["specificStartDate"].as_bool()
+                        },
+                    })
+                }
             },
             description: {
                 data.get_str("description")
