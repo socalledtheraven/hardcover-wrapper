@@ -70,7 +70,7 @@ enum ReadingFormat {
 
 #[derive(Debug, Clone)]
 pub(crate) struct Edition {
-    alternative_titles: Value,
+    alternative_titles: Vec<String>,
     asin: Option<String>,
     audio_seconds: Option<u64>,
     book_id: u64,
@@ -79,8 +79,8 @@ pub(crate) struct Edition {
     country_id: Option<u64>,
     created_at: PlainDateTime,
     created_by_user_id: Option<u64>,
-    curation_status: Value,
-    edition_format: Value,
+    curation_status: u64,
+    edition_format: Option<String>,
     edition_information: Option<String>,
     id: u64,
     image_id: Option<u64>,
@@ -130,7 +130,7 @@ impl BaseHardcoverItem for Edition {
     fn new(data: Value) -> Self {
         Edition{
             alternative_titles: {
-                data["alternative_titles"].clone()
+                data.get_str_vec("alternative_titles")
             },
             asin: {
                 data.get_str("asin")
@@ -157,10 +157,10 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("created_by_user_id")
             },
             curation_status: {
-                data["curation_status"].clone()
+                data.get_u64("curation_status").unwrap()
             },
             edition_format: {
-                data["edition_format"].clone()
+                data.get_str("edition_format")
             },
             edition_information: {
                 data.get_str("edition_information")
