@@ -144,7 +144,7 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("canonical_id")
             },
             compilation: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("compilation").unwrap()
             },
             country_id: {
                 data.get_u64("country_id")
@@ -183,7 +183,7 @@ impl BaseHardcoverItem for Edition {
                 data["isbn_13_valid"].as_bool()
             },
             isbns_match: {
-                data.get_bool("locked")
+                data.get_bool("isbns_match")
             },
             language_id: {
                 data.get_u64("language_id")
@@ -192,7 +192,7 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("lists_count").unwrap()
             },
             locked: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("locked")
             },
             normalized_at: {
                 data.get_plaindt("normalized_at")

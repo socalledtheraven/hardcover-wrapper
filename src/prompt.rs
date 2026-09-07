@@ -61,7 +61,7 @@ impl BaseHardcoverItem for Prompt {
                 data.get_str("description").unwrap()
             },
             featured: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("featured").unwrap()
             },
             id: {
                 data.get_u64("id").unwrap()

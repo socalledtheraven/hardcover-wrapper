@@ -136,13 +136,13 @@ impl BaseHardcoverItem for UserBook {
                 data.get_date("first_started_reading_date")
             },
             has_review: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("has_review").unwrap()
             },
             id: {
                 data.get_u64("id").unwrap()
             },
             imported: {
-                data.get_bool("locked")
+                data.get_bool("imported")
             },
             last_read_date: {
                 data.get_date("last_read_date")
@@ -169,7 +169,7 @@ impl BaseHardcoverItem for UserBook {
                 data.get_u64("original_edition_id")
             },
             owned: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("owned").unwrap()
             },
             owned_copies: {
                 data.get_u64("owned_copies")
@@ -199,13 +199,13 @@ impl BaseHardcoverItem for UserBook {
                 data.get_str("review")
             },
             review_has_spoilers: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("review_has_spoilers").unwrap()
             },
             review_length: {
                 data.get_u64("review_length").unwrap()
             },
             review_migrated: {
-                data.get_bool("locked")
+                data.get_bool("review_migrated")
             },
             review_raw: {
                 data.get_str("review_raw")
@@ -217,10 +217,10 @@ impl BaseHardcoverItem for UserBook {
                 data.get_plaindt("reviewed_at")
             },
             sponsored_review: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("sponsored_review").unwrap()
             },
             starred: {
-                data.get_bool("locked").unwrap()
+                data.get_bool("starred").unwrap()
             },
             status_id: {
                 match data["status_id"].as_u64() {

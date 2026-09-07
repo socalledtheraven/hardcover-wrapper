@@ -4,8 +4,8 @@ use hardcover_wrapper::*;
 async fn main() -> Result<(), reqwest::Error> {
     // todo: turn these into test cases
 
-    let me = user::User::from_username("prophecyreviews").await?;
-    println!("{me:#?}");
+    // let me = user::User::from_username("prophecyreviews").await?;
+    // println!("{me:#?}");
 
     // let activities = activity::Activity::from_id(me.get_id()).await?;
     // let activity = activities.get(0).unwrap();
