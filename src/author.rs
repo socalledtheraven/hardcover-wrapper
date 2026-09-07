@@ -50,7 +50,6 @@ pub(crate) struct Author {
     pub(crate) books_count: u64,
     pub(crate) born_date: Option<Date>,
     pub(crate) born_year: Option<u64>,
-    pub(crate) cached_image: Image,
     pub(crate) canonical_id: Option<u64>,
     pub(crate) death_date: Option<Date>,
     pub(crate) death_year: Option<u64>,
@@ -118,9 +117,6 @@ impl BaseHardcoverItem for Author {
             },
             born_year: {
                 data.get_u64("born_year")
-            },
-            cached_image: {
-                Image::new(data["cached_image"].clone())
             },
             canonical_id: {
                 data.get_u64("canonical_id")

@@ -31,7 +31,6 @@ user_id
 pub(crate) struct Character {
     biography: Option<String>,
     books_count: u64,
-    cached_tags: Value,
     canonical_books_count: u64,
     canonical_id: Option<u64>,
     created_at: PlainDateTime,
@@ -72,9 +71,6 @@ impl BaseHardcoverItem for Character {
             },
             books_count: {
                 data.get_u64("books_count").unwrap()
-            },
-            cached_tags: {
-                data["cached_tags"].clone()
             },
             canonical_books_count: {
                 data.get_u64("canonical_books_count").unwrap()

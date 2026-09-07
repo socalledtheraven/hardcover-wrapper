@@ -63,9 +63,6 @@ pub(crate) struct User {
     bio: Option<String>,
     birthdate: Option<Date>,
     books_count: u64,
-    cached_cover: Image,
-    cached_genres: Vec<Genre>,
-    cached_image: Image,
     confirmation_sent_at: Option<PlainDateTime>,
     confirmed_at: Option<PlainDateTime>,
     created_at: Option<OffsetDateTime>,
@@ -151,19 +148,6 @@ impl BaseHardcoverItem for User {
             books_count: {
                 data.get_u64("books_count").unwrap()
             },
-            cached_cover: {
-                Image::new(data["cached_cover"].clone())
-            },
-            cached_genres: {
-                let x = data["cached_genres"].as_array().unwrap();
-                x.iter().filter_map(|v| {
-                    let count = v["count"].as_u64()?;
-                    let tag = v["tag"].as_str()?.to_string();
-                    let tag_slug = v["tag_slug"].as_str()?.to_string();
-                    Some(Genre { count, tag, tag_slug })
-                }).collect()
-            },
-            cached_image: { Image::new(data["cached_image"].clone()) },
             confirmation_sent_at: {
                 data.get_plaindt("confirmation_sent_at")
             },

@@ -40,7 +40,6 @@ pub(crate) enum VibeType {
 #[derive(Debug, Clone)]
 pub(crate) struct Vibe {
     pub(crate) books_generated_at: Option<PlainDateTime>,
-    pub(crate) cached_book_ids: Vec<u64>,
     pub(crate) created_at: PlainDateTime,
     pub(crate) description: Option<String>,
     pub(crate) featured: bool,
@@ -75,9 +74,6 @@ impl BaseHardcoverItem for Vibe {
         Vibe {
             books_generated_at: {
                 data.get_plaindt("books_generated_at")
-            },
-            cached_book_ids: {
-                data.get_u64_vec("cached_book_ids")
             },
             created_at: {
                 data.get_plaindt("created_at").unwrap()

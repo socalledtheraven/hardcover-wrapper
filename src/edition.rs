@@ -74,9 +74,6 @@ pub(crate) struct Edition {
     asin: Option<String>,
     audio_seconds: Option<u64>,
     book_id: u64,
-    cached_contributors: Value,
-    cached_image: Image,
-    cached_tags: Value,
     canonical_id: Option<u64>,
     compilation: bool,
     country_id: Option<u64>,
@@ -143,15 +140,6 @@ impl BaseHardcoverItem for Edition {
             },
             book_id: {
                 data.get_u64("book_id").unwrap()
-            },
-            cached_contributors: {
-                data["cached_contributors"].clone()
-            },
-            cached_image: {
-                Image::new(data["cached_image"].clone())
-            },
-            cached_tags: {
-                data["cached_tags"].clone()
             },
             canonical_id: {
                 data.get_u64("canonical_id")
