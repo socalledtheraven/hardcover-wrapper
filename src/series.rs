@@ -1,6 +1,7 @@
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::graphql::GraphQLResponse;
+use crate::util::Identifiers;
 
 const QUERY_FIELDS: &str = r#"
 author_id
@@ -26,7 +27,7 @@ pub(crate) struct Series {
     canonical_id: Option<u64>,
     description: Option<String>,
     id: u64,
-    identifiers: Value,
+    identifiers: Identifiers,
     is_completed: Option<bool>,
     locked: bool,
     name: String,
@@ -69,7 +70,7 @@ impl BaseHardcoverItem for Series {
                 data.get_u64("id").unwrap()
             },
             identifiers: {
-                data.get("identifiers").unwrap().clone()
+                data.get_identifiers("identifiers")
             },
             is_completed: {
                 data.as_bool()

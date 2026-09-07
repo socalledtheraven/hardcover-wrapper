@@ -54,3 +54,10 @@ pub(crate) struct Link {
     pub(crate) url: String,
     pub(crate) title: String,
 }
+
+#[derive(Clone, Debug)]
+pub(crate) struct Identifiers {
+    pub(crate) audible: Option<Vec<String>>,
+    pub(crate) goodreads: Option<Vec<String>>,
+    pub(crate) openlibrary: Option<Vec<String>>,
+}

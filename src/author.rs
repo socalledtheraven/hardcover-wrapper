@@ -1,9 +1,8 @@
 use serde_json::Value;
 use time::Date;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::util::{Gender, Link, RecordState};
+use crate::util::{Gender, Identifiers, Link, RecordState};
 use crate::graphql::GraphQLResponse;
-use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
 alias_id
@@ -35,13 +34,6 @@ user_id
 users_count
 "#;
 
-#[derive(Clone, Debug)]
-pub(crate) struct AuthorIdentifiers {
-    pub(crate) audible: Option<Vec<String>>,
-    pub(crate) goodreads: Option<Vec<String>>,
-    pub(crate) openlibrary: Option<Vec<String>>,
-}
-
 #[derive(Debug, Clone)]
 pub(crate) struct Author {
     pub(crate) alias_id: Option<u64>,
@@ -55,7 +47,7 @@ pub(crate) struct Author {
     pub(crate) death_year: Option<u64>,
     pub(crate) gender_id: Option<Gender>,
     pub(crate) id: u64,
-    pub(crate) identifiers: AuthorIdentifiers,
+    pub(crate) identifiers: Identifiers,
     pub(crate) image_id: Option<u64>,
     pub(crate) is_bipoc: Option<bool>,
     pub(crate) is_lgbtq: Option<bool>,
@@ -142,19 +134,7 @@ impl BaseHardcoverItem for Author {
                 data.get_u64("id").unwrap()
             },
             identifiers: {
-                let data = &data["identifiers"];
-
-                AuthorIdentifiers {
-                    audible: {
-                        data.get_opt_str_vec("audible")
-                    },
-                    goodreads: {
-                        data.get_opt_str_vec("goodreads")
-                    },
-                    openlibrary: {
-                        data.get_opt_str_vec("openlibrary")
-                    },
-                }
+                data.get_identifiers("identifiers")
             },
             image_id: {
                 data.get_u64("image_id")

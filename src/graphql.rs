@@ -4,7 +4,7 @@ use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
 use crate::book::Rating;
-use crate::util::{Link, PrivacySetting, ReadingStatus};
+use crate::util::{Identifiers, Link, PrivacySetting, ReadingStatus};
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -61,6 +61,7 @@ pub(crate) trait GraphQLResponse {
     fn get_u64_vec(&self, key: &str) -> Vec<u64>;
     fn get_link_vec(&self, key: &str) -> Vec<Link>;
     fn get_rating_vec(&self, key: &str) -> Vec<Rating>;
+    fn get_identifiers(&self, key: &str) -> Identifiers;
 }
 
 impl GraphQLResponse for Value {
@@ -186,5 +187,21 @@ impl GraphQLResponse for Value {
                 rating: rating.get_f64("rating").unwrap(),
             })
             .collect()
+    }
+    
+    fn get_identifiers(&self, key: &str) -> Identifiers {
+        let data = &self[key];
+
+        Identifiers {
+            audible: {
+                data.get_opt_str_vec("audible")
+            },
+            goodreads: {
+                data.get_opt_str_vec("goodreads")
+            },
+            openlibrary: {
+                data.get_opt_str_vec("openlibrary")
+            },
+        }
     }
 }
