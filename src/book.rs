@@ -241,7 +241,7 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("import_platform_id").unwrap()
             },
             is_partial_book: {
-                data["is_partial_book"].as_bool()
+                data.get_bool("is_partial_book")
             },
             journals_count: {
                 data.get_u64("journals_count").unwrap()

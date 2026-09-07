@@ -140,10 +140,10 @@ impl BaseHardcoverItem for Author {
                 data.get_u64("image_id")
             },
             is_bipoc: {
-                data["is_bipoc"].as_bool()
+                data.get_bool("is_bipoc")
             },
             is_lgbtq: {
-                data["is_lgbtq"].as_bool()
+                data.get_bool("is_lgbtq")
             },
             links: {
                 data.get_link_vec("links")

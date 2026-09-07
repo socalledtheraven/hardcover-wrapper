@@ -108,10 +108,10 @@ impl BaseHardcoverItem for Goal {
                             data.get_u64("readingFormatId")
                         },
                         specific_end_date: {
-                            data["specificEndDate"].as_bool()
+                            data.get_bool("specificEndDate")
                         },
                         specific_start_date: {
-                            data["specificStartDate"].as_bool()
+                            data.get_bool("specificStartDate")
                         },
                     })
                 }

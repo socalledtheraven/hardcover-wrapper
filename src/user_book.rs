@@ -142,7 +142,7 @@ impl BaseHardcoverItem for UserBook {
                 data.get_u64("id").unwrap()
             },
             imported: {
-                data["imported"].as_bool()
+                data.get_bool("imported")
             },
             last_read_date: {
                 data.get_date("last_read_date")
@@ -205,7 +205,7 @@ impl BaseHardcoverItem for UserBook {
                 data.get_u64("review_length").unwrap()
             },
             review_migrated: {
-                data["review_migrated"].as_bool()
+                data.get_bool("review_migrated")
             },
             review_raw: {
                 data.get_str("review_raw")

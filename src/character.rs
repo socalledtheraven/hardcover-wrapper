@@ -86,7 +86,7 @@ impl BaseHardcoverItem for Character {
                 None
             },
             has_disability: {
-                data["has_disability"].as_bool()
+                data.get_bool("has_disability")
             },
             id: {
                 data.get_u64("id").unwrap()
@@ -95,13 +95,13 @@ impl BaseHardcoverItem for Character {
                 data.get_u64("image_id")
             },
             is_lgbtq: {
-                data["is_lgbtq"].as_bool()
+                data.get_bool("is_lgbtq")
             },
             is_poc: {
-                data["is_poc"].as_bool()
+                data.get_bool("is_poc")
             },
             locked: {
-                data["locked"].as_bool()
+                data.get_bool("locked")
             },
             name: {
                 data.get_str("name").unwrap()
