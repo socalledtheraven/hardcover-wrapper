@@ -192,7 +192,7 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("lists_count").unwrap()
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             normalized_at: {
                 data.get_plaindt("normalized_at")
