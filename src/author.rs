@@ -35,6 +35,19 @@ user_id
 users_count
 "#;
 
+#[derive(Clone, Debug)]
+pub(crate) struct AuthorIdentifiers {
+    pub(crate) audible: Option<Vec<String>>,
+    pub(crate) goodreads: Option<Vec<String>>,
+    pub(crate) openlibrary: Option<Vec<String>>,
+}
+
+#[derive(Clone, Debug)]
+pub(crate) struct Link {
+    pub(crate) url: String,
+    pub(crate) title: String,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct Author {
     pub(crate) alias_id: Option<u64>,
@@ -49,11 +62,11 @@ pub(crate) struct Author {
     pub(crate) death_year: Option<u64>,
     pub(crate) gender_id: Option<Gender>,
     pub(crate) id: u64,
-    pub(crate) identifiers: Value,
+    pub(crate) identifiers: AuthorIdentifiers,
     pub(crate) image_id: Option<u64>,
     pub(crate) is_bipoc: Option<bool>,
     pub(crate) is_lgbtq: Option<bool>,
-    pub(crate) links: Value,
+    pub(crate) links: Vec<Link>,
     pub(crate) location: Option<String>,
     pub(crate) locked:	bool,
     pub(crate) name: String,
@@ -95,34 +108,34 @@ impl BaseHardcoverItem for Author {
     fn new(data: Value) -> Self {
         Author {
             alias_id: {
-                data["alias_id"].as_u64()
+                data.get_u64("alias_id")
             },
             alternate_names: {
                 data.get_str_vec("alternate_names")
             },
             bio: {
-                data["bio"].as_str().map(|s| s.to_string())
+                data.get_str("bio")
             },
             books_count: {
-                data["books_count"].as_u64().unwrap_or(0)
+                data.get_u64("books_count").unwrap()
             },
             born_date: {
                 data.get_date("born_date")
             },
             born_year: {
-                data["born_year"].as_u64()
+                data.get_u64("born_year")
             },
             cached_image: {
                 Image::new(data["cached_image"].clone())
             },
             canonical_id: {
-                data["canonical_id"].as_u64()
+                data.get_u64("canonical_id")
             },
             death_date: {
                 data.get_date("death_date")
             },
             death_year: {
-                data["death_year"].as_u64()
+                data.get_u64("death_year")
             },
             gender_id: {
                 match data["gender_id"].as_u64() {
@@ -130,20 +143,31 @@ impl BaseHardcoverItem for Author {
                         1 => Some(Gender::Female),
                         2 => Some(Gender::Male),
                         3 => Some(Gender::Nonbinary),
-                        _ => None,
+                        _ => panic!("Unknown gender id: {}", id),
                     },
                     None => None,
                 }
             },
             id: {
-                data["id"].as_u64().unwrap_or(0)
+                data.get_u64("id").unwrap()
             },
             identifiers: {
-                // todo
-                data["identifiers"].clone()
+                let data = &data["identifiers"];
+
+                AuthorIdentifiers {
+                    audible: {
+                        data.get_opt_str_vec("audible")
+                    },
+                    goodreads: {
+                        data.get_opt_str_vec("goodreads")
+                    },
+                    openlibrary: {
+                        data.get_opt_str_vec("openlibrary")
+                    },
+                }
             },
             image_id: {
-                data["image_id"].as_u64()
+                data.get_u64("image_id")
             },
             is_bipoc: {
                 data["is_bipoc"].as_bool()
@@ -152,42 +176,48 @@ impl BaseHardcoverItem for Author {
                 data["is_lgbtq"].as_bool()
             },
             links: {
-                data["links"].clone()
+                data["links"].as_array()
+                    .unwrap_or(&vec![])
+                    .iter()
+                    .map(|link| Link {
+                        url: link.get_str("url").unwrap_or_default(),
+                        title: link.get_str("title").unwrap_or_default(),
+                    })
+                    .collect()
             },
             location: {
-                data["location"].as_str().map(|s| s.to_string())
+                data.get_str("location")
             },
             locked: {
-                data["locked"].as_bool().unwrap_or(false)
+                data.get_bool("locked")
             },
             name: {
-                data["name"].as_str().unwrap_or_default().to_string()
+                data.get_str("name").unwrap()
             },
             name_personal: {
-                data["name_personal"].as_str().map(|s| s.to_string())
+                data.get_str("name_personal")
             },
             object_type: {
-                // todo!
-                data["object_type"].as_str().unwrap_or_default().to_string()
+                data.get_str("object_type").unwrap()
             },
             slug: {
-                data["slug"].as_str().map(|s| s.to_string())
+                data.get_str("slug")
             },
             state: {
                 match data["state"].as_str() {
                     Some("active") => RecordState::Active,
                     Some("duplicate") => RecordState::Duplicate,
-                    _ => RecordState::Active,
+                    _ => panic!("Unknown record state: {:?}", data["state"].as_str()),
                 }
             },
             title: {
-                data["title"].as_str().map(|s| s.to_string()).filter(|s| !s.is_empty())
+                data.get_str("title").filter(|s| !s.is_empty())
             },
             user_id: {
-                data["user_id"].as_u64()
+                data.get_u64("user_id")
             },
             users_count: {
-                data["users_count"].as_u64().unwrap_or(0)
+                data.get_u64("users_count").unwrap()
             },
         }
     }
