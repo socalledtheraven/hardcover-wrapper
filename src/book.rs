@@ -1,9 +1,8 @@
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::{RecordState2};
+use crate::util::{Link, RecordState2};
 use crate::graphql::{GraphQLResponse};
-use crate::image::Image;
 
 #[derive(Debug, Clone)]
 pub(crate) enum BookCategory {
@@ -88,24 +87,23 @@ users_read_count
 "#;
 
 #[derive(Debug, Clone)]
+pub(crate) struct Rating {
+    pub(crate) count: u64,
+    pub(crate) rating: f64,
+}
+
+#[derive(Debug, Clone)]
 pub(crate) struct Book {
     pub(crate) activities_count: u64,
     pub(crate) alternative_titles: Vec<String>,
     pub(crate) audio_seconds: Option<u64>,
     pub(crate) book_category_id: BookCategory,
     pub(crate) book_status_id: BookStatus,
-    pub(crate) cached_contributors: Value,
-    pub(crate) cached_featured_series: Option<Value>,
-    pub(crate) cached_header_image: Option<Image>,
-    pub(crate) cached_image: Image,
-    pub(crate) cached_similar_book_ids: Value,
-    pub(crate) cached_similar_books_updated_at: Option<PlainDateTime>,
-    pub(crate) cached_tags: Value,
     pub(crate) canonical_id: Option<u64>,
     pub(crate) compilation: bool,
     pub(crate) created_at: PlainDateTime,
     pub(crate) created_by_user_id: Option<u64>,
-    pub(crate) curation_status: Value,
+    pub(crate) curation_status: u64,
     pub(crate) default_audio_edition_id: Option<u64>,
     pub(crate) default_cover_edition_id: Option<u64>,
     pub(crate) default_ebook_edition_id: Option<u64>,
@@ -120,7 +118,7 @@ pub(crate) struct Book {
     pub(crate) import_platform_id: u64,
     pub(crate) is_partial_book: Option<bool>,
     pub(crate) journals_count: u64,
-    pub(crate) links: Value,
+    pub(crate) links: Vec<Link>,
     pub(crate) lists_count: Option<u64>,
     pub(crate) literary_type_id: Option<LiteraryType>,
     pub(crate) locked: bool,
@@ -129,7 +127,7 @@ pub(crate) struct Book {
     pub(crate) prompts_count: u64,
     pub(crate) rating: Option<f64>,
     pub(crate) ratings_count: u64,
-    pub(crate) ratings_distribution: Value,
+    pub(crate) ratings_distribution: Vec<Rating>,
     pub(crate) release_date: Option<Date>,
     pub(crate) release_year: Option<u64>,
     pub(crate) reviews_count: u64,
@@ -159,16 +157,16 @@ impl BaseHardcoverItem for Book {
     fn new(data: Value) -> Self {
         Book {
             activities_count: {
-                data["activities_count"].as_u64().unwrap()
+                data.get_u64("activities_count").unwrap()
             },
             alternative_titles: {
                 data.get_str_vec("alternative_titles")
             },
             audio_seconds: {
-                data["audio_seconds"].as_u64()
+                data.get_u64("audio_seconds")
             },
             book_category_id: {
-                match data["book_category_id"].as_u64().unwrap() {
+                match data.get_u64("book_category_id").unwrap() {
                     1 => BookCategory::Book,
                     2 => BookCategory::Novella,
                     3 => BookCategory::ShortStory,
@@ -179,45 +177,20 @@ impl BaseHardcoverItem for Book {
                     8 => BookCategory::Collection,
                     9 => BookCategory::WebNovel,
                     10 => BookCategory::LightNovel,
-                    // defaults to book
-                    _ => BookCategory::Book
+                    _ => panic!("Unknown book_category_id: {}", data["book_category_id"].as_u64().unwrap())
                 }
             },
             book_status_id: {
-                match data["book_status_id"].as_u64().unwrap() {
+                match data.get_u64("book_status_id").unwrap() {
                     1 => BookStatus::OK,
                     2 => BookStatus::ToReview,
                     3 => BookStatus::Deleted,
                     4 => BookStatus::Deduplicated,
-                    // defaults to ok
-                    _ => BookStatus::OK
+                    _ => panic!("Unknown book_status_id: {}", data["book_status_id"])
                 }
             },
-            cached_contributors: {
-                data["cached_contributors"].clone()
-            },
-            cached_featured_series: {
-                data.get("cached_featured_series").cloned()
-            },
-            cached_header_image: {
-                // optional images need figuring out
-                // Some(Image::new(data["cached_header_image"].clone()))
-                None
-            },
-            cached_image: {
-                Image::new(data["cached_image"].clone())
-            },
-            cached_similar_book_ids: {
-                data["cached_similar_book_ids"].clone()
-            },
-            cached_similar_books_updated_at: {
-                data.get_plaindt("cached_similar_books_updated_at")
-            },
-            cached_tags: {
-                data["cached_tags"].clone()
-            },
             canonical_id: {
-                data["canonical_id"].as_u64()
+                data.get_u64("canonical_id")
             },
             compilation: {
                 data.get_bool("compilation")
@@ -226,10 +199,10 @@ impl BaseHardcoverItem for Book {
                 data.get_plaindt("created_at").unwrap()
             },
             created_by_user_id: {
-                data["created_by_user_id"].as_u64()
+                data.get_u64("created_by_user_id")
             },
             curation_status: {
-                data["curation_status"].clone()
+                data.get_u64("curation_status").unwrap()
             },
             default_audio_edition_id: {
                 data.get_u64("default_audio_edition_id")
@@ -274,13 +247,13 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("journals_count").unwrap()
             },
             links: {
-                data["links"].clone()
+                data.get_link_vec("links")
             },
             lists_count: {
                 data.get_u64("lists_count")
             },
             literary_type_id: {
-                match data["literary_type_id"].as_u64() {
+                match data.get_u64("literary_type_id") {
                     Some(1) => Some(LiteraryType::Fiction),
                     Some(2) => Some(LiteraryType::NonFiction),
                     _ => None,
@@ -299,13 +272,13 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("prompts_count").unwrap()
             },
             rating: {
-                data["rating"].as_f64()
+                data.get_f64("rating")
             },
             ratings_count: {
                 data.get_u64("ratings_count").unwrap()
             },
             ratings_distribution: {
-                data["ratings_distribution"].clone()
+                data.get_rating_vec("ratings_distribution")
             },
             release_date: {
                 data.get_date("release_date")

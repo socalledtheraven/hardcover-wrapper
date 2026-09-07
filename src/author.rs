@@ -1,7 +1,7 @@
 use serde_json::Value;
 use time::Date;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::{Gender, RecordState};
+use crate::util::{Gender, Link, RecordState};
 use crate::graphql::GraphQLResponse;
 use crate::image::Image;
 
@@ -40,12 +40,6 @@ pub(crate) struct AuthorIdentifiers {
     pub(crate) audible: Option<Vec<String>>,
     pub(crate) goodreads: Option<Vec<String>>,
     pub(crate) openlibrary: Option<Vec<String>>,
-}
-
-#[derive(Clone, Debug)]
-pub(crate) struct Link {
-    pub(crate) url: String,
-    pub(crate) title: String,
 }
 
 #[derive(Debug, Clone)]
@@ -176,14 +170,7 @@ impl BaseHardcoverItem for Author {
                 data["is_lgbtq"].as_bool()
             },
             links: {
-                data["links"].as_array()
-                    .unwrap_or(&vec![])
-                    .iter()
-                    .map(|link| Link {
-                        url: link.get_str("url").unwrap_or_default(),
-                        title: link.get_str("title").unwrap_or_default(),
-                    })
-                    .collect()
+                data.get_link_vec("links")
             },
             location: {
                 data.get_str("location")
