@@ -3,7 +3,7 @@ use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
-use crate::enums::PrivacySetting;
+use crate::enums::{PrivacySetting, ReadingStatus};
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -54,6 +54,7 @@ pub(crate) trait GraphQLResponse {
     fn get_offsetdt(&self, key: &str) -> Option<OffsetDateTime>;
     fn get_bool(&self, key: &str) -> bool;
     fn get_privacysetting(&self, key: &str) -> PrivacySetting;
+    fn get_readingstatus(&self, key: &str) -> ReadingStatus;
     fn get_str_vec(&self, key: &str) -> Vec<String>;
     fn get_u64_vec(&self, key: &str) -> Vec<u64>;
 }
@@ -113,6 +114,21 @@ impl GraphQLResponse for Value {
                 _ => panic!("Unknown privacy setting"),
             })
             .expect("Privacy setting is missing")
+    }
+
+    fn get_readingstatus(&self, key: &str) -> ReadingStatus {
+        self[key]
+            .as_u64()
+            .map(|v| match v {
+                1 => ReadingStatus::WantToRead,
+                2 => ReadingStatus::CurrentlyReading,
+                3 => ReadingStatus::Read,
+                4 => ReadingStatus::Paused,
+                5 => ReadingStatus::DidNotFinish,
+                6 => ReadingStatus::Ignored,
+                _ => panic!("Unknown reading status"),
+            })
+            .expect("Reading status is missing")
     }
 
     fn get_str_vec(&self, key: &str) -> Vec<String> {

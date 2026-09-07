@@ -94,7 +94,7 @@ pub(crate) struct UserBook {
     reviewed_at: Option<PlainDateTime>,
     sponsored_review: bool,
     starred: bool,
-    status_id: u64,
+    status_id: ReadingStatus,
     updated_at: Option<OffsetDateTime>,
     url: Option<String>,
     user_id: u64,
@@ -222,7 +222,15 @@ impl BaseHardcoverItem for UserBook {
                 data.get_bool("starred")
             },
             status_id: {
-                data.get_u64("status_id").unwrap()
+                match data["status_id"].as_u64() {
+                    Some(1) => ReadingStatus::WantToRead,
+                    Some(2) => ReadingStatus::CurrentlyReading,
+                    Some(3) => ReadingStatus::Read,
+                    Some(4) => ReadingStatus::Paused,
+                    Some(5) => ReadingStatus::DidNotFinish,
+                    Some(6) => ReadingStatus::Ignored,
+                    _ => panic!("Unknown reading status"),
+                }
             },
             updated_at: {
                 data.get_offsetdt("updated_at")

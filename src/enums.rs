@@ -38,3 +38,13 @@ pub(crate) enum RecordState3 {
     Error,
     Duplicate
 }
+
+#[derive(Debug, Clone)]
+pub(crate) enum ReadingStatus { 
+    WantToRead,
+    CurrentlyReading,
+    Read,
+    Paused,
+    DidNotFinish,
+    Ignored,
+}

@@ -1,13 +1,9 @@
 use std::collections::HashMap;
 use serde_json::Value;
-use time::OffsetDateTime;
+use time::{OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::enums::PrivacySetting;
-use crate::goal::Goal;
+use crate::enums::{PrivacySetting, ReadingStatus};
 use crate::graphql::{graphql_req, GraphQLResponse};
-use crate::list::List;
-use crate::prompt::Prompt;
-use crate::user_book::UserBook;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -20,6 +16,14 @@ object_type
 privacy_setting_id
 uid
 user_id"#;
+
+#[derive(Debug, Clone)]
+pub(crate) enum ActivityType {
+    UserBookActivity,
+    GoalActivity,
+    PromptActivity,
+    ListActivity
+}
 
 #[derive(Debug, Clone)]
 pub(crate) struct Activity {
@@ -51,7 +55,9 @@ impl BaseHardcoverItem for Activity {
 
     fn new(data: Value) -> Self {
         Activity {
-            book_id: data["book_id"].as_u64(),
+            book_id: {
+                data.get_u64("book_id")
+            },
             created_at: {
                 data.get_offsetdt("created_at")
             },
@@ -64,12 +70,17 @@ impl BaseHardcoverItem for Activity {
                     _ => panic!("Unknown activity type"),
                 }
             },
-            id: data["id"].as_u64().expect("REASON"),
-            likes_count: data["likes_count"].as_u64().expect("REASON"),
-            object_type: data["object_type"].to_string(),
+            id: {
+                data.get_u64("id").unwrap()
+            },
+            likes_count: {
+                data.get_u64("likes_count").unwrap()
+            },
+            object_type: {
+                data.get_str("object_type").unwrap()
+            },
             data: {
-                // todo!
-                data["data"].clone()
+                data.get("data").unwrap().clone()
             },
             privacy_setting_id: {
                 match data["privacy_setting_id"].as_u64() {
@@ -80,7 +91,7 @@ impl BaseHardcoverItem for Activity {
                 }
             },
             uid: {
-                data["uid"].as_str().expect("REASON").to_string()
+                data.get_str("uid").unwrap()
             },
             user_id: {
                 data.get_u64("user_id").unwrap()
@@ -123,20 +134,4 @@ impl Activity {
 
         Ok(activities)
     }
-}
-
-#[derive(Debug, Clone)]
-pub(crate) enum ActivityType {
-    UserBookActivity,
-    GoalActivity,
-    PromptActivity,
-    ListActivity
-}
-
-#[derive(Debug, Clone)]
-pub(crate) enum ActivityData {
-    UserBookActivityData(UserBook),
-    GoalActivityData(Goal),
-    PromptActivityData(Prompt),
-    ListActivityData(List),
 }
