@@ -145,7 +145,7 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("canonical_id")
             },
             compilation: {
-                data.get_bool("compilation")
+                data.get_bool("compilation").unwrap()
             },
             country_id: {
                 data.get_u64("country_id")

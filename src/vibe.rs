@@ -82,7 +82,7 @@ impl BaseHardcoverItem for Vibe {
                 data.get_str("description")
             },
             featured: {
-                data.get_bool("featured")
+                data.get_bool("featured").unwrap()
             },
             featured_at: {
                 data.get_plaindt("featured_at")

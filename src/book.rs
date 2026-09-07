@@ -193,7 +193,7 @@ impl BaseHardcoverItem for Book {
                 data.get_u64("canonical_id")
             },
             compilation: {
-                data.get_bool("compilation")
+                data.get_bool("compilation").unwrap()
             },
             created_at: {
                 data.get_plaindt("created_at").unwrap()
@@ -260,7 +260,7 @@ impl BaseHardcoverItem for Book {
                 }
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             pages: {
                 data.get_u64("pages")

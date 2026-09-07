@@ -152,7 +152,7 @@ impl BaseHardcoverItem for Author {
                 data.get_str("location")
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             name: {
                 data.get_str("name").unwrap()

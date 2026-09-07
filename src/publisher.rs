@@ -63,7 +63,7 @@ impl BaseHardcoverItem for Publisher {
                 data.get_u64("id").unwrap()
             },
             locked: {
-                data.get_bool("locked")
+                data.get_bool("locked").unwrap()
             },
             name: {
                 data.get_str("name")

@@ -73,7 +73,7 @@ impl BaseHardcoverItem for Goal {
     fn new(data: Value) -> Self {
         Goal {
             archived: {
-                data.get_bool("archived")
+                data.get_bool("archived").unwrap()
             },
             completed_at: {
                 data.get_offsetdt("completed_at")
