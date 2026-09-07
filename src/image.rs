@@ -4,15 +4,22 @@ use crate::graphql::GraphQLResponse;
 #[derive(Debug, Clone)]
 pub(crate) struct Image {
     color: Option<String>,
-    colors: Option<Value>,
+    colors: Option<Vec<String>>,
     color_name: Option<String>,
     height: Option<u64>,
     id: u64,
     imageable_id: Option<u64>,
-    imageable_type: Option<Value>,
+    imageable_type: Option<Imageable>,
     ratio: Option<f64>,
     url: Option<String>,
     width: Option<u64>,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) enum Imageable {
+    Author,
+    Book,
+    Edition,
 }
 
 impl Image {
@@ -20,7 +27,7 @@ impl Image {
         Image {
             color: resp.get_str("color"),
             colors: {
-                resp.get("colors").cloned()
+                resp.get_opt_str_vec("colors")
             },
             color_name: resp.get_str("color_name"),
             height: resp.get_u64("height"),
@@ -29,7 +36,12 @@ impl Image {
                 resp.get_u64("imageable_id")
             },
             imageable_type: {
-                resp.get("imageable_type").cloned()
+                match resp["imageable_type"].as_str() {
+                    Some("Author") => Some(Imageable::Author),
+                    Some("Book") => Some(Imageable::Book),
+                    Some("Edition") => Some(Imageable::Edition),
+                    _ => None,
+                }
             },
             ratio: {
                 resp.get_f64("ratio")
