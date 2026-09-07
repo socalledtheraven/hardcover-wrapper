@@ -90,6 +90,7 @@ pub(crate) struct UserBook {
     review_length: u64,
     review_migrated: Option<bool>,
     review_raw: Option<String>,
+    // we leave this as Value because it's the data for the Slate editor
     review_slate: Value,
     reviewed_at: Option<PlainDateTime>,
     sponsored_review: bool,
