@@ -2,9 +2,7 @@ use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
-use crate::genre::Genre;
 use crate::graphql::{GraphQLResponse};
-use crate::image::Image;
 
 const QUERY_FIELDS: &str = r"
             access_level
@@ -55,7 +53,7 @@ const QUERY_FIELDS: &str = r"
             username";
 
 #[derive(Debug, Clone)]
-pub(crate) struct User {
+pub struct User {
     access_level: Option<u64>,
     account_privacy_settings_id: PrivacySetting,
     activity_privacy_settings_id: PrivacySetting,
@@ -261,7 +259,7 @@ impl BaseHardcoverItem for User {
 }
 
 impl User {
-    pub(crate) async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
+    pub async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($id: citext!) {
           users(where: {username: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"

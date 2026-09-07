@@ -3,7 +3,6 @@ use time::{Date, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::RecordState3;
 use crate::graphql::{GraphQLResponse};
-use crate::image::Image;
 
 const QUERY_FIELDS: &str = r#"
 alternative_titles
@@ -193,7 +192,7 @@ impl BaseHardcoverItem for Edition {
                 data.get_u64("lists_count").unwrap()
             },
             locked: {
-                data.get_bool("locked").unwrap_or(false)
+                data.get_bool("locked")
             },
             normalized_at: {
                 data.get_plaindt("normalized_at")
