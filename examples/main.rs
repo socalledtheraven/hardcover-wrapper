@@ -4,6 +4,8 @@ use hardcover_wrapper::*;
 async fn main() -> Result<(), reqwest::Error> {
     // todo: turn these into test cases
 
+    graphql::set_api_key(env!("API_KEY"));
+
     let me = User::from_username("prophecyreviews").await?;
     println!("{me:#?}");
 
