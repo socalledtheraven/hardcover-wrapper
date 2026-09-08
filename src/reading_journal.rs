@@ -21,21 +21,21 @@ user_id
 "#;
 
 #[derive(Debug)]
-pub(crate) struct ReadingJournal {
-    action_at: PlainDateTime,
-    book_id: Option<u64>,
-    created_at: PlainDateTime,
-    edition_id: Option<u64>,
-    entry: Option<String>,
-    event: Option<String>,
-    id: u64,
-    journal_date: Option<Date>,
-    likes_count: u64,
-    metadata: Value,
-    object_type: String,
-    privacy_setting_id: u64,
-    updated_at: PlainDateTime,
-    user_id: Option<u64>,
+pub struct ReadingJournal {
+    pub action_at: PlainDateTime,
+    pub book_id: Option<u64>,
+    pub created_at: PlainDateTime,
+    pub edition_id: Option<u64>,
+    pub entry: Option<String>,
+    pub event: Option<String>,
+    pub id: u64,
+    pub journal_date: Option<Date>,
+    pub likes_count: u64,
+    pub metadata: Value,
+    pub object_type: String,
+    pub privacy_setting_id: u64,
+    pub updated_at: PlainDateTime,
+    pub user_id: Option<u64>,
 }
 
 impl BaseHardcoverItem for ReadingJournal {

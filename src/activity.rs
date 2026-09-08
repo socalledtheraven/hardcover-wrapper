@@ -18,7 +18,7 @@ uid
 user_id"#;
 
 #[derive(Debug, Clone)]
-pub(crate) enum ActivityType {
+pub enum ActivityType {
     UserBookActivity,
     GoalActivity,
     PromptActivity,
@@ -26,17 +26,17 @@ pub(crate) enum ActivityType {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Activity {
-    pub(crate) book_id: Option<u64>,
-    pub(crate) created_at: Option<OffsetDateTime>,
-    pub(crate) data: Value,
-    pub(crate) event: ActivityType,
-    pub(crate) id: u64,
-    pub(crate) likes_count: u64,
-    pub(crate) object_type: String,
-    pub(crate) privacy_setting_id: PrivacySetting,
-    pub(crate) uid: String,
-    pub(crate) user_id: u64,
+pub struct Activity {
+    pub book_id: Option<u64>,
+    pub created_at: Option<OffsetDateTime>,
+    pub data: Value,
+    pub event: ActivityType,
+    pub id: u64,
+    pub likes_count: u64,
+    pub object_type: String,
+    pub privacy_setting_id: PrivacySetting,
+    pub uid: String,
+    pub user_id: u64,
 }
 
 impl BaseHardcoverItem for Activity {
@@ -101,7 +101,7 @@ impl BaseHardcoverItem for Activity {
 }
 
 impl Activity {
-    async fn activities_from_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
+    pub async fn activities_from_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
         query GetActivitiesOfUser($id: Int!) {
           activities(

@@ -18,18 +18,18 @@ users_count
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Prompt {
-    answers_count: u64,
-    books_count: u64,
-    created_at: Option<OffsetDateTime>,
-    description: String,
-    featured: bool,
-    id: u64,
-    privacy_setting_id: u64,
-    question: String,
-    slug: String,
-    user_id: u64,
-    users_count: u64,
+pub struct Prompt {
+    pub answers_count: u64,
+    pub books_count: u64,
+    pub created_at: Option<OffsetDateTime>,
+    pub description: String,
+    pub featured: bool,
+    pub id: u64,
+    pub privacy_setting_id: u64,
+    pub question: String,
+    pub slug: String,
+    pub user_id: u64,
+    pub users_count: u64,
 }
 
 impl BaseHardcoverItem for Prompt {

@@ -52,7 +52,7 @@ users_read_count
 "#;
 
 #[derive(Debug, Clone)]
-enum EditionFormat {
+pub enum EditionFormat {
     Hardcover,
     Paperback,
     Ebook,
@@ -60,7 +60,7 @@ enum EditionFormat {
 }
 
 #[derive(Debug, Clone)]
-enum ReadingFormat {
+pub enum ReadingFormat {
     Physical,
     Audio,
     Both,
@@ -68,48 +68,48 @@ enum ReadingFormat {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Edition {
-    alternative_titles: Vec<String>,
-    asin: Option<String>,
-    audio_seconds: Option<u64>,
-    book_id: u64,
-    canonical_id: Option<u64>,
-    compilation: bool,
-    country_id: Option<u64>,
-    created_at: PlainDateTime,
-    created_by_user_id: Option<u64>,
-    curation_status: u64,
-    edition_format: Option<String>,
-    edition_information: Option<String>,
-    id: u64,
-    image_id: Option<u64>,
-    isbn_10: Option<String>,
-    isbn_10_valid: Option<bool>,
-    isbn_13: Option<String>,
-    isbn_13_valid: Option<bool>,
-    isbns_match: Option<bool>,
-    language_id: Option<u64>,
-    lists_count: u64,
-    locked: bool,
-    normalized_at: Option<PlainDateTime>,
-    object_type: String,
-    original_book_id: Option<u64>,
-    pages: Option<u64>,
-    physical_format: Option<String>,
-    physical_information: Option<String>,
-    publisher_id: Option<u64>,
-    rating: Option<f64>,
-    reading_format_id: ReadingFormat,
-    release_date: Option<Date>,
-    release_year: Option<u64>,
-    score: u64,
-    source: Option<String>,
-    state: RecordState3,
-    subtitle: Option<String>,
-    title: Option<String>,
-    updated_at: PlainDateTime,
-    users_count: u64,
-    users_read_count: u64,
+pub struct Edition {
+    pub alternative_titles: Vec<String>,
+    pub asin: Option<String>,
+    pub audio_seconds: Option<u64>,
+    pub book_id: u64,
+    pub canonical_id: Option<u64>,
+    pub compilation: bool,
+    pub country_id: Option<u64>,
+    pub created_at: PlainDateTime,
+    pub created_by_user_id: Option<u64>,
+    pub curation_status: u64,
+    pub edition_format: Option<String>,
+    pub edition_information: Option<String>,
+    pub id: u64,
+    pub image_id: Option<u64>,
+    pub isbn_10: Option<String>,
+    pub isbn_10_valid: Option<bool>,
+    pub isbn_13: Option<String>,
+    pub isbn_13_valid: Option<bool>,
+    pub isbns_match: Option<bool>,
+    pub language_id: Option<u64>,
+    pub lists_count: u64,
+    pub locked: bool,
+    pub normalized_at: Option<PlainDateTime>,
+    pub object_type: String,
+    pub original_book_id: Option<u64>,
+    pub pages: Option<u64>,
+    pub physical_format: Option<String>,
+    pub physical_information: Option<String>,
+    pub publisher_id: Option<u64>,
+    pub rating: Option<f64>,
+    pub reading_format_id: ReadingFormat,
+    pub release_date: Option<Date>,
+    pub release_year: Option<u64>,
+    pub score: u64,
+    pub source: Option<String>,
+    pub state: RecordState3,
+    pub subtitle: Option<String>,
+    pub title: Option<String>,
+    pub updated_at: PlainDateTime,
+    pub users_count: u64,
+    pub users_read_count: u64,
 }
 
 impl BaseHardcoverItem for Edition {

@@ -17,17 +17,17 @@ uid
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Notification {
-    created_at: OffsetDateTime,
-    description: String,
-    id: u64,
-    link: Option<String>,
-    link_text: Option<String>,
-    notification_type_id: u64,
-    notifier_user_id: u64,
-    priority: Option<u64>,
-    title: String,
-    uid: String,
+pub struct Notification {
+    pub created_at: OffsetDateTime,
+    pub description: String,
+    pub id: u64,
+    pub link: Option<String>,
+    pub link_text: Option<String>,
+    pub notification_type_id: u64,
+    pub notifier_user_id: u64,
+    pub priority: Option<u64>,
+    pub title: String,
+    pub uid: String,
 }
 
 impl BaseHardcoverItem for Notification {

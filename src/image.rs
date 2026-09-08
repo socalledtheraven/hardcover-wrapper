@@ -2,28 +2,28 @@ use serde_json::Value;
 use crate::graphql::GraphQLResponse;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Image {
-    color: Option<String>,
-    colors: Option<Vec<String>>,
-    color_name: Option<String>,
-    height: Option<u64>,
-    id: u64,
-    imageable_id: Option<u64>,
-    imageable_type: Option<Imageable>,
-    ratio: Option<f64>,
-    url: Option<String>,
-    width: Option<u64>,
+pub struct Image {
+    pub color: Option<String>,
+    pub colors: Option<Vec<String>>,
+    pub color_name: Option<String>,
+    pub height: Option<u64>,
+    pub id: u64,
+    pub imageable_id: Option<u64>,
+    pub imageable_type: Option<Imageable>,
+    pub ratio: Option<f64>,
+    pub url: Option<String>,
+    pub width: Option<u64>,
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum Imageable {
+pub enum Imageable {
     Author,
     Book,
     Edition,
 }
 
 impl Image {
-    pub(crate) fn new(resp: Value) -> Self {
+    pub fn new(resp: Value) -> Self {
         Image {
             color: resp.get_str("color"),
             colors: {

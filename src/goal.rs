@@ -20,39 +20,39 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct GoalConditions {
-    goal: u64,
-    r#type: Option<String>,
-    metric: GoalMetric,
-    end_date: Date,
-    start_date: Date,
-    reading_format_id: Option<u64>,
-    specific_end_date: Option<bool>,
-    specific_start_date: Option<bool>
+pub struct GoalConditions {
+    pub goal: u64,
+    pub r#type: Option<String>,
+    pub metric: GoalMetric,
+    pub end_date: Date,
+    pub start_date: Date,
+    pub reading_format_id: Option<u64>,
+    pub specific_end_date: Option<bool>,
+    pub specific_start_date: Option<bool>
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum GoalMetric {
+pub enum GoalMetric {
     Page,
     Book
 }
 
 
 #[derive(Debug, Clone)]
-pub(crate) struct Goal {
-    archived: bool,
-    completed_at: Option<OffsetDateTime>,
-    conditions: Option<GoalConditions>,
-    description: Option<String>,
-    end_date: Date,
-    goal: u64,
-    id: u64,
-    metric: String,
-    privacy_setting_id: Option<u64>,
-    progress: f64,
-    start_date: Date,
-    state: String,
-    user_id: u64,
+pub struct Goal {
+    pub archived: bool,
+    pub completed_at: Option<OffsetDateTime>,
+    pub conditions: Option<GoalConditions>,
+    pub description: Option<String>,
+    pub end_date: Date,
+    pub goal: u64,
+    pub id: u64,
+    pub metric: String,
+    pub privacy_setting_id: Option<u64>,
+    pub progress: f64,
+    pub start_date: Date,
+    pub state: String,
+    pub user_id: u64,
 }
 
 impl BaseHardcoverItem for Goal {

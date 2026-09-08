@@ -2,15 +2,15 @@ use serde_json::Value;
 use crate::graphql::GraphQLResponse;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Language {
-    code2: Option<String>,
-    code3: Option<String>,
-    id: u64,
-    language: String,
+pub struct Language {
+    pub code2: Option<String>,
+    pub code3: Option<String>,
+    pub id: u64,
+    pub language: String,
 }
 
 impl Language {
-    pub(crate) fn new(resp: Value) -> Self {
+    pub fn new(resp: Value) -> Self {
         Language {
             code2: resp.get_str("code2"),
             code3: resp.get_str("code3"),

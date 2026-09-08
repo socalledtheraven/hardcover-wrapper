@@ -27,26 +27,26 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct List {
-    books_count: u64,
-    created_at: Option<PlainDateTime>,
-    default_view: String,
-    description: Option<String>,
-    featured: bool,
-    featured_profile: bool,
-    followers_count: Option<u64>,
-    id: u64,
-    imported: bool,
-    likes_count: u64,
-    name: String,
-    object_type: String,
-    privacy_setting_id: PrivacySetting,
-    public: bool,
-    ranked: bool,
-    slug: Option<String>,
-    updated_at: Option<OffsetDateTime>,
-    url: Option<String>,
-    user_id: u64,
+pub struct List {
+    pub books_count: u64,
+    pub created_at: Option<PlainDateTime>,
+    pub default_view: String,
+    pub description: Option<String>,
+    pub featured: bool,
+    pub featured_profile: bool,
+    pub followers_count: Option<u64>,
+    pub id: u64,
+    pub imported: bool,
+    pub likes_count: u64,
+    pub name: String,
+    pub object_type: String,
+    pub privacy_setting_id: PrivacySetting,
+    pub public: bool,
+    pub ranked: bool,
+    pub slug: Option<String>,
+    pub updated_at: Option<OffsetDateTime>,
+    pub url: Option<String>,
+    pub user_id: u64,
 }
 
 impl BaseHardcoverItem for List {

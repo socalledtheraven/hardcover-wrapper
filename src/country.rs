@@ -21,21 +21,21 @@ updated_at
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Country {
-    code2: Option<String>,
-    code3: Option<String>,
-    created_at: PlainDateTime,
-    id: u64,
-    intermediate_region: Option<String>,
-    intermediate_region_code: Option<String>,
-    iso_3166: Option<String>,
-    name: Option<String>,
-    phone_code: Option<String>,
-    region: Option<String>,
-    region_code: Option<String>,
-    sub_region: Option<String>,
-    sub_region_code: Option<String>,
-    updated_at: PlainDateTime,
+pub struct Country {
+    pub code2: Option<String>,
+    pub code3: Option<String>,
+    pub created_at: PlainDateTime,
+    pub id: u64,
+    pub intermediate_region: Option<String>,
+    pub intermediate_region_code: Option<String>,
+    pub iso_3166: Option<String>,
+    pub name: Option<String>,
+    pub phone_code: Option<String>,
+    pub region: Option<String>,
+    pub region_code: Option<String>,
+    pub sub_region: Option<String>,
+    pub sub_region_code: Option<String>,
+    pub updated_at: PlainDateTime,
 }
 
 impl BaseHardcoverItem for Country {

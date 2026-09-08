@@ -1,7 +1,7 @@
 
 #[derive(Debug, Clone)]
-pub(crate) struct ReadingFormat {
-    id: u64,
+pub struct ReadingFormat {
+    pub id: u64,
     // todo!
-    format: String,
+    pub format: String,
 }

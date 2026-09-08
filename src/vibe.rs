@@ -25,12 +25,12 @@ vibe_type
 "#;
 
 #[derive(Clone, Debug)]
-pub(crate) enum RecommendationType {
+pub enum RecommendationType {
     Book
 }
 
 #[derive(Clone, Debug)]
-pub(crate) enum VibeType {
+pub enum VibeType {
     Custom,
     Recommendation,
     Dynamic,
@@ -38,22 +38,22 @@ pub(crate) enum VibeType {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Vibe {
-    pub(crate) books_generated_at: Option<PlainDateTime>,
-    pub(crate) created_at: PlainDateTime,
-    pub(crate) description: Option<String>,
-    pub(crate) featured: bool,
-    pub(crate) featured_at: Option<PlainDateTime>,
-    pub(crate) id: u64,
-    pub(crate) likes_count: u64,
-    pub(crate) object_type: String,
-    pub(crate) privacy_setting_id: PrivacySetting,
-    pub(crate) result_type: RecommendationType,
-    pub(crate) slug: String,
-    pub(crate) title: String,
-    pub(crate) updated_at: PlainDateTime,
-    pub(crate) user_id: u64,
-    pub(crate) vibe_type: VibeType,
+pub struct Vibe {
+    pub books_generated_at: Option<PlainDateTime>,
+    pub created_at: PlainDateTime,
+    pub description: Option<String>,
+    pub featured: bool,
+    pub featured_at: Option<PlainDateTime>,
+    pub id: u64,
+    pub likes_count: u64,
+    pub object_type: String,
+    pub privacy_setting_id: PrivacySetting,
+    pub result_type: RecommendationType,
+    pub slug: String,
+    pub title: String,
+    pub updated_at: PlainDateTime,
+    pub user_id: u64,
+    pub vibe_type: VibeType,
 }
 
 impl BaseHardcoverItem for Vibe {

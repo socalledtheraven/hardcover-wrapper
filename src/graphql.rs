@@ -24,7 +24,7 @@ fn create_headers(api_key: &str) -> HeaderMap {
     headers
 }
 
-pub(crate) async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
+pub async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
     let headers = create_headers(env!("API_KEY"));
 
     let payload = serde_json::json!({
@@ -46,7 +46,7 @@ pub(crate) async fn graphql_req(query: String, variables: HashMap<&str, String>)
     Ok(request)
 }
 
-pub(crate) trait GraphQLResponse {
+pub trait GraphQLResponse {
     fn get_u64(&self, key: &str) -> Option<u64>;
     fn get_f64(&self, key: &str) -> Option<f64>;
     fn get_str(&self, key: &str) -> Option<String>;

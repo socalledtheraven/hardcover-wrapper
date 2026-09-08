@@ -1,26 +1,25 @@
-
 #[derive(Debug, Clone)]
-pub(crate) enum PrivacySetting {
+pub enum PrivacySetting {
     Public,
     FollowersOnly,
     Private,
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum Gender {
+pub enum Gender {
     Male,
     Female,
     Nonbinary
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum RecordState {
+pub enum RecordState {
     Active,
     Duplicate
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum RecordState2 {
+pub enum RecordState2 {
     Pending,
     Processing,
     Normalized,
@@ -30,7 +29,7 @@ pub(crate) enum RecordState2 {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum RecordState3 {
+pub enum RecordState3 {
     Pending,
     Linking,
     Linked,
@@ -40,7 +39,7 @@ pub(crate) enum RecordState3 {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum ReadingStatus { 
+pub enum ReadingStatus {
     WantToRead,
     CurrentlyReading,
     Read,
@@ -50,14 +49,14 @@ pub(crate) enum ReadingStatus {
 }
 
 #[derive(Clone, Debug)]
-pub(crate) struct Link {
-    pub(crate) url: String,
-    pub(crate) title: String,
+pub struct Link {
+    pub url: String,
+    pub title: String,
 }
 
 #[derive(Clone, Debug)]
-pub(crate) struct Identifiers {
-    pub(crate) audible: Option<Vec<String>>,
-    pub(crate) goodreads: Option<Vec<String>>,
-    pub(crate) openlibrary: Option<Vec<String>>,
+pub struct Identifiers {
+    pub audible: Option<Vec<String>>,
+    pub goodreads: Option<Vec<String>>,
+    pub openlibrary: Option<Vec<String>>,
 }

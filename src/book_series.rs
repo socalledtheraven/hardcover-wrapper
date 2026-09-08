@@ -15,16 +15,16 @@ series_id
 updated_at
 "#;
 
-pub(crate) struct BookSeries {
-    book_id: u64,
-    compilation: bool,
-    created_at: PlainDateTime,
-    details: String,
-    featured: bool,
-    id: u64,
-    position: f64,
-    series_id: u64,
-    updated_at: PlainDateTime
+pub struct BookSeries {
+    pub book_id: u64,
+    pub compilation: bool,
+    pub created_at: PlainDateTime,
+    pub details: String,
+    pub featured: bool,
+    pub id: u64,
+    pub position: f64,
+    pub series_id: u64,
+    pub updated_at: PlainDateTime
 }
 
 impl BaseHardcoverItem for BookSeries {

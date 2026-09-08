@@ -5,7 +5,7 @@ use crate::util::{Link, RecordState2};
 use crate::graphql::{GraphQLResponse};
 
 #[derive(Debug, Clone)]
-pub(crate) enum BookCategory {
+pub enum BookCategory {
     Book,
     Novella,
     ShortStory,
@@ -19,7 +19,7 @@ pub(crate) enum BookCategory {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum BookStatus {
+pub enum BookStatus {
     OK,
     ToReview,
     Deleted,
@@ -27,7 +27,7 @@ pub(crate) enum BookStatus {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) enum LiteraryType {
+pub enum LiteraryType {
     Fiction,
     NonFiction
 }
@@ -87,57 +87,57 @@ users_read_count
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Rating {
-    pub(crate) count: u64,
-    pub(crate) rating: f64,
+pub struct Rating {
+    pub count: u64,
+    pub rating: f64,
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Book {
-    pub(crate) activities_count: u64,
-    pub(crate) alternative_titles: Vec<String>,
-    pub(crate) audio_seconds: Option<u64>,
-    pub(crate) book_category_id: BookCategory,
-    pub(crate) book_status_id: BookStatus,
-    pub(crate) canonical_id: Option<u64>,
-    pub(crate) compilation: bool,
-    pub(crate) created_at: PlainDateTime,
-    pub(crate) created_by_user_id: Option<u64>,
-    pub(crate) curation_status: u64,
-    pub(crate) default_audio_edition_id: Option<u64>,
-    pub(crate) default_cover_edition_id: Option<u64>,
-    pub(crate) default_ebook_edition_id: Option<u64>,
-    pub(crate) default_physical_edition_id: Option<u64>,
-    pub(crate) description: Option<String>,
-    pub(crate) editions_count: u64,
-    pub(crate) featured_book_series_id: Option<u64>,
-    pub(crate) header_image_id: Option<u64>,
-    pub(crate) headline: Option<String>,
-    pub(crate) id: u64,
-    pub(crate) image_id: Option<u64>,
-    pub(crate) import_platform_id: u64,
-    pub(crate) is_partial_book: Option<bool>,
-    pub(crate) journals_count: u64,
-    pub(crate) links: Vec<Link>,
-    pub(crate) lists_count: Option<u64>,
-    pub(crate) literary_type_id: Option<LiteraryType>,
-    pub(crate) locked: bool,
-    pub(crate) pages: Option<u64>,
-    pub(crate) parent_book_id: Option<u64>,
-    pub(crate) prompts_count: u64,
-    pub(crate) rating: Option<f64>,
-    pub(crate) ratings_count: u64,
-    pub(crate) ratings_distribution: Vec<Rating>,
-    pub(crate) release_date: Option<Date>,
-    pub(crate) release_year: Option<u64>,
-    pub(crate) reviews_count: u64,
-    pub(crate) slug: Option<String>,
-    pub(crate) state: RecordState2,
-    pub(crate) subtitle: Option<String>,
-    pub(crate) title: Option<String>,
-    pub(crate) updated_at: Option<OffsetDateTime>,
-    pub(crate) users_count: u64,
-    pub(crate) users_read_count: u64,
+pub struct Book {
+    pub activities_count: u64,
+    pub alternative_titles: Vec<String>,
+    pub audio_seconds: Option<u64>,
+    pub book_category_id: BookCategory,
+    pub book_status_id: BookStatus,
+    pub canonical_id: Option<u64>,
+    pub compilation: bool,
+    pub created_at: PlainDateTime,
+    pub created_by_user_id: Option<u64>,
+    pub curation_status: u64,
+    pub default_audio_edition_id: Option<u64>,
+    pub default_cover_edition_id: Option<u64>,
+    pub default_ebook_edition_id: Option<u64>,
+    pub default_physical_edition_id: Option<u64>,
+    pub description: Option<String>,
+    pub editions_count: u64,
+    pub featured_book_series_id: Option<u64>,
+    pub header_image_id: Option<u64>,
+    pub headline: Option<String>,
+    pub id: u64,
+    pub image_id: Option<u64>,
+    pub import_platform_id: u64,
+    pub is_partial_book: Option<bool>,
+    pub journals_count: u64,
+    pub links: Vec<Link>,
+    pub lists_count: Option<u64>,
+    pub literary_type_id: Option<LiteraryType>,
+    pub locked: bool,
+    pub pages: Option<u64>,
+    pub parent_book_id: Option<u64>,
+    pub prompts_count: u64,
+    pub rating: Option<f64>,
+    pub ratings_count: u64,
+    pub ratings_distribution: Vec<Rating>,
+    pub release_date: Option<Date>,
+    pub release_year: Option<u64>,
+    pub reviews_count: u64,
+    pub slug: Option<String>,
+    pub state: RecordState2,
+    pub subtitle: Option<String>,
+    pub title: Option<String>,
+    pub updated_at: Option<OffsetDateTime>,
+    pub users_count: u64,
+    pub users_read_count: u64,
 }
 
 impl BaseHardcoverItem for Book {

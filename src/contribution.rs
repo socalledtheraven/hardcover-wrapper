@@ -16,13 +16,13 @@ updated_at
 "#;
 
 #[derive(Debug, Clone)]
-enum ContributableType {
+pub enum ContributableType {
     Book,
     Edition,
 }
 
 #[derive(Debug, Clone)]
-enum ContributionRole {
+pub enum ContributionRole {
     Author,
     Illustrator,
     Translator,
@@ -34,16 +34,16 @@ enum ContributionRole {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Contribution {
-    author_id: u64,
-    contributable_id: u64,
-    contributable_type: ContributableType,
-    contribution: Option<ContributionRole>,
-    contributor_role_id: Option<u64>,
-    contributor_specialization_id: Option<u64>,
-    created_at: PlainDateTime,
-    id: u64,
-    updated_at: PlainDateTime,
+pub struct Contribution {
+    pub author_id: u64,
+    pub contributable_id: u64,
+    pub contributable_type: ContributableType,
+    pub contribution: Option<ContributionRole>,
+    pub contributor_role_id: Option<u64>,
+    pub contributor_specialization_id: Option<u64>,
+    pub created_at: PlainDateTime,
+    pub id: u64,
+    pub updated_at: PlainDateTime,
 }
 
 impl BaseHardcoverItem for Contribution {

@@ -4,13 +4,12 @@ use hardcover_wrapper::*;
 async fn main() -> Result<(), reqwest::Error> {
     // todo: turn these into test cases
 
-    // let me = user::User::from_username("prophecyreviews").await?;
-    // println!("{me:#?}");
+    let me = User::from_username("prophecyreviews").await?;
+    println!("{me:#?}");
 
-    // let activities = activity::Activity::from_id(me.get_id()).await?;
-    // let activity = activities.get(0).unwrap();
-    // let d = &activity.created_at;
-    // println!("{d:#?}");
+    let activity = Activity::from_id(53892).await?;
+    let d = &activity.created_at;
+    println!("{d:#?}");
     // 
     // let author = author::Author::from_id(132049).await?;
     // println!("{}", author.born_year.unwrap());

@@ -35,38 +35,38 @@ users_count
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Author {
-    pub(crate) alias_id: Option<u64>,
-    pub(crate) alternate_names: Vec<String>,
-    pub(crate) bio: Option<String>,
-    pub(crate) books_count: u64,
-    pub(crate) born_date: Option<Date>,
-    pub(crate) born_year: Option<u64>,
-    pub(crate) canonical_id: Option<u64>,
-    pub(crate) death_date: Option<Date>,
-    pub(crate) death_year: Option<u64>,
-    pub(crate) gender_id: Option<Gender>,
-    pub(crate) id: u64,
-    pub(crate) identifiers: Identifiers,
-    pub(crate) image_id: Option<u64>,
-    pub(crate) is_bipoc: Option<bool>,
-    pub(crate) is_lgbtq: Option<bool>,
-    pub(crate) links: Vec<Link>,
-    pub(crate) location: Option<String>,
-    pub(crate) locked:	bool,
-    pub(crate) name: String,
-    pub(crate) name_personal: Option<String>,
-    pub(crate) object_type: String,
-    pub(crate) slug: Option<String>,
-    pub(crate) state: RecordState,
-    pub(crate) title: Option<String>,
-    pub(crate) user_id: Option<u64>,
-    pub(crate) users_count: u64,
+pub struct Author {
+    pub alias_id: Option<u64>,
+    pub alternate_names: Vec<String>,
+    pub bio: Option<String>,
+    pub books_count: u64,
+    pub born_date: Option<Date>,
+    pub born_year: Option<u64>,
+    pub canonical_id: Option<u64>,
+    pub death_date: Option<Date>,
+    pub death_year: Option<u64>,
+    pub gender_id: Option<Gender>,
+    pub id: u64,
+    pub identifiers: Identifiers,
+    pub image_id: Option<u64>,
+    pub is_bipoc: Option<bool>,
+    pub is_lgbtq: Option<bool>,
+    pub links: Vec<Link>,
+    pub location: Option<String>,
+    pub locked:	bool,
+    pub name: String,
+    pub name_personal: Option<String>,
+    pub object_type: String,
+    pub slug: Option<String>,
+    pub state: RecordState,
+    pub title: Option<String>,
+    pub user_id: Option<u64>,
+    pub users_count: u64,
 }
 
 impl BaseHardcoverItem for Author {
     // this is extra complicated because of duplicates and stuff
-    // pub(crate) async fn from_name(name: &str) -> Result<Self, reqwest::Error> {
+    // pub async fn from_name(name: &str) -> Result<Self, reqwest::Error> {
     //     let query = r#"
     //     query GetAuthor($author: String!) {
     //       authors(where: {name: {_eq: $author}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"

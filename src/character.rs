@@ -28,26 +28,26 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Character {
-    biography: Option<String>,
-    books_count: u64,
-    canonical_books_count: u64,
-    canonical_id: Option<u64>,
-    created_at: PlainDateTime,
-    gender_id: Option<Gender>,
-    has_disability: Option<bool>,
-    id: u64,
-    image_id: Option<u64>,
-    is_lgbtq: Option<bool>,
-    is_poc: Option<bool>,
-    locked: Option<bool>,
-    name: String,
-    object_type: String,
-    openlibrary_url: Option<String>,
-    slug: String,
-    state: RecordState,
-    updated_at: PlainDateTime,
-    user_id: Option<u64>,
+pub struct Character {
+    pub biography: Option<String>,
+    pub books_count: u64,
+    pub canonical_books_count: u64,
+    pub canonical_id: Option<u64>,
+    pub created_at: PlainDateTime,
+    pub gender_id: Option<Gender>,
+    pub has_disability: Option<bool>,
+    pub id: u64,
+    pub image_id: Option<u64>,
+    pub is_lgbtq: Option<bool>,
+    pub is_poc: Option<bool>,
+    pub locked: Option<bool>,
+    pub name: String,
+    pub object_type: String,
+    pub openlibrary_url: Option<String>,
+    pub slug: String,
+    pub state: RecordState,
+    pub updated_at: PlainDateTime,
+    pub user_id: Option<u64>,
 }
 
 impl BaseHardcoverItem for Character {

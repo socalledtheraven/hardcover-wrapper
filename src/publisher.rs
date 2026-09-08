@@ -19,19 +19,19 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Publisher {
-    canonical_id: Option<u64>,
-    created_at: PlainDateTime,
-    editions_count: u64,
-    id: u64,
-    locked: bool,
-    name: Option<String>,
-    object_type: String,
-    parent_id: Option<u64>,
-    slug: String,
-    state: String,
-    updated_at: PlainDateTime,
-    user_id: Option<u64>,
+pub struct Publisher {
+    pub canonical_id: Option<u64>,
+    pub created_at: PlainDateTime,
+    pub editions_count: u64,
+    pub id: u64,
+    pub locked: bool,
+    pub name: Option<String>,
+    pub object_type: String,
+    pub parent_id: Option<u64>,
+    pub slug: String,
+    pub state: String,
+    pub updated_at: PlainDateTime,
+    pub user_id: Option<u64>,
 }
 
 impl BaseHardcoverItem for Publisher {

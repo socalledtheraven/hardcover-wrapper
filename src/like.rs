@@ -12,12 +12,12 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Like {
-    created_at: Option<OffsetDateTime>,
-    id: u64,
-    likeable_id: u64,
-    likeable_type: String,
-    user_id: u64,
+pub struct Like {
+    pub created_at: Option<OffsetDateTime>,
+    pub id: u64,
+    pub likeable_id: u64,
+    pub likeable_type: String,
+    pub user_id: u64,
 }
 
 impl BaseHardcoverItem for Like {

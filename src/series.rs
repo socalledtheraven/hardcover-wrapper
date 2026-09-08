@@ -21,21 +21,21 @@ user_id
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Series {
-    author_id: Option<u64>,
-    books_count: u64,
-    canonical_id: Option<u64>,
-    description: Option<String>,
-    id: u64,
-    identifiers: Identifiers,
-    is_completed: Option<bool>,
-    locked: bool,
-    name: String,
-    object_type: String,
-    primary_books_count: Option<u64>,
-    slug: String,
-    state: String,
-    user_id: Option<u64>,
+pub struct Series {
+    pub author_id: Option<u64>,
+    pub books_count: u64,
+    pub canonical_id: Option<u64>,
+    pub description: Option<String>,
+    pub id: u64,
+    pub identifiers: Identifiers,
+    pub is_completed: Option<bool>,
+    pub locked: bool,
+    pub name: String,
+    pub object_type: String,
+    pub primary_books_count: Option<u64>,
+    pub slug: String,
+    pub state: String,
+    pub user_id: Option<u64>,
 }
 
 impl BaseHardcoverItem for Series {

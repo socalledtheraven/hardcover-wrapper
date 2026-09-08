@@ -12,12 +12,12 @@ const QUERY_FIELDS: &str = r#"
 "#;
 
 #[derive(Debug, Clone)]
-pub(crate) struct Tag {
-    count: u64,
-    id: u64,
-    slug: String,
-    tag: String,
-    tag_category_id: u64,
+pub struct Tag {
+    pub count: u64,
+    pub id: u64,
+    pub slug: String,
+    pub tag: String,
+    pub tag_category_id: u64,
 }
 
 impl BaseHardcoverItem for Tag {
