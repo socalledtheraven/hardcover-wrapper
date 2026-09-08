@@ -50,7 +50,7 @@ pub async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Res
 }
 
 pub fn set_api_key(key: &str) {
-    API_KEY.set(key.to_string()).unwrap();
+    let _ = API_KEY.set(key.to_string());
 }
 
 fn get_api_key() -> &'static str {

@@ -10,8 +10,6 @@ pub trait BaseHardcoverItem: Sized {
 
         let resp = graphql_req(query, vars).await?;
 
-        println!("Resp: {:#?}", resp);
-
         Ok(resp["data"].clone())
     }
 
