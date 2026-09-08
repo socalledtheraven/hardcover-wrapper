@@ -1,10 +1,13 @@
 use std::collections::HashMap;
+use std::sync::OnceLock;
 use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use time::format_description::well_known::Iso8601;
 use crate::book::Rating;
 use crate::util::{Identifiers, Link, PrivacySetting, ReadingStatus};
+
+static API_KEY: OnceLock<String> = OnceLock::new();
 
 fn create_headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -25,7 +28,7 @@ fn create_headers(api_key: &str) -> HeaderMap {
 }
 
 pub async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
-    let headers = create_headers(env!("API_KEY"));
+    let headers = create_headers(get_api_key());
 
     let payload = serde_json::json!({
         "query": query,
@@ -44,6 +47,16 @@ pub async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Res
     // todo! add error handling for internal request errors
 
     Ok(request)
+}
+
+pub fn set_api_key(key: &str) {
+    API_KEY.set(key.to_string()).unwrap();
+}
+
+fn get_api_key() -> &'static str {
+    API_KEY.get().unwrap_or_else(|| {
+        panic!("API key is not configured. Call `set_api_key()` before making requests.");
+    })
 }
 
 pub trait GraphQLResponse {
