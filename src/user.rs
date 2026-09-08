@@ -275,10 +275,6 @@ impl User {
 
 
 #[derive(Debug, Clone)]
-struct BlockedUser {}
-
-
-#[derive(Debug, Clone)]
 pub enum AccountStatus {
     Created,
     Activated,
