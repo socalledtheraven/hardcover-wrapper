@@ -1,6 +1,9 @@
+mod client;
+mod base_hardcover_item;
+mod util;
+
 pub mod activity;
 pub mod author;
-pub mod base_hardcover_item;
 pub mod book;
 pub mod book_series;
 pub mod character;
@@ -9,7 +12,6 @@ pub mod country;
 pub mod edition;
 pub mod genre;
 pub mod goal;
-pub mod client;
 pub mod image;
 pub mod language;
 pub mod like;
@@ -24,9 +26,9 @@ pub mod series;
 pub mod tag;
 pub mod user;
 pub mod user_book;
-pub mod util;
 pub mod vibe;
 
+pub use client::{set_api_key, graphql_req};
 pub use activity::Activity;
 pub use author::Author;
 pub use book::Book;

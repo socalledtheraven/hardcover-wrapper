@@ -15,7 +15,7 @@ id
 updated_at
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum ContributableType {
     Book,
     Edition,

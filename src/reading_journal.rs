@@ -49,8 +49,6 @@ impl BaseHardcoverItem for ReadingJournal {
 
         let data = Self::from_data(query, id).await?;
 
-        println!("Data {:#?}", data);
-
         Ok(Self::new(data["reading_journals_by_pk"].clone()))
     }
 
