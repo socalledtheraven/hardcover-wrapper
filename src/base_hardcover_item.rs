@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use serde_json::Value;
-use crate::graphql::graphql_req;
+use crate::client::graphql_req;
 
 pub trait BaseHardcoverItem: Sized {
     #[allow(async_fn_in_trait)]

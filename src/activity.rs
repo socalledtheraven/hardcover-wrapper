@@ -3,7 +3,7 @@ use serde_json::Value;
 use time::{OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
-use crate::graphql::{graphql_req, GraphQLResponse};
+use crate::client::{graphql_req, GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 book_id

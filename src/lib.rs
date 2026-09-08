@@ -9,7 +9,7 @@ pub mod country;
 pub mod edition;
 pub mod genre;
 pub mod goal;
-pub mod graphql;
+pub mod client;
 pub mod image;
 pub mod language;
 pub mod like;

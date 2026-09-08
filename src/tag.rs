@@ -1,7 +1,7 @@
 use reqwest::Error;
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::graphql::GraphQLResponse;
+use crate::client::GraphQLResponse;
 
 const QUERY_FIELDS: &str = r#"
     count

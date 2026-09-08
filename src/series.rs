@@ -1,6 +1,6 @@
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::graphql::GraphQLResponse;
+use crate::client::GraphQLResponse;
 use crate::util::Identifiers;
 
 const QUERY_FIELDS: &str = r#"

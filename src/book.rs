@@ -2,7 +2,7 @@ use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::{Link, RecordState2};
-use crate::graphql::{GraphQLResponse};
+use crate::client::{GraphQLResponse};
 
 #[derive(Debug, Clone)]
 pub enum BookCategory {

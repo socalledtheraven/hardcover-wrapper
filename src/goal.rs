@@ -1,7 +1,7 @@
 use serde_json::Value;
 use time::{Date, OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::graphql::{GraphQLResponse};
+use crate::client::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 archived

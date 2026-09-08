@@ -2,7 +2,7 @@ use serde_json::Value;
 use time::Date;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::{Gender, Identifiers, Link, RecordState};
-use crate::graphql::GraphQLResponse;
+use crate::client::GraphQLResponse;
 
 const QUERY_FIELDS: &str = r#"
 alias_id

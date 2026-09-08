@@ -2,7 +2,7 @@ use serde_json::Value;
 use time::{Date, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::RecordState3;
-use crate::graphql::{GraphQLResponse};
+use crate::client::{GraphQLResponse};
 
 const QUERY_FIELDS: &str = r#"
 alternative_titles

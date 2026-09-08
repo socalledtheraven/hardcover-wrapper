@@ -1,5 +1,5 @@
 use serde_json::Value;
-use crate::graphql::GraphQLResponse;
+use crate::client::GraphQLResponse;
 
 pub struct Platform {
     pub id: u64,
