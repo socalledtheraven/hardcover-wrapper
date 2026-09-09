@@ -308,7 +308,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "hardcover-wrapper"
+name = "hardcover_wrapper"
 version = "0.1.0"
 dependencies = [
  "reqwest",

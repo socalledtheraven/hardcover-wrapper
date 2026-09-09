@@ -1,7 +1,12 @@
 [package]
-name = "hardcover-wrapper"
+name = "hardcover_wrapper"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+license = "LGPL-2.1"
+readme = "README.md"
+repository = "https://github.com/socalledtheraven/hardcover-wrapper"
+keywords = ["hardcover", "books", "graphql", "api"]
+categories = ["api-bindings"]
 
 [dependencies]
 tokio = { version = "1.53.1", features = ["full"] }
