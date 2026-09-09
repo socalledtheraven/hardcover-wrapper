@@ -8,7 +8,6 @@ use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 books_generated_at
-cached_book_ids
 created_at
 description
 featured

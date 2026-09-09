@@ -8,7 +8,6 @@ use crate::HardcoverClient;
 const QUERY_FIELDS: &str = r#"
 biography
 books_count
-cached_tags
 canonical_books_count
 canonical_id
 created_at

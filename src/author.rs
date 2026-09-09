@@ -12,7 +12,6 @@ bio
 books_count
 born_date
 born_year
-cached_image
 canonical_id
 death_date
 death_year

@@ -10,9 +10,6 @@ alternative_titles
 asin
 audio_seconds
 book_id
-cached_contributors
-cached_image
-cached_tags
 canonical_id
 compilation
 country_id

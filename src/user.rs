@@ -13,9 +13,6 @@ const QUERY_FIELDS: &str = r"
             bio
             birthdate
             books_count
-            cached_cover
-            cached_genres
-            cached_image
             confirmation_sent_at
             confirmed_at
             created_at

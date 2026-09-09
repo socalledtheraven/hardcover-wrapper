@@ -39,13 +39,6 @@ alternative_titles
 audio_seconds
 book_category_id
 book_status_id
-cached_contributors
-cached_featured_series
-cached_header_image
-cached_image
-cached_similar_book_ids
-cached_similar_books_updated_at
-cached_tags
 canonical_id
 compilation
 created_at
