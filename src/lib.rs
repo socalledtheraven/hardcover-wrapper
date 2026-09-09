@@ -28,7 +28,7 @@ pub mod user;
 pub mod user_book;
 pub mod vibe;
 
-pub use client::{set_api_key, graphql_req};
+pub use client::HardcoverClient;
 pub use activity::Activity;
 pub use author::Author;
 pub use book::Book;

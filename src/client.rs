@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::sync::OnceLock;
 use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
@@ -7,56 +6,59 @@ use time::format_description::well_known::Iso8601;
 use crate::book::Rating;
 use crate::util::{Identifiers, Link, PrivacySetting, ReadingStatus};
 
-static API_KEY: OnceLock<String> = OnceLock::new();
 
-fn create_headers(api_key: &str) -> HeaderMap {
-    let mut headers = HeaderMap::new();
-    headers.insert(
-        AUTHORIZATION,
-        format!("Bearer {}", api_key).parse().unwrap()
-    );
-    headers.insert(
-        USER_AGENT,
-        "hardcover-api-wrapper".parse().unwrap()
-    );
-    headers.insert(
-        CONTENT_TYPE,
-        "application/json".parse().unwrap()
-    );
-
-    headers
+pub struct HardcoverClient {
+    http: reqwest::Client,
+    api_key: String,
 }
 
-pub async fn graphql_req(query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
-    let headers = create_headers(get_api_key());
+impl HardcoverClient {
+    pub fn new(api_key: impl Into<String>) -> Self {
+        Self {
+            http: reqwest::Client::new(),
+            api_key: api_key.into(),
+        }
+    }
 
-    let payload = serde_json::json!({
+    fn create_headers(&self) -> HeaderMap {
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            AUTHORIZATION,
+            format!("Bearer {}", self.api_key).parse().unwrap()
+        );
+        headers.insert(
+            USER_AGENT,
+            "hardcover-api-wrapper".parse().unwrap()
+        );
+        headers.insert(
+            CONTENT_TYPE,
+            "application/json".parse().unwrap()
+        );
+
+        headers
+    }
+
+    pub async fn graphql_req(&self, query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
+        let headers = Self::create_headers(self);
+
+        let payload = serde_json::json!({
         "query": query,
         "variables": variables,
     });
 
-    let request: Value = reqwest::Client::new()
-        .post("https://api.hardcover.app/v1/graphql")
-        .headers(headers)
-        .json(&payload)
-        .send()
-        .await?
-        .json()
-        .await?;
+        let request: Value = self.http
+            .post("https://api.hardcover.app/v1/graphql")
+            .headers(headers)
+            .json(&payload)
+            .send()
+            .await?
+            .json()
+            .await?;
 
-    // todo! add error handling for internal request errors
+        // todo! add error handling for internal request errors
 
-    Ok(request)
-}
-
-pub fn set_api_key(key: &str) {
-    let _ = API_KEY.set(key.to_string());
-}
-
-fn get_api_key() -> &'static str {
-    API_KEY.get().unwrap_or_else(|| {
-        panic!("API key is not configured. Call `set_api_key()` before making requests.");
-    })
+        Ok(request)
+    }
 }
 
 pub trait GraphQLResponse {
