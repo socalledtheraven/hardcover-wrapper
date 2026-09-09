@@ -3,6 +3,7 @@ use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::{Gender, RecordState};
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 biography
@@ -51,7 +52,7 @@ pub struct Character {
 }
 
 impl BaseHardcoverItem for Character {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetCharacter($id: bigint!) {
           characters_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -59,7 +60,7 @@ impl BaseHardcoverItem for Character {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["characters_by_pk"].clone()))
     }

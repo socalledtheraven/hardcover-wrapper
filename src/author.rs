@@ -3,6 +3,7 @@ use time::Date;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::{Gender, Identifiers, Link, RecordState};
 use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 alias_id
@@ -77,7 +78,7 @@ impl BaseHardcoverItem for Author {
     //     Self::from_data(query, name).await
     // }
 
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
           authors_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -85,7 +86,7 @@ impl BaseHardcoverItem for Author {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["authors_by_pk"].clone()))
     }

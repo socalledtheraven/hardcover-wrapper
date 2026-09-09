@@ -1,6 +1,7 @@
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 use crate::util::Identifiers;
 
 const QUERY_FIELDS: &str = r#"
@@ -39,7 +40,7 @@ pub struct Series {
 }
 
 impl BaseHardcoverItem for Series {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetSeries($id: Int!) {
           series_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -47,7 +48,7 @@ impl BaseHardcoverItem for Series {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["series_by_pk"].clone()))
     }

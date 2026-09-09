@@ -2,6 +2,7 @@ use serde_json::Value;
 use time::{Date, OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 archived
@@ -56,7 +57,7 @@ pub struct Goal {
 }
 
 impl BaseHardcoverItem for Goal {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetGoal($id: Int!) {
           goals_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -64,7 +65,7 @@ impl BaseHardcoverItem for Goal {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["goals_by_pk"].clone()))
     }

@@ -3,7 +3,8 @@ use serde_json::Value;
 use time::{OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
-use crate::client::{graphql_req, GraphQLResponse};
+use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -40,7 +41,7 @@ pub struct Activity {
 }
 
 impl BaseHardcoverItem for Activity {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetActivity($id: Int!) {
           activities_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -48,7 +49,7 @@ impl BaseHardcoverItem for Activity {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["activities_by_pk"].clone()))
     }
@@ -101,7 +102,7 @@ impl BaseHardcoverItem for Activity {
 }
 
 impl Activity {
-    pub async fn activities_from_user(user_id: u64) -> Result<Vec<Self>, reqwest::Error> {
+    pub async fn activities_from_user(user_id: u64, client: HardcoverClient) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
         query GetActivitiesOfUser($id: Int!) {
           activities(
@@ -115,7 +116,7 @@ impl Activity {
         let mut vars = HashMap::new();
         vars.insert("id", user_id.to_string());
 
-        let resp = graphql_req(query, vars).await?;
+        let resp = client.graphql_req(query, vars).await?;
 
         println!("Activity response: {resp:#?}");
 

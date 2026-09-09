@@ -3,6 +3,7 @@ use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r"
             access_level
@@ -99,7 +100,7 @@ pub struct User {
     pub username: String,
 }
 impl BaseHardcoverItem for User {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($user: Int!) {
           users(where: {id: {_eq: $user}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -107,7 +108,7 @@ impl BaseHardcoverItem for User {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["users"][0].clone()))
     }
@@ -259,7 +260,7 @@ impl BaseHardcoverItem for User {
 }
 
 impl User {
-    pub async fn from_username(username: &str) -> Result<Self, reqwest::Error> {
+    pub async fn from_username(username: &str, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($id: citext!) {
           users(where: {username: {_eq: $id}}, limit: 1) {"#.to_string() + QUERY_FIELDS + r#"
@@ -267,7 +268,7 @@ impl User {
         }
         "#;
 
-        let data = Self::from_data(query, username).await?;
+        let data = Self::from_data(query, username, client).await?;
 
         Ok(Self::new(data["users"][0].clone()))
     }

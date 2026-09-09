@@ -4,6 +4,7 @@ use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
 use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -102,7 +103,7 @@ pub struct UserBook {
 }
 
 impl BaseHardcoverItem for UserBook {
-    async fn from_id(id: u64) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetUserBook($id: Int!) {
           user_books_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -110,7 +111,7 @@ impl BaseHardcoverItem for UserBook {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["user_books_by_pk"].clone()))
     }

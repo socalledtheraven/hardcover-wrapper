@@ -2,6 +2,7 @@ use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 code2
@@ -39,7 +40,7 @@ pub struct Country {
 }
 
 impl BaseHardcoverItem for Country {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetCountry($id: Int!) {
           countries_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -47,7 +48,7 @@ impl BaseHardcoverItem for Country {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["countries_by_pk"].clone()))
     }

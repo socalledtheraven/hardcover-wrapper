@@ -4,6 +4,7 @@ use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::PrivacySetting;
 use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 books_generated_at
@@ -57,7 +58,7 @@ pub struct Vibe {
 }
 
 impl BaseHardcoverItem for Vibe {
-    async fn from_id(id: u64) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetVibe($id: Int!) {
           vibes_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -65,7 +66,7 @@ impl BaseHardcoverItem for Vibe {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["vibes_by_pk"].clone()))
     }

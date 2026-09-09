@@ -2,6 +2,7 @@ use reqwest::Error;
 use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
     count
@@ -21,7 +22,7 @@ pub struct Tag {
 }
 
 impl BaseHardcoverItem for Tag {
-    async fn from_id(id: u64) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetTag($id: bigint!) {
           tags_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -29,7 +30,7 @@ impl BaseHardcoverItem for Tag {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["tags_by_pk"].clone()))
     }

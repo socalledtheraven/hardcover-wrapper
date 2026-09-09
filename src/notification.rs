@@ -2,6 +2,7 @@ use serde_json::Value;
 use time::OffsetDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 created_at
@@ -31,7 +32,7 @@ pub struct Notification {
 }
 
 impl BaseHardcoverItem for Notification {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetNotification($id: Int!) {
           notifications_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -39,7 +40,7 @@ impl BaseHardcoverItem for Notification {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["notifications_by_pk"].clone()))
     }

@@ -2,6 +2,7 @@ use serde_json::Value;
 use time::PlainDateTime;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 canonical_id
@@ -35,7 +36,7 @@ pub struct Publisher {
 }
 
 impl BaseHardcoverItem for Publisher {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetPublisher($id: bigint!) {
           publishers_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -43,7 +44,7 @@ impl BaseHardcoverItem for Publisher {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["publishers_by_pk"].clone()))
     }

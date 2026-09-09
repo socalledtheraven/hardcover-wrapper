@@ -3,6 +3,7 @@ use time::{Date, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::RecordState3;
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 alternative_titles
@@ -113,7 +114,7 @@ pub struct Edition {
 }
 
 impl BaseHardcoverItem for Edition {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetEdition($id: Int!) {
           editions_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -121,7 +122,7 @@ impl BaseHardcoverItem for Edition {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["editions_by_pk"].clone()))
     }

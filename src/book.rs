@@ -3,6 +3,7 @@ use time::{Date, OffsetDateTime, PlainDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::{Link, RecordState2};
 use crate::client::{GraphQLResponse};
+use crate::HardcoverClient;
 
 #[derive(Debug, Clone)]
 pub enum BookCategory {
@@ -141,7 +142,7 @@ pub struct Book {
 }
 
 impl BaseHardcoverItem for Book {
-    async fn from_id(id: u64) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBook($id: Int!) {
           books_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -149,7 +150,7 @@ impl BaseHardcoverItem for Book {
         }
         "#;
 
-        let data = Self::from_data(query, id).await?;
+        let data = Self::from_data(query, id, client).await?;
 
         Ok(Self::new(data["books_by_pk"].clone()))
     }
