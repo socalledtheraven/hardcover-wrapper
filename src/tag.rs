@@ -1,8 +1,8 @@
-use reqwest::Error;
-use serde_json::Value;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
+use reqwest::Error;
+use serde_json::Value;
 
 const QUERY_FIELDS: &str = r#"
     count
@@ -25,7 +25,10 @@ impl BaseHardcoverItem for Tag {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetTag($id: bigint!) {
-          tags_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          tags_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -37,21 +40,11 @@ impl BaseHardcoverItem for Tag {
 
     fn new(data: Value) -> Self {
         Tag {
-            count: {
-                data.get_u64("count").unwrap()
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            slug: {
-                data.get_str("slug").unwrap()
-            },
-            tag: {
-                data.get_str("tag").unwrap()
-            },
-            tag_category_id: {
-                data.get_u64("tag_category_id").unwrap()
-            },
+            count: { data.get_u64("count").unwrap() },
+            id: { data.get_u64("id").unwrap() },
+            slug: { data.get_str("slug").unwrap() },
+            tag: { data.get_str("tag").unwrap() },
+            tag_category_id: { data.get_u64("tag_category_id").unwrap() },
         }
     }
 }

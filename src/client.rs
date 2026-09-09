@@ -1,11 +1,10 @@
-use std::collections::HashMap;
-use reqwest::header::{HeaderMap, AUTHORIZATION, USER_AGENT, CONTENT_TYPE};
-use serde_json::Value;
-use time::{Date, OffsetDateTime, PlainDateTime};
-use time::format_description::well_known::Iso8601;
 use crate::book::Rating;
 use crate::util::{Identifiers, Link, PrivacySetting, ReadingStatus};
-
+use reqwest::header::{HeaderMap, AUTHORIZATION, CONTENT_TYPE, USER_AGENT};
+use serde_json::Value;
+use std::collections::HashMap;
+use time::format_description::well_known::Iso8601;
+use time::{Date, OffsetDateTime, PlainDateTime};
 
 pub struct HardcoverClient {
     http: reqwest::Client,
@@ -24,29 +23,28 @@ impl HardcoverClient {
         let mut headers = HeaderMap::new();
         headers.insert(
             AUTHORIZATION,
-            format!("Bearer {}", self.api_key).parse().unwrap()
+            format!("Bearer {}", self.api_key).parse().unwrap(),
         );
-        headers.insert(
-            USER_AGENT,
-            "hardcover-api-wrapper".parse().unwrap()
-        );
-        headers.insert(
-            CONTENT_TYPE,
-            "application/json".parse().unwrap()
-        );
+        headers.insert(USER_AGENT, "hardcover-api-wrapper".parse().unwrap());
+        headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
 
         headers
     }
 
-    pub async fn graphql_req(&self, query: String, variables: HashMap<&str, String>) -> Result<Value, reqwest::Error> {
+    pub async fn graphql_req(
+        &self,
+        query: String,
+        variables: HashMap<&str, String>,
+    ) -> Result<Value, reqwest::Error> {
         let headers = Self::create_headers(self);
 
         let payload = serde_json::json!({
-        "query": query,
-        "variables": variables,
-    });
+            "query": query,
+            "variables": variables,
+        });
 
-        let request: Value = self.http
+        let request: Value = self
+            .http
             .post("https://api.hardcover.app/v1/graphql")
             .headers(headers)
             .json(&payload)
@@ -81,13 +79,11 @@ pub trait GraphQLResponse {
 
 impl GraphQLResponse for Value {
     fn get_u64(&self, key: &str) -> Option<u64> {
-        self.get(key)
-            .and_then(|v| v.as_u64())
+        self.get(key).and_then(|v| v.as_u64())
     }
 
     fn get_f64(&self, key: &str) -> Option<f64> {
-        self.get(key)
-            .and_then(|v| v.as_f64())
+        self.get(key).and_then(|v| v.as_f64())
     }
 
     fn get_str(&self, key: &str) -> Option<String> {
@@ -118,8 +114,7 @@ impl GraphQLResponse for Value {
     }
 
     fn get_bool(&self, key: &str) -> Option<bool> {
-        self[key]
-            .as_bool()
+        self[key].as_bool()
     }
 
     fn get_privacysetting(&self, key: &str) -> PrivacySetting {
@@ -151,31 +146,21 @@ impl GraphQLResponse for Value {
     }
 
     fn get_str_vec(&self, key: &str) -> Vec<String> {
-        self.get_opt_str_vec(key)
-            .expect("String vector is missing")
+        self.get_opt_str_vec(key).expect("String vector is missing")
     }
 
     fn get_opt_str_vec(&self, key: &str) -> Option<Vec<String>> {
-        self.get(key)
-            .and_then(|v| v.as_array())
-            .map(|arr| arr
-                .iter()
-                .filter_map(|v| v
-                    .as_str()
-                    .map(|s| s.to_string())
-                ).collect()
-            )
+        self.get(key).and_then(|v| v.as_array()).map(|arr| {
+            arr.iter()
+                .filter_map(|v| v.as_str().map(|s| s.to_string()))
+                .collect()
+        })
     }
-    
+
     fn get_u64_vec(&self, key: &str) -> Vec<u64> {
         self.get(key)
             .and_then(|v| v.as_array())
-            .map(|arr| arr
-                .iter()
-                .filter_map(|v| v
-                    .as_u64()
-                ).collect()
-            )
+            .map(|arr| arr.iter().filter_map(|v| v.as_u64()).collect())
             .expect("u64 vector is missing")
     }
 
@@ -202,20 +187,14 @@ impl GraphQLResponse for Value {
             })
             .collect()
     }
-    
+
     fn get_identifiers(&self, key: &str) -> Identifiers {
         let data = &self[key];
 
         Identifiers {
-            audible: {
-                data.get_opt_str_vec("audible")
-            },
-            goodreads: {
-                data.get_opt_str_vec("goodreads")
-            },
-            openlibrary: {
-                data.get_opt_str_vec("openlibrary")
-            },
+            audible: { data.get_opt_str_vec("audible") },
+            goodreads: { data.get_opt_str_vec("goodreads") },
+            openlibrary: { data.get_opt_str_vec("openlibrary") },
         }
     }
 }

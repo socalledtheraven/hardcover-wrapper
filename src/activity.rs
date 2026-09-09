@@ -1,10 +1,10 @@
-use std::collections::HashMap;
-use serde_json::Value;
-use time::{OffsetDateTime};
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
-use crate::client::{GraphQLResponse};
 use crate::HardcoverClient;
+use serde_json::Value;
+use std::collections::HashMap;
+use time::OffsetDateTime;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -23,7 +23,7 @@ pub enum ActivityType {
     UserBookActivity,
     GoalActivity,
     PromptActivity,
-    ListActivity
+    ListActivity,
 }
 
 #[derive(Debug, Clone)]
@@ -44,7 +44,10 @@ impl BaseHardcoverItem for Activity {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetActivity($id: Int!) {
-          activities_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          activities_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -56,12 +59,8 @@ impl BaseHardcoverItem for Activity {
 
     fn new(data: Value) -> Self {
         Activity {
-            book_id: {
-                data.get_u64("book_id")
-            },
-            created_at: {
-                data.get_offsetdt("created_at")
-            },
+            book_id: { data.get_u64("book_id") },
+            created_at: { data.get_offsetdt("created_at") },
             event: {
                 match data["event"].as_str() {
                     Some("UserBookActivity") => ActivityType::UserBookActivity,
@@ -71,18 +70,10 @@ impl BaseHardcoverItem for Activity {
                     _ => panic!("Unknown activity type"),
                 }
             },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            likes_count: {
-                data.get_u64("likes_count").unwrap()
-            },
-            object_type: {
-                data.get_str("object_type").unwrap()
-            },
-            data: {
-                data.get("data").unwrap().clone()
-            },
+            id: { data.get_u64("id").unwrap() },
+            likes_count: { data.get_u64("likes_count").unwrap() },
+            object_type: { data.get_str("object_type").unwrap() },
+            data: { data.get("data").unwrap().clone() },
             privacy_setting_id: {
                 match data["privacy_setting_id"].as_u64() {
                     Some(1) => PrivacySetting::Public,
@@ -91,24 +82,26 @@ impl BaseHardcoverItem for Activity {
                     _ => panic!("Unknown privacy setting"),
                 }
             },
-            uid: {
-                data.get_str("uid").unwrap()
-            },
-            user_id: {
-                data.get_u64("user_id").unwrap()
-            }
+            uid: { data.get_str("uid").unwrap() },
+            user_id: { data.get_u64("user_id").unwrap() },
         }
     }
 }
 
 impl Activity {
-    pub async fn activities_from_user(user_id: u64, client: &HardcoverClient) -> Result<Vec<Self>, reqwest::Error> {
+    pub async fn activities_from_user(
+        user_id: u64,
+        client: &HardcoverClient,
+    ) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
         query GetActivitiesOfUser($id: Int!) {
           activities(
               order_by: {created_at: desc}
               where: {user_id: {_eq: $id}}
-          ) {"#.to_string() + QUERY_FIELDS + r#"
+          ) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -128,9 +121,7 @@ impl Activity {
             .as_array()
             .unwrap()
             .iter()
-            .map(|activity_data| {
-                Activity::new(activity_data.clone())
-            })
+            .map(|activity_data| Activity::new(activity_data.clone()))
             .collect();
 
         Ok(activities)

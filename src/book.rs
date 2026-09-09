@@ -1,9 +1,9 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::util::{Link, RecordState2};
+use crate::HardcoverClient;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::util::{Link, RecordState2};
-use crate::client::{GraphQLResponse};
-use crate::HardcoverClient;
 
 #[derive(Debug, Clone)]
 pub enum BookCategory {
@@ -16,7 +16,7 @@ pub enum BookCategory {
     Poetry,
     Collection,
     WebNovel,
-    LightNovel
+    LightNovel,
 }
 
 #[derive(Debug, Clone)]
@@ -24,13 +24,13 @@ pub enum BookStatus {
     OK,
     ToReview,
     Deleted,
-    Deduplicated
+    Deduplicated,
 }
 
 #[derive(Debug, Clone)]
 pub enum LiteraryType {
     Fiction,
-    NonFiction
+    NonFiction,
 }
 
 const QUERY_FIELDS: &str = r#"
@@ -138,7 +138,10 @@ impl BaseHardcoverItem for Book {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBook($id: Int!) {
-          books_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          books_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -150,15 +153,9 @@ impl BaseHardcoverItem for Book {
 
     fn new(data: Value) -> Self {
         Book {
-            activities_count: {
-                data.get_u64("activities_count").unwrap()
-            },
-            alternative_titles: {
-                data.get_str_vec("alternative_titles")
-            },
-            audio_seconds: {
-                data.get_u64("audio_seconds")
-            },
+            activities_count: { data.get_u64("activities_count").unwrap() },
+            alternative_titles: { data.get_str_vec("alternative_titles") },
+            audio_seconds: { data.get_u64("audio_seconds") },
             book_category_id: {
                 match data.get_u64("book_category_id").unwrap() {
                     1 => BookCategory::Book,
@@ -171,7 +168,10 @@ impl BaseHardcoverItem for Book {
                     8 => BookCategory::Collection,
                     9 => BookCategory::WebNovel,
                     10 => BookCategory::LightNovel,
-                    _ => panic!("Unknown book_category_id: {}", data["book_category_id"].as_u64().unwrap())
+                    _ => panic!(
+                        "Unknown book_category_id: {}",
+                        data["book_category_id"].as_u64().unwrap()
+                    ),
                 }
             },
             book_status_id: {
@@ -180,72 +180,30 @@ impl BaseHardcoverItem for Book {
                     2 => BookStatus::ToReview,
                     3 => BookStatus::Deleted,
                     4 => BookStatus::Deduplicated,
-                    _ => panic!("Unknown book_status_id: {}", data["book_status_id"])
+                    _ => panic!("Unknown book_status_id: {}", data["book_status_id"]),
                 }
             },
-            canonical_id: {
-                data.get_u64("canonical_id")
-            },
-            compilation: {
-                data.get_bool("compilation").unwrap()
-            },
-            created_at: {
-                data.get_plaindt("created_at").unwrap()
-            },
-            created_by_user_id: {
-                data.get_u64("created_by_user_id")
-            },
-            curation_status: {
-                data.get_u64("curation_status").unwrap()
-            },
-            default_audio_edition_id: {
-                data.get_u64("default_audio_edition_id")
-            },
-            default_cover_edition_id: {
-                data.get_u64("default_cover_edition_id")
-            },
-            default_ebook_edition_id: {
-                data.get_u64("default_ebook_edition_id")
-            },
-            default_physical_edition_id: {
-                data.get_u64("default_physical_edition_id")
-            },
-            description: {
-                data.get_str("description")
-            },
-            editions_count: {
-                data.get_u64("editions_count").unwrap()
-            },
-            featured_book_series_id: {
-                data.get_u64("featured_book_series_id")
-            },
-            header_image_id: {
-                data.get_u64("header_image_id")
-            },
-            headline: {
-                data.get_str("headline")
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            image_id: {
-                data.get_u64("image_id")
-            },
-            import_platform_id: {
-                data.get_u64("import_platform_id").unwrap()
-            },
-            is_partial_book: {
-                data.get_bool("is_partial_book")
-            },
-            journals_count: {
-                data.get_u64("journals_count").unwrap()
-            },
-            links: {
-                data.get_link_vec("links")
-            },
-            lists_count: {
-                data.get_u64("lists_count")
-            },
+            canonical_id: { data.get_u64("canonical_id") },
+            compilation: { data.get_bool("compilation").unwrap() },
+            created_at: { data.get_plaindt("created_at").unwrap() },
+            created_by_user_id: { data.get_u64("created_by_user_id") },
+            curation_status: { data.get_u64("curation_status").unwrap() },
+            default_audio_edition_id: { data.get_u64("default_audio_edition_id") },
+            default_cover_edition_id: { data.get_u64("default_cover_edition_id") },
+            default_ebook_edition_id: { data.get_u64("default_ebook_edition_id") },
+            default_physical_edition_id: { data.get_u64("default_physical_edition_id") },
+            description: { data.get_str("description") },
+            editions_count: { data.get_u64("editions_count").unwrap() },
+            featured_book_series_id: { data.get_u64("featured_book_series_id") },
+            header_image_id: { data.get_u64("header_image_id") },
+            headline: { data.get_str("headline") },
+            id: { data.get_u64("id").unwrap() },
+            image_id: { data.get_u64("image_id") },
+            import_platform_id: { data.get_u64("import_platform_id").unwrap() },
+            is_partial_book: { data.get_bool("is_partial_book") },
+            journals_count: { data.get_u64("journals_count").unwrap() },
+            links: { data.get_link_vec("links") },
+            lists_count: { data.get_u64("lists_count") },
             literary_type_id: {
                 match data.get_u64("literary_type_id") {
                     Some(1) => Some(LiteraryType::Fiction),
@@ -253,39 +211,17 @@ impl BaseHardcoverItem for Book {
                     _ => None,
                 }
             },
-            locked: {
-                data.get_bool("locked").unwrap()
-            },
-            pages: {
-                data.get_u64("pages")
-            },
-            parent_book_id: {
-                data.get_u64("parent_book_id")
-            },
-            prompts_count: {
-                data.get_u64("prompts_count").unwrap()
-            },
-            rating: {
-                data.get_f64("rating")
-            },
-            ratings_count: {
-                data.get_u64("ratings_count").unwrap()
-            },
-            ratings_distribution: {
-                data.get_rating_vec("ratings_distribution")
-            },
-            release_date: {
-                data.get_date("release_date")
-            },
-            release_year: {
-                data.get_u64("release_year")
-            },
-            reviews_count: {
-                data.get_u64("reviews_count").unwrap()
-            },
-            slug: {
-                data.get_str("slug")
-            },
+            locked: { data.get_bool("locked").unwrap() },
+            pages: { data.get_u64("pages") },
+            parent_book_id: { data.get_u64("parent_book_id") },
+            prompts_count: { data.get_u64("prompts_count").unwrap() },
+            rating: { data.get_f64("rating") },
+            ratings_count: { data.get_u64("ratings_count").unwrap() },
+            ratings_distribution: { data.get_rating_vec("ratings_distribution") },
+            release_date: { data.get_date("release_date") },
+            release_year: { data.get_u64("release_year") },
+            reviews_count: { data.get_u64("reviews_count").unwrap() },
+            slug: { data.get_str("slug") },
             state: {
                 match data["state"].as_str() {
                     Some("pending") => RecordState2::Pending,
@@ -298,21 +234,11 @@ impl BaseHardcoverItem for Book {
                     _ => RecordState2::Error,
                 }
             },
-            subtitle: {
-                data.get_str("subtitle")
-            },
-            title: {
-                data.get_str("title")
-            },
-            updated_at: {
-                data.get_offsetdt("updated_at")
-            },
-            users_count: {
-                data.get_u64("users_count").unwrap()
-            },
-            users_read_count: {
-                data.get_u64("users_read_count").unwrap()
-            },
+            subtitle: { data.get_str("subtitle") },
+            title: { data.get_str("title") },
+            updated_at: { data.get_offsetdt("updated_at") },
+            users_count: { data.get_u64("users_count").unwrap() },
+            users_read_count: { data.get_u64("users_read_count").unwrap() },
         }
     }
 }

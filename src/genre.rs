@@ -1,4 +1,3 @@
-
 #[derive(Debug, Clone)]
 pub struct Genre {
     pub count: u64,

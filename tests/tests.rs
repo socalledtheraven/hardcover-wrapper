@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
+    use hardcover_wrapper::*;
     use time::macros::datetime;
     use tokio::time::{sleep, Duration};
-    use hardcover_wrapper::*;
 
     static CLIENT: std::sync::OnceLock<HardcoverClient> = std::sync::OnceLock::new();
 
@@ -20,11 +20,11 @@ mod tests {
 
         let client = CLIENT.get().unwrap();
 
-        let me = User::from_username("prophecyreviews", client).await.unwrap();
+        let me = User::from_username("prophecyreviews", client)
+            .await
+            .unwrap();
         println!("Me: {:#?}", me);
-        assert_eq!(
-            me.id, 52626
-        );
+        assert_eq!(me.id, 52626);
     }
 
     #[tokio::test]
@@ -51,10 +51,7 @@ mod tests {
 
         let author = Author::from_id(132049, client).await.unwrap();
         println!("Author: {:#?}", author);
-        assert_eq!(
-            author.born_year,
-            Some(1892)
-        )
+        assert_eq!(author.born_year, Some(1892))
     }
 
     #[tokio::test]
@@ -66,10 +63,7 @@ mod tests {
 
         let book = Book::from_id(484946, client).await.unwrap();
         println!("Book: {:#?}", book);
-        assert_eq!(
-            book.title,
-            Some("The Bright Sword".to_string())
-        )
+        assert_eq!(book.title, Some("The Bright Sword".to_string()))
     }
 
     #[tokio::test]
@@ -82,10 +76,7 @@ mod tests {
         let char = Character::from_id(2135, client).await.unwrap();
 
         println!("Character: {:#?}", char);
-        assert_eq!(
-            char.name,
-            "Arlen Weston"
-        )
+        assert_eq!(char.name, "Arlen Weston")
     }
 
     #[tokio::test]
@@ -114,10 +105,7 @@ mod tests {
         let edition = Edition::from_id(31529525, client).await.unwrap();
 
         println!("Edition: {:#?}", edition);
-        assert_eq!(
-            edition.pages,
-            Some(288)
-        )
+        assert_eq!(edition.pages, Some(288))
     }
 
     #[tokio::test]
@@ -130,10 +118,7 @@ mod tests {
         let goal = Goal::from_id(16, client).await.unwrap();
 
         println!("Goal: {:#?}", goal);
-        assert_eq!(
-            goal.description,
-            Some("Read 10 books in 2022".to_string())
-        )
+        assert_eq!(goal.description, Some("Read 10 books in 2022".to_string()))
     }
 
     #[tokio::test]
@@ -146,10 +131,7 @@ mod tests {
         let like = Like::from_id(1, client).await.unwrap();
 
         println!("Like: {:#?}", like);
-        assert_eq!(
-            like.likeable_type,
-            "Activity"
-        )
+        assert_eq!(like.likeable_type, "Activity")
     }
 
     #[tokio::test]
@@ -162,10 +144,7 @@ mod tests {
         let list = List::from_id(11325, client).await.unwrap();
 
         println!("List: {:#?}", list);
-        assert_eq!(
-            list.slug,
-            Some("owned".to_string())
-        )
+        assert_eq!(list.slug, Some("owned".to_string()))
     }
 
     #[tokio::test]
@@ -210,10 +189,7 @@ mod tests {
         let publisher = Publisher::from_id(8, client).await.unwrap();
 
         println!("Publisher: {:#?}", publisher);
-        assert_eq!(
-            publisher.name,
-            Some("Penguin Viking".to_string())
-        )
+        assert_eq!(publisher.name, Some("Penguin Viking".to_string()))
     }
 
     #[tokio::test]
@@ -226,10 +202,7 @@ mod tests {
         let reading_journal = ReadingJournal::from_id(15497756, client).await.unwrap();
 
         println!("Reading Journal: {:#?}", reading_journal);
-        assert_eq!(
-            reading_journal.book_id,
-            Some(427374)
-        )
+        assert_eq!(reading_journal.book_id, Some(427374))
     }
 
     #[tokio::test]
@@ -242,10 +215,7 @@ mod tests {
         let series = Series::from_id(147942, client).await.unwrap();
 
         println!("Series: {:#?}", series);
-        assert_eq!(
-            series.books_count,
-            8
-        )
+        assert_eq!(series.books_count, 8)
     }
 
     #[tokio::test]
@@ -258,10 +228,7 @@ mod tests {
         let tag = Tag::from_id(12, client).await.unwrap();
 
         println!("Tag: {:#?}", tag);
-        assert_eq!(
-            tag.tag,
-            "General"
-        )
+        assert_eq!(tag.tag, "General")
     }
 
     #[tokio::test]
@@ -274,10 +241,7 @@ mod tests {
         let user_book = UserBook::from_id(452432, client).await.unwrap();
 
         println!("User Book: {:#?}", user_book);
-        assert_eq!(
-            user_book.edition_id,
-            Some(29963190)
-        )
+        assert_eq!(user_book.edition_id, Some(29963190))
     }
 
     #[tokio::test]
@@ -290,10 +254,7 @@ mod tests {
         let vibe = Vibe::from_id(6, client).await.unwrap();
 
         println!("Vibe: {:#?}", vibe);
-        assert_eq!(
-            vibe.title,
-            "Graphic Novels"
-        )
+        assert_eq!(vibe.title, "Graphic Novels")
     }
 
     // #[tokio::test]

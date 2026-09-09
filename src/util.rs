@@ -9,13 +9,13 @@ pub enum PrivacySetting {
 pub enum Gender {
     Male,
     Female,
-    Nonbinary
+    Nonbinary,
 }
 
 #[derive(Debug, Clone)]
 pub enum RecordState {
     Active,
-    Duplicate
+    Duplicate,
 }
 
 #[derive(Debug, Clone)]
@@ -25,7 +25,7 @@ pub enum RecordState2 {
     Normalized,
     Processed,
     Error,
-    Duplicate
+    Duplicate,
 }
 
 #[derive(Debug, Clone)]
@@ -35,7 +35,7 @@ pub enum RecordState3 {
     Linked,
     Normalized,
     Error,
-    Duplicate
+    Duplicate,
 }
 
 #[derive(Debug, Clone)]

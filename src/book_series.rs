@@ -1,8 +1,8 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 use serde_json::Value;
 use time::PlainDateTime;
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::{GraphQLResponse};
-use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -25,14 +25,17 @@ pub struct BookSeries {
     pub id: u64,
     pub position: f64,
     pub series_id: u64,
-    pub updated_at: PlainDateTime
+    pub updated_at: PlainDateTime,
 }
 
 impl BaseHardcoverItem for BookSeries {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($id: Int!) {
-          book_series_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          book_series_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -44,33 +47,15 @@ impl BaseHardcoverItem for BookSeries {
 
     fn new(data: Value) -> Self {
         BookSeries {
-            book_id: {
-                data.get_u64("book_id").unwrap()
-            },
-            compilation: {
-                data.get_bool("compilation").unwrap()
-            },
-            created_at: {
-                data.get_plaindt("created_at").unwrap()
-            },
-            details: {
-                data.get_str("details").unwrap()
-            },
-            featured: {
-                data.get_bool("featured").unwrap()
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            position: {
-                data["position"].as_f64().unwrap()
-            },
-            series_id: {
-                data.get_u64("series_id").unwrap()
-            },
-            updated_at: {
-                data.get_plaindt("updated_at").unwrap()
-            },
+            book_id: { data.get_u64("book_id").unwrap() },
+            compilation: { data.get_bool("compilation").unwrap() },
+            created_at: { data.get_plaindt("created_at").unwrap() },
+            details: { data.get_str("details").unwrap() },
+            featured: { data.get_bool("featured").unwrap() },
+            id: { data.get_u64("id").unwrap() },
+            position: { data["position"].as_f64().unwrap() },
+            series_id: { data.get_u64("series_id").unwrap() },
+            updated_at: { data.get_plaindt("updated_at").unwrap() },
         }
     }
 }

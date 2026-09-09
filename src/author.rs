@@ -1,9 +1,9 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::util::{Gender, Identifiers, Link, RecordState};
+use crate::HardcoverClient;
 use serde_json::Value;
 use time::Date;
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::util::{Gender, Identifiers, Link, RecordState};
-use crate::client::GraphQLResponse;
-use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 alias_id
@@ -53,7 +53,7 @@ pub struct Author {
     pub is_lgbtq: Option<bool>,
     pub links: Vec<Link>,
     pub location: Option<String>,
-    pub locked:	bool,
+    pub locked: bool,
     pub name: String,
     pub name_personal: Option<String>,
     pub object_type: String,
@@ -80,7 +80,10 @@ impl BaseHardcoverItem for Author {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetAuthor($id: Int!) {
-          authors_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          authors_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -92,33 +95,15 @@ impl BaseHardcoverItem for Author {
 
     fn new(data: Value) -> Self {
         Author {
-            alias_id: {
-                data.get_u64("alias_id")
-            },
-            alternate_names: {
-                data.get_str_vec("alternate_names")
-            },
-            bio: {
-                data.get_str("bio")
-            },
-            books_count: {
-                data.get_u64("books_count").unwrap()
-            },
-            born_date: {
-                data.get_date("born_date")
-            },
-            born_year: {
-                data.get_u64("born_year")
-            },
-            canonical_id: {
-                data.get_u64("canonical_id")
-            },
-            death_date: {
-                data.get_date("death_date")
-            },
-            death_year: {
-                data.get_u64("death_year")
-            },
+            alias_id: { data.get_u64("alias_id") },
+            alternate_names: { data.get_str_vec("alternate_names") },
+            bio: { data.get_str("bio") },
+            books_count: { data.get_u64("books_count").unwrap() },
+            born_date: { data.get_date("born_date") },
+            born_year: { data.get_u64("born_year") },
+            canonical_id: { data.get_u64("canonical_id") },
+            death_date: { data.get_date("death_date") },
+            death_year: { data.get_u64("death_year") },
             gender_id: {
                 match data["gender_id"].as_u64() {
                     Some(id) => match id {
@@ -130,42 +115,18 @@ impl BaseHardcoverItem for Author {
                     None => None,
                 }
             },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            identifiers: {
-                data.get_identifiers("identifiers")
-            },
-            image_id: {
-                data.get_u64("image_id")
-            },
-            is_bipoc: {
-                data.get_bool("is_bipoc")
-            },
-            is_lgbtq: {
-                data.get_bool("is_lgbtq")
-            },
-            links: {
-                data.get_link_vec("links")
-            },
-            location: {
-                data.get_str("location")
-            },
-            locked: {
-                data.get_bool("locked").unwrap()
-            },
-            name: {
-                data.get_str("name").unwrap()
-            },
-            name_personal: {
-                data.get_str("name_personal")
-            },
-            object_type: {
-                data.get_str("object_type").unwrap()
-            },
-            slug: {
-                data.get_str("slug")
-            },
+            id: { data.get_u64("id").unwrap() },
+            identifiers: { data.get_identifiers("identifiers") },
+            image_id: { data.get_u64("image_id") },
+            is_bipoc: { data.get_bool("is_bipoc") },
+            is_lgbtq: { data.get_bool("is_lgbtq") },
+            links: { data.get_link_vec("links") },
+            location: { data.get_str("location") },
+            locked: { data.get_bool("locked").unwrap() },
+            name: { data.get_str("name").unwrap() },
+            name_personal: { data.get_str("name_personal") },
+            object_type: { data.get_str("object_type").unwrap() },
+            slug: { data.get_str("slug") },
             state: {
                 match data["state"].as_str() {
                     Some("active") => RecordState::Active,
@@ -173,15 +134,9 @@ impl BaseHardcoverItem for Author {
                     _ => panic!("Unknown record state: {:?}", data["state"].as_str()),
                 }
             },
-            title: {
-                data.get_str("title").filter(|s| !s.is_empty())
-            },
-            user_id: {
-                data.get_u64("user_id")
-            },
-            users_count: {
-                data.get_u64("users_count").unwrap()
-            },
+            title: { data.get_str("title").filter(|s| !s.is_empty()) },
+            user_id: { data.get_u64("user_id") },
+            users_count: { data.get_u64("users_count").unwrap() },
         }
     }
 }

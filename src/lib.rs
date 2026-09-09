@@ -1,5 +1,5 @@
-mod client;
 mod base_hardcover_item;
+mod client;
 mod util;
 
 pub mod activity;
@@ -28,13 +28,13 @@ pub mod user;
 pub mod user_book;
 pub mod vibe;
 
-pub use client::HardcoverClient;
 pub use activity::Activity;
 pub use author::Author;
-pub use book::Book;
 pub use base_hardcover_item::BaseHardcoverItem;
+pub use book::Book;
 pub use book_series::BookSeries;
 pub use character::Character;
+pub use client::HardcoverClient;
 pub use contribution::Contribution;
 pub use country::Country;
 pub use edition::Edition;

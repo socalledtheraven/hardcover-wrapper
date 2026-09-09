@@ -1,8 +1,8 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 use serde_json::Value;
 use time::PlainDateTime;
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::{GraphQLResponse};
-use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 author_id
@@ -31,7 +31,7 @@ pub enum ContributionRole {
     Narrator,
     Foreword,
     Afterword,
-    CoverArtist
+    CoverArtist,
 }
 
 #[derive(Debug, Clone)]
@@ -51,7 +51,10 @@ impl BaseHardcoverItem for Contribution {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetContribution($id: bigint!) {
-          contributions_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          contributions_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -63,12 +66,8 @@ impl BaseHardcoverItem for Contribution {
 
     fn new(data: Value) -> Self {
         Contribution {
-            author_id: {
-                data.get_u64("author_id").unwrap()
-            },
-            contributable_id: {
-                data.get_u64("contributable_id").unwrap()
-            },
+            author_id: { data.get_u64("author_id").unwrap() },
+            contributable_id: { data.get_u64("contributable_id").unwrap() },
             contributable_type: {
                 match data["contributable_type"].as_str().unwrap() {
                     "Book" => ContributableType::Book,
@@ -89,21 +88,11 @@ impl BaseHardcoverItem for Contribution {
                     _ => None,
                 }
             },
-            contributor_role_id: {
-                data.get_u64("contributor_role_id")
-            },
-            contributor_specialization_id: {
-                data.get_u64("contributor_specialization_id")
-            },
-            created_at: {
-                data.get_plaindt("created_at").unwrap()
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            updated_at: {
-                data.get_plaindt("updated_at").unwrap()
-            },
+            contributor_role_id: { data.get_u64("contributor_role_id") },
+            contributor_specialization_id: { data.get_u64("contributor_specialization_id") },
+            created_at: { data.get_plaindt("created_at").unwrap() },
+            id: { data.get_u64("id").unwrap() },
+            updated_at: { data.get_plaindt("updated_at").unwrap() },
         }
     }
 }

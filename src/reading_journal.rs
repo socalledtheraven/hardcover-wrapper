@@ -1,8 +1,8 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::HardcoverClient;
 use serde_json::Value;
 use time::{Date, PlainDateTime};
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::{GraphQLResponse};
-use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 action_at
@@ -43,7 +43,10 @@ impl BaseHardcoverItem for ReadingJournal {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetReadingJournal($id: bigint!) {
-          reading_journals_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          reading_journals_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -55,48 +58,20 @@ impl BaseHardcoverItem for ReadingJournal {
 
     fn new(data: Value) -> Self {
         ReadingJournal {
-            action_at: {
-                data.get_plaindt("action_at").unwrap()
-            },
-            book_id: {
-                data.get_u64("book_id")
-            },
-            created_at: {
-                data.get_plaindt("created_at").unwrap()
-            },
-            edition_id: {
-                data.get_u64("edition_id")
-            },
-            entry: {
-                data.get_str("entry")
-            },
-            event: {
-                data.get_str("event")
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            journal_date: {
-                data.get_date("journal_date")
-            },
-            likes_count: {
-                data.get_u64("likes_count").unwrap()
-            },
-            metadata: {
-                data["metadata"].clone()
-            },
-            object_type: {
-                data.get_str("object_type").unwrap()
-            },
-            privacy_setting_id: {
-                data.get_u64("privacy_setting_id").unwrap()
-            },
-            updated_at: {
-                data.get_plaindt("updated_at").unwrap()
-            },
-            user_id: {
-                data.get_u64("user_id")
-            },
+            action_at: { data.get_plaindt("action_at").unwrap() },
+            book_id: { data.get_u64("book_id") },
+            created_at: { data.get_plaindt("created_at").unwrap() },
+            edition_id: { data.get_u64("edition_id") },
+            entry: { data.get_str("entry") },
+            event: { data.get_str("event") },
+            id: { data.get_u64("id").unwrap() },
+            journal_date: { data.get_date("journal_date") },
+            likes_count: { data.get_u64("likes_count").unwrap() },
+            metadata: { data["metadata"].clone() },
+            object_type: { data.get_str("object_type").unwrap() },
+            privacy_setting_id: { data.get_u64("privacy_setting_id").unwrap() },
+            updated_at: { data.get_plaindt("updated_at").unwrap() },
+            user_id: { data.get_u64("user_id") },
         }
     }
 }

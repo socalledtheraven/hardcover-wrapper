@@ -1,5 +1,5 @@
-use serde_json::Value;
 use crate::client::GraphQLResponse;
+use serde_json::Value;
 
 #[derive(Debug, Clone)]
 pub struct Image {
@@ -26,15 +26,11 @@ impl Image {
     pub fn new(resp: Value) -> Self {
         Image {
             color: resp.get_str("color"),
-            colors: {
-                resp.get_opt_str_vec("colors")
-            },
+            colors: { resp.get_opt_str_vec("colors") },
             color_name: resp.get_str("color_name"),
             height: resp.get_u64("height"),
             id: resp.get_u64("id").unwrap(),
-            imageable_id: {
-                resp.get_u64("imageable_id")
-            },
+            imageable_id: { resp.get_u64("imageable_id") },
             imageable_type: {
                 match resp["imageable_type"].as_str() {
                     Some("Author") => Some(Imageable::Author),
@@ -43,9 +39,7 @@ impl Image {
                     _ => None,
                 }
             },
-            ratio: {
-                resp.get_f64("ratio")
-            },
+            ratio: { resp.get_f64("ratio") },
             url: resp.get_str("url"),
             width: resp.get_u64("width"),
         }

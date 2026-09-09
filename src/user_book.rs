@@ -1,10 +1,10 @@
+use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::client::GraphQLResponse;
+use crate::util::PrivacySetting;
+use crate::HardcoverClient;
 use reqwest::Error;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::util::PrivacySetting;
-use crate::client::GraphQLResponse;
-use crate::HardcoverClient;
 
 const QUERY_FIELDS: &str = r#"
 book_id
@@ -81,7 +81,7 @@ pub struct UserBook {
     pub owned_copies: Option<u64>,
     pub privacy_setting_id: PrivacySetting,
     pub private_notes: Option<String>,
-    pub rating: Option<f64>	,
+    pub rating: Option<f64>,
     pub read_count: u64,
     pub recommended_by: Option<String>,
     pub recommended_for: Option<String>,
@@ -106,7 +106,10 @@ impl BaseHardcoverItem for UserBook {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetUserBook($id: Int!) {
-          user_books_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
+          user_books_by_pk(id: $id) {"#
+            .to_string()
+            + QUERY_FIELDS
+            + r#"
           }
         }
         "#;
@@ -118,111 +121,41 @@ impl BaseHardcoverItem for UserBook {
 
     fn new(data: Value) -> Self {
         UserBook {
-            book_id: {
-                data.get_u64("book_id").unwrap()
-            },
-            created_at: {
-                data.get_offsetdt("created_at").unwrap()
-            },
-            date_added: {
-                data.get_date("date_added").unwrap()
-            },
-            edition_id: {
-                data.get_u64("edition_id")
-            },
-            first_read_date: {
-                data.get_date("first_read_date")
-            },
-            first_started_reading_date: {
-                data.get_date("first_started_reading_date")
-            },
-            has_review: {
-                data.get_bool("has_review").unwrap()
-            },
-            id: {
-                data.get_u64("id").unwrap()
-            },
-            imported: {
-                data.get_bool("imported")
-            },
-            last_read_date: {
-                data.get_date("last_read_date")
-            },
-            likes_count: {
-                data.get_u64("likes_count").unwrap()
-            },
-            media_url: {
-                data.get_str("media_url")
-            },
-            merged_at: {
-                data.get_plaindt("merged_at")
-            },
-            mod_status: {
-                data.get_u64("mod_status").unwrap()
-            },
-            object_type: {
-                data.get_str("object_type").unwrap()
-            },
-            original_book_id: {
-                data.get_u64("original_book_id")
-            },
-            original_edition_id: {
-                data.get_u64("original_edition_id")
-            },
-            owned: {
-                data.get_bool("owned").unwrap()
-            },
-            owned_copies: {
-                data.get_u64("owned_copies")
-            },
-            privacy_setting_id: {
-                data.get_privacysetting("privacy_setting_id")
-            },
-            private_notes: {
-                data.get_str("private_notes")
-            },
-            rating: {
-                data.get_f64("rating")
-            },
-            read_count: {
-                data.get_u64("read_count").unwrap()
-            },
-            recommended_by: {
-                data.get_str("recommended_by")
-            },
-            recommended_for: {
-                data.get_str("recommended_for")
-            },
-            referrer_user_id: {
-                data.get_u64("referrer_user_id")
-            },
-            review: {
-                data.get_str("review")
-            },
-            review_has_spoilers: {
-                data.get_bool("review_has_spoilers").unwrap()
-            },
-            review_length: {
-                data.get_u64("review_length").unwrap()
-            },
-            review_migrated: {
-                data.get_bool("review_migrated")
-            },
-            review_raw: {
-                data.get_str("review_raw")
-            },
-            review_slate: {
-                data["review_slate"].clone()
-            },
-            reviewed_at: {
-                data.get_plaindt("reviewed_at")
-            },
-            sponsored_review: {
-                data.get_bool("sponsored_review").unwrap()
-            },
-            starred: {
-                data.get_bool("starred").unwrap()
-            },
+            book_id: { data.get_u64("book_id").unwrap() },
+            created_at: { data.get_offsetdt("created_at").unwrap() },
+            date_added: { data.get_date("date_added").unwrap() },
+            edition_id: { data.get_u64("edition_id") },
+            first_read_date: { data.get_date("first_read_date") },
+            first_started_reading_date: { data.get_date("first_started_reading_date") },
+            has_review: { data.get_bool("has_review").unwrap() },
+            id: { data.get_u64("id").unwrap() },
+            imported: { data.get_bool("imported") },
+            last_read_date: { data.get_date("last_read_date") },
+            likes_count: { data.get_u64("likes_count").unwrap() },
+            media_url: { data.get_str("media_url") },
+            merged_at: { data.get_plaindt("merged_at") },
+            mod_status: { data.get_u64("mod_status").unwrap() },
+            object_type: { data.get_str("object_type").unwrap() },
+            original_book_id: { data.get_u64("original_book_id") },
+            original_edition_id: { data.get_u64("original_edition_id") },
+            owned: { data.get_bool("owned").unwrap() },
+            owned_copies: { data.get_u64("owned_copies") },
+            privacy_setting_id: { data.get_privacysetting("privacy_setting_id") },
+            private_notes: { data.get_str("private_notes") },
+            rating: { data.get_f64("rating") },
+            read_count: { data.get_u64("read_count").unwrap() },
+            recommended_by: { data.get_str("recommended_by") },
+            recommended_for: { data.get_str("recommended_for") },
+            referrer_user_id: { data.get_u64("referrer_user_id") },
+            review: { data.get_str("review") },
+            review_has_spoilers: { data.get_bool("review_has_spoilers").unwrap() },
+            review_length: { data.get_u64("review_length").unwrap() },
+            review_migrated: { data.get_bool("review_migrated") },
+            review_raw: { data.get_str("review_raw") },
+            review_slate: { data["review_slate"].clone() },
+            reviewed_at: { data.get_plaindt("reviewed_at") },
+            sponsored_review: { data.get_bool("sponsored_review").unwrap() },
+            starred: { data.get_bool("starred").unwrap() },
             status_id: {
                 match data["status_id"].as_u64() {
                     Some(1) => ReadingStatus::WantToRead,
@@ -234,15 +167,9 @@ impl BaseHardcoverItem for UserBook {
                     _ => panic!("Unknown reading status"),
                 }
             },
-            updated_at: {
-                data.get_offsetdt("updated_at")
-            },
-            url: {
-                data.get_str("url")
-            },
-            user_id: {
-                data.get_u64("user_id").unwrap()
-            },
+            updated_at: { data.get_offsetdt("updated_at") },
+            url: { data.get_str("url") },
+            user_id: { data.get_u64("user_id").unwrap() },
         }
     }
 }
