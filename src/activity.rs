@@ -41,7 +41,7 @@ pub struct Activity {
 }
 
 impl BaseHardcoverItem for Activity {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetActivity($id: Int!) {
           activities_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
@@ -102,7 +102,7 @@ impl BaseHardcoverItem for Activity {
 }
 
 impl Activity {
-    pub async fn activities_from_user(user_id: u64, client: HardcoverClient) -> Result<Vec<Self>, reqwest::Error> {
+    pub async fn activities_from_user(user_id: u64, client: &HardcoverClient) -> Result<Vec<Self>, reqwest::Error> {
         let query = r#"
         query GetActivitiesOfUser($id: Int!) {
           activities(

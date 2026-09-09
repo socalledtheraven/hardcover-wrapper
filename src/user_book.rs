@@ -103,7 +103,7 @@ pub struct UserBook {
 }
 
 impl BaseHardcoverItem for UserBook {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetUserBook($id: Int!) {
           user_books_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

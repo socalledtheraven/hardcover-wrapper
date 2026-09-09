@@ -40,7 +40,7 @@ pub struct ReadingJournal {
 }
 
 impl BaseHardcoverItem for ReadingJournal {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetReadingJournal($id: bigint!) {
           reading_journals_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

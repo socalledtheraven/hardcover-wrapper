@@ -1,19 +1,24 @@
 #[cfg(test)]
 mod tests {
     use time::macros::datetime;
-    use tokio::time::{sleep, Duration};
     use hardcover_wrapper::*;
 
-    async fn test_setup() {
-        sleep(Duration::from_secs(2)).await;
-        set_api_key(env!("API_KEY"));
+    static CLIENT: std::sync::OnceLock<HardcoverClient> = std::sync::OnceLock::new();
+
+    fn initialise() {
+        CLIENT.get_or_init(|| {
+            let api_key = std::env::var("HARDCOVER_API_KEY").unwrap();
+            HardcoverClient::new(api_key)
+        });
     }
 
     #[tokio::test]
     async fn test_me() {
-        test_setup().await;
+        initialise();
 
-        let me = User::from_username("prophecyreviews").await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let me = User::from_username("prophecyreviews", client).await.unwrap();
         assert_eq!(
             me.id, 52626
         );
@@ -21,9 +26,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_activity() {
-        test_setup().await;
+        initialise();
 
-        let activity = Activity::from_id(53892).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let activity = Activity::from_id(53892, client).await.unwrap();
         println!("{0:#?}", activity.created_at);
         assert_eq!(
             activity.created_at,
@@ -33,9 +40,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_author() {
-        test_setup().await;
-        
-        let author = Author::from_id(132049).await.unwrap();
+        initialise();
+
+        let client = CLIENT.get().unwrap();
+
+        let author = Author::from_id(132049, client).await.unwrap();
         assert_eq!(
             author.born_year,
             Some(1892)
@@ -44,9 +53,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_book() {
-        test_setup().await;
+        initialise();
 
-        let book = Book::from_id(484946).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let book = Book::from_id(484946, client).await.unwrap();
         assert_eq!(
             book.title,
             Some("The Bright Sword".to_string())
@@ -55,9 +66,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_character() {
-        test_setup().await;
+        initialise();
 
-        let char = Character::from_id(2135).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let char = Character::from_id(2135, client).await.unwrap();
 
         assert_eq!(
             char.name,
@@ -67,9 +80,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_contribution() {
-        test_setup().await;
-        
-        let contribution = Contribution::from_id(1).await.unwrap();
+        initialise();
+
+        let client = CLIENT.get().unwrap();
+
+        let contribution = Contribution::from_id(1, client).await.unwrap();
 
         assert_eq!(
             contribution.contributable_type,
@@ -79,9 +94,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_edition() {
-        test_setup().await;
-        
-        let edition = Edition::from_id(31529525).await.unwrap();
+        initialise();
+
+        let client = CLIENT.get().unwrap();
+
+        let edition = Edition::from_id(31529525, client).await.unwrap();
 
         assert_eq!(
             edition.pages,
@@ -91,9 +108,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_goal() {
-        test_setup().await;
+        initialise();
 
-        let goal = Goal::from_id(16).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let goal = Goal::from_id(16, client).await.unwrap();
 
         assert_eq!(
             goal.description,
@@ -103,9 +122,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_like() {
-        test_setup().await;
+        initialise();
 
-        let like = Like::from_id(1).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let like = Like::from_id(1, client).await.unwrap();
 
         assert_eq!(
             like.likeable_type,
@@ -115,9 +136,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_list() {
-        test_setup().await;
+        initialise();
 
-        let list = List::from_id(11325).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let list = List::from_id(11325, client).await.unwrap();
 
         assert_eq!(
             list.slug,
@@ -127,9 +150,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_notification() {
-        test_setup().await;
+        initialise();
 
-        let notification = Notification::from_id(440096).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let notification = Notification::from_id(440096, client).await.unwrap();
 
         assert_eq!(
             notification.link,
@@ -139,9 +164,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_prompt() {
-        test_setup().await;
+        initialise();
 
-        let prompt = Prompt::from_id(122).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let prompt = Prompt::from_id(122, client).await.unwrap();
 
         assert_eq!(
             prompt.question,
@@ -151,9 +178,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_publisher() {
-        test_setup().await;
+        initialise();
 
-        let publisher = Publisher::from_id(8).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let publisher = Publisher::from_id(8, client).await.unwrap();
 
         assert_eq!(
             publisher.name,
@@ -163,9 +192,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_reading_journal() {
-        test_setup().await;
+        initialise();
 
-        let reading_journal = ReadingJournal::from_id(15497756).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let reading_journal = ReadingJournal::from_id(15497756, client).await.unwrap();
 
         assert_eq!(
             reading_journal.book_id,
@@ -175,9 +206,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_series() {
-        test_setup().await;
+        initialise();
 
-        let series = Series::from_id(147942).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let series = Series::from_id(147942, client).await.unwrap();
 
         assert_eq!(
             series.books_count,
@@ -187,9 +220,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_tag() {
-        test_setup().await;
+        initialise();
 
-        let tag = Tag::from_id(12).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let tag = Tag::from_id(12, client).await.unwrap();
 
         assert_eq!(
             tag.tag,
@@ -199,9 +234,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_user_book() {
-        test_setup().await;
+        initialise();
 
-        let user_book = UserBook::from_id(452432).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let user_book = UserBook::from_id(452432, client).await.unwrap();
 
         assert_eq!(
             user_book.edition_id,
@@ -211,9 +248,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_vibe() {
-        test_setup().await;
+        initialise();
 
-        let vibe = Vibe::from_id(6).await.unwrap();
+        let client = CLIENT.get().unwrap();
+
+        let vibe = Vibe::from_id(6, client).await.unwrap();
 
         assert_eq!(
             vibe.title,
@@ -223,7 +262,7 @@ mod tests {
 
     // #[tokio::test]
     // async fn test_custom_graphql() {
-    //     test_setup().await;
+    //     initialise();
     //
     //     let query = r#"
     //         query GetUserByUsername($username: String!) {
@@ -238,7 +277,7 @@ mod tests {
     //     // let resp = client::graphql_req(
     //     //     query.to_string(),
     //     //
-    //     // ).await.unwrap();
+    //     // , client).await.unwrap();
     //     //
     //     // println!("{resp:#?}");
     // }

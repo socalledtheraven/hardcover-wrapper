@@ -22,7 +22,7 @@ pub struct Tag {
 }
 
 impl BaseHardcoverItem for Tag {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetTag($id: bigint!) {
           tags_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

@@ -114,7 +114,7 @@ pub struct Edition {
 }
 
 impl BaseHardcoverItem for Edition {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetEdition($id: Int!) {
           editions_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

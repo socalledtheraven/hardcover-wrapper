@@ -32,7 +32,7 @@ pub struct Notification {
 }
 
 impl BaseHardcoverItem for Notification {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetNotification($id: Int!) {
           notifications_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

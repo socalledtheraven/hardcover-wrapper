@@ -58,7 +58,7 @@ pub struct Vibe {
 }
 
 impl BaseHardcoverItem for Vibe {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, Error> {
         let query = r#"
         query GetVibe($id: Int!) {
           vibes_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

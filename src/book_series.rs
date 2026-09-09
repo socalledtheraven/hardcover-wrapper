@@ -29,7 +29,7 @@ pub struct BookSeries {
 }
 
 impl BaseHardcoverItem for BookSeries {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetBookSeries($id: Int!) {
           book_series_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

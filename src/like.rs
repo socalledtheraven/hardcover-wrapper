@@ -22,7 +22,7 @@ pub struct Like {
 }
 
 impl BaseHardcoverItem for Like {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetLike($id: Int!) {
           likes_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

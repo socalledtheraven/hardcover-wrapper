@@ -52,7 +52,7 @@ pub struct Character {
 }
 
 impl BaseHardcoverItem for Character {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetCharacter($id: bigint!) {
           characters_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"

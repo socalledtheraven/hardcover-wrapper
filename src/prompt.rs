@@ -34,7 +34,7 @@ pub struct Prompt {
 }
 
 impl BaseHardcoverItem for Prompt {
-    async fn from_id(id: u64, client: HardcoverClient) -> Result<Self, reqwest::Error> {
+    async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetPrompt($id: Int!) {
           prompts_by_pk(id: $id) {"#.to_string() + QUERY_FIELDS + r#"
