@@ -59,7 +59,7 @@ impl HardcoverClient {
     }
 }
 
-pub trait GraphQLResponse {
+pub(crate) trait GraphQLResponse {
     fn get_u64(&self, key: &str) -> Option<u64>;
     fn get_f64(&self, key: &str) -> Option<f64>;
     fn get_str(&self, key: &str) -> Option<String>;
