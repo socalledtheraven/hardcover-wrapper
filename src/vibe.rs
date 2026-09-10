@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
@@ -40,10 +41,12 @@ pub enum VibeType {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Vibe {
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub books_generated_at: Option<PlainDateTime>,
     pub created_at: PlainDateTime,
     pub description: Option<String>,
     pub featured: bool,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub featured_at: Option<PlainDateTime>,
     pub id: u64,
     pub likes_count: u64,

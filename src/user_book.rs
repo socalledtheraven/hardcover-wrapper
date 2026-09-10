@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
@@ -65,14 +66,18 @@ pub struct UserBook {
     pub created_at: OffsetDateTime,
     pub date_added: Date,
     pub edition_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub first_read_date: Option<Date>,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub first_started_reading_date: Option<Date>,
     pub has_review: bool,
     pub id: u64,
     pub imported: Option<bool>,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub last_read_date: Option<Date>,
     pub likes_count: u64,
     pub media_url: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub merged_at: Option<PlainDateTime>,
     pub mod_status: u64,
     pub object_type: String,
@@ -94,10 +99,12 @@ pub struct UserBook {
     pub review_raw: Option<String>,
     // we leave this as Value because it's the data for the Slate editor
     pub review_slate: Value,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub reviewed_at: Option<PlainDateTime>,
     pub sponsored_review: bool,
     pub starred: bool,
     pub status_id: ReadingStatus,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub updated_at: Option<OffsetDateTime>,
     pub url: Option<String>,
     pub user_id: u64,

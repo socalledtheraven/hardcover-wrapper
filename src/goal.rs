@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -42,6 +43,7 @@ pub enum GoalMetric {
 #[derive(Debug, Clone, Deserialize)]
 pub struct Goal {
     pub archived: bool,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub completed_at: Option<OffsetDateTime>,
     pub conditions: Option<GoalConditions>,
     pub description: Option<String>,

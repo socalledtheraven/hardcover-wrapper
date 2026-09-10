@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -31,6 +32,7 @@ user_id
 #[derive(Debug, Clone, Deserialize)]
 pub struct List {
     pub books_count: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub created_at: Option<PlainDateTime>,
     pub default_view: String,
     pub description: Option<String>,
@@ -46,6 +48,7 @@ pub struct List {
     pub public: bool,
     pub ranked: bool,
     pub slug: Option<String>,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub updated_at: Option<OffsetDateTime>,
     pub url: Option<String>,
     pub user_id: u64,

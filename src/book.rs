@@ -73,24 +73,9 @@ impl From<u64> for LiteraryType {
         match value {
             1 => LiteraryType::Fiction,
             2 => LiteraryType::NonFiction,
-            _ => panic!("Unknown book_status_id: {value}"),
+            _ => panic!("Unknown literary_type_id: {value}"),
         }
     }
-}
-
-fn deserialize_literary_type_id<'de, D>(
-    deserializer: D,
-) -> Result<Option<LiteraryType>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    let value = Option::<u64>::deserialize(deserializer)?;
-
-    Ok(match value {
-        Some(1) => Some(LiteraryType::Fiction),
-        Some(2) => Some(LiteraryType::NonFiction),
-        _ => None,
-    })
 }
 
 
@@ -177,8 +162,6 @@ pub struct Book {
     pub journals_count: u64,
     pub links: Vec<Link>,
     pub lists_count: Option<u64>,
-
-    #[serde(deserialize_with = "deserialize_literary_type_id")]
     pub literary_type_id: Option<LiteraryType>,
     pub locked: bool,
     pub pages: Option<u64>,
@@ -196,7 +179,7 @@ pub struct Book {
     pub state: RecordState2,
     pub subtitle: Option<String>,
     pub title: Option<String>,
-    
+
     #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub updated_at: Option<OffsetDateTime>,
     pub users_count: u64,

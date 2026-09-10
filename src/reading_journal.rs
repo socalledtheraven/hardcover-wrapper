@@ -1,3 +1,5 @@
+use crate::date_parsing;
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
@@ -21,7 +23,7 @@ updated_at
 user_id
 "#;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct ReadingJournal {
     pub action_at: PlainDateTime,
     pub book_id: Option<u64>,
@@ -30,6 +32,7 @@ pub struct ReadingJournal {
     pub entry: Option<String>,
     pub event: Option<String>,
     pub id: u64,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub journal_date: Option<Date>,
     pub likes_count: u64,
     pub metadata: Value,

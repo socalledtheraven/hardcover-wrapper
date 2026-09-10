@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -58,26 +59,36 @@ pub struct User {
     pub activity_privacy_settings_id: PrivacySetting,
     pub admin: bool,
     pub bio: Option<String>,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub birthdate: Option<Date>,
     pub books_count: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub confirmation_sent_at: Option<PlainDateTime>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub confirmed_at: Option<PlainDateTime>,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub created_at: Option<OffsetDateTime>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub current_sign_in_at: Option<PlainDateTime>,
     pub email: Option<String>,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub email_verified: Option<OffsetDateTime>,
     pub flair: Option<String>,
     pub followed_users_count: u64,
     pub followers_count: u64,
     pub id: u64,
     pub image_id: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub last_activity_at: Option<PlainDateTime>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub last_sign_in_at: Option<PlainDateTime>,
     pub librarian_roles: Vec<String>,
     pub link: Option<String>,
     pub location: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub locked_at: Option<PlainDateTime>,
     pub membership: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub membership_ends_at: Option<PlainDateTime>,
     pub name: Option<String>,
     pub object_type: Option<String>,
@@ -88,7 +99,9 @@ pub struct User {
     pub pronoun_possessive: String,
     pub referrer_id: Option<u64>,
     pub referrer_url: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub remember_created_at: Option<PlainDateTime>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub reset_password_sent_at: Option<PlainDateTime>,
     pub sign_in_count: Option<u64>,
     pub status_id: AccountStatus,

@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -23,6 +24,7 @@ users_count
 pub struct Prompt {
     pub answers_count: u64,
     pub books_count: u64,
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub created_at: Option<OffsetDateTime>,
     pub description: String,
     pub featured: bool,

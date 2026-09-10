@@ -20,13 +20,26 @@ impl From<u64> for PrivacySetting {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(from = "u64")]
 pub enum Gender {
     Male,
     Female,
     Nonbinary,
 }
 
+impl From<u64> for Gender {
+    fn from(value: u64) -> Self {
+        match value {
+            1 => Gender::Female,
+            2 => Gender::Male,
+            3 => Gender::Nonbinary,
+            _ => panic!("Unknown gender id: {}", value),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum RecordState {
     Active,
     Duplicate,

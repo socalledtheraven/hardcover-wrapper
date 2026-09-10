@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -90,6 +91,7 @@ pub struct Edition {
     pub language_id: Option<u64>,
     pub lists_count: u64,
     pub locked: bool,
+    #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub normalized_at: Option<PlainDateTime>,
     pub object_type: String,
     pub original_book_id: Option<u64>,
@@ -99,6 +101,7 @@ pub struct Edition {
     pub publisher_id: Option<u64>,
     pub rating: Option<f64>,
     pub reading_format_id: ReadingFormat,
+    #[serde(deserialize_with = "date_parsing::date_optional")]
     pub release_date: Option<Date>,
     pub release_year: Option<u64>,
     pub score: u64,

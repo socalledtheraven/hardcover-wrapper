@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -15,6 +16,7 @@ user_id
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Like {
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub created_at: Option<OffsetDateTime>,
     pub id: u64,
     pub likeable_id: u64,
