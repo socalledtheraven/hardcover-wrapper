@@ -1,10 +1,22 @@
 use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(from = "u64")]
 pub enum PrivacySetting {
     Public,
     FollowersOnly,
     Private,
+}
+
+impl From<u64> for PrivacySetting {
+    fn from(value: u64) -> Self {
+        match value {
+            1 => PrivacySetting::Public,
+            2 => PrivacySetting::FollowersOnly,
+            3 => PrivacySetting::Private,
+            _ => panic!("Unknown book_status_id: {value}"),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]

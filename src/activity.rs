@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
@@ -20,6 +21,7 @@ uid
 user_id"#;
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum ActivityType {
     UserBookActivity,
     GoalActivity,
@@ -30,6 +32,8 @@ pub enum ActivityType {
 #[derive(Debug, Clone, Deserialize)]
 pub struct Activity {
     pub book_id: Option<u64>,
+
+    #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub created_at: Option<OffsetDateTime>,
     pub data: Value,
     pub event: ActivityType,
@@ -59,33 +63,7 @@ impl BaseHardcoverItem for Activity {
     }
 
     fn new(data: Value) -> Self {
-        Activity {
-            book_id: { data.get_u64("book_id") },
-            created_at: { data.get_offsetdt("created_at") },
-            event: {
-                match data["event"].as_str() {
-                    Some("UserBookActivity") => ActivityType::UserBookActivity,
-                    Some("GoalActivity") => ActivityType::GoalActivity,
-                    Some("PromptActivity") => ActivityType::PromptActivity,
-                    Some("ListActivity") => ActivityType::ListActivity,
-                    _ => panic!("Unknown activity type"),
-                }
-            },
-            id: { data.get_u64("id").unwrap() },
-            likes_count: { data.get_u64("likes_count").unwrap() },
-            object_type: { data.get_str("object_type").unwrap() },
-            data: { data.get("data").unwrap().clone() },
-            privacy_setting_id: {
-                match data["privacy_setting_id"].as_u64() {
-                    Some(1) => PrivacySetting::Public,
-                    Some(2) => PrivacySetting::FollowersOnly,
-                    Some(3) => PrivacySetting::Private,
-                    _ => panic!("Unknown privacy setting"),
-                }
-            },
-            uid: { data.get_str("uid").unwrap() },
-            user_id: { data.get_u64("user_id").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }
 

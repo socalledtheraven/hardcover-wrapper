@@ -196,6 +196,7 @@ pub struct Book {
     pub state: RecordState2,
     pub subtitle: Option<String>,
     pub title: Option<String>,
+    
     #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub updated_at: Option<OffsetDateTime>,
     pub users_count: u64,
