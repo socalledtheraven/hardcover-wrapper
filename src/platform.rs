@@ -1,6 +1,7 @@
-use crate::client::GraphQLResponse;
+use serde::Deserialize;
 use serde_json::Value;
 
+#[derive(Debug, Clone, Deserialize)]
 pub struct Platform {
     pub id: u64,
     pub name: String,
@@ -9,10 +10,6 @@ pub struct Platform {
 
 impl Platform {
     pub fn new(resp: Value) -> Self {
-        Platform {
-            id: resp.get_u64("id").unwrap(),
-            name: resp.get_str("name").unwrap(),
-            url: resp.get_str("url"),
-        }
+        serde_json::from_value(resp).unwrap()
     }
 }

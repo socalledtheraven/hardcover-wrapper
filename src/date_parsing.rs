@@ -9,6 +9,16 @@ const DATE_FORMAT: &[time::format_description::FormatItem<'_>] =
 const PLAIN_DATE_TIME_FORMAT: &[time::format_description::FormatItem<'_>] =
     format_description!("[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond]");
 
+pub fn date<'de, D>(deserializer: D) -> Result<Date, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = String::deserialize(deserializer)?;
+
+    Date::parse(&value, DATE_FORMAT)
+        .map_err(serde::de::Error::custom)
+}
+
 pub fn date_optional<'de, D>(deserializer: D) -> Result<Option<Date>, D::Error>
 where
     D: Deserializer<'de>,
@@ -47,6 +57,17 @@ where
             .map_err(serde::de::Error::custom),
         None => Ok(None),
     }
+}
+
+
+pub fn offset_datetime<'de, D>(deserializer: D) -> Result<OffsetDateTime, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = String::deserialize(deserializer)?;
+
+    OffsetDateTime::parse(&value, &Rfc3339)
+        .map_err(serde::de::Error::custom)
 }
 
 pub fn offset_datetime_optional<'de, D>(

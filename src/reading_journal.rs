@@ -1,10 +1,9 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
-use time::{Date, PlainDateTime};
+use time::{Date, OffsetDateTime, PlainDateTime};
 
 const QUERY_FIELDS: &str = r#"
 action_at
@@ -25,8 +24,8 @@ user_id
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct ReadingJournal {
-    #[serde(deserialize_with = "date_parsing::plain_datetime")]
-    pub action_at: PlainDateTime,
+    #[serde(deserialize_with = "date_parsing::offset_datetime")]
+    pub action_at: OffsetDateTime,
     pub book_id: Option<u64>,
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
@@ -63,21 +62,6 @@ impl BaseHardcoverItem for ReadingJournal {
     }
 
     fn new(data: Value) -> Self {
-        ReadingJournal {
-            action_at: { data.get_plaindt("action_at").unwrap() },
-            book_id: { data.get_u64("book_id") },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            edition_id: { data.get_u64("edition_id") },
-            entry: { data.get_str("entry") },
-            event: { data.get_str("event") },
-            id: { data.get_u64("id").unwrap() },
-            journal_date: { data.get_date("journal_date") },
-            likes_count: { data.get_u64("likes_count").unwrap() },
-            metadata: { data["metadata"].clone() },
-            object_type: { data.get_str("object_type").unwrap() },
-            privacy_setting_id: { data.get_u64("privacy_setting_id").unwrap() },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-            user_id: { data.get_u64("user_id") },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

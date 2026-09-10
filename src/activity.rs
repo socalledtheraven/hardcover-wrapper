@@ -1,6 +1,5 @@
 use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
 use crate::HardcoverClient;
 use serde_json::Value;

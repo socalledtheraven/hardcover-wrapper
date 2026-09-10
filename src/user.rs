@@ -1,8 +1,7 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
-use crate::util::PrivacySetting;
+use crate::util::{AccountStatus, PrivacySetting};
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
@@ -55,6 +54,7 @@ const QUERY_FIELDS: &str = r"
 #[derive(Debug, Clone, Deserialize)]
 pub struct User {
     pub access_level: Option<u64>,
+    #[serde(rename = "account_privacy_setting_id")]
     pub account_privacy_settings_id: PrivacySetting,
     pub activity_privacy_settings_id: PrivacySetting,
     pub admin: bool,
@@ -107,6 +107,7 @@ pub struct User {
     pub status_id: AccountStatus,
     pub timezone: Option<String>,
     pub unconfirmed_email: Option<String>,
+    #[serde(deserialize_with = "date_parsing::offset_datetime")]
     pub updated_at: OffsetDateTime,
     pub username: String,
 }
@@ -128,78 +129,7 @@ impl BaseHardcoverItem for User {
     }
 
     fn new(data: Value) -> Self {
-        User {
-            access_level: { data.get_u64("access_level") },
-            account_privacy_settings_id: {
-                // in either case of it being unknown, we default to private
-                // this will never happen, but better to fail closed
-                data["account_privacy_setting_id"]
-                    .as_u64()
-                    .map(|v| match v {
-                        1 => PrivacySetting::Public,
-                        2 => PrivacySetting::FollowersOnly,
-                        3 => PrivacySetting::Private,
-                        _ => PrivacySetting::Private,
-                    })
-                    .unwrap_or(PrivacySetting::Private)
-            },
-            activity_privacy_settings_id: {
-                data.get_privacysetting("activity_privacy_settings_id")
-            },
-            admin: {
-                // should always be present
-                data.get_bool("admin").unwrap()
-            },
-            bio: { data.get_str("bio") },
-            birthdate: { data.get_date("birthdate") },
-            books_count: { data.get_u64("books_count").unwrap() },
-            confirmation_sent_at: { data.get_plaindt("confirmation_sent_at") },
-            confirmed_at: { data.get_plaindt("confirmed_at") },
-            created_at: { data.get_offsetdt("created_at") },
-            current_sign_in_at: { data.get_plaindt("current_sign_in_at") },
-            email: { data.get_str("email") },
-            email_verified: { data.get_offsetdt("email_verified") },
-            flair: { data.get_str("flair") },
-            followed_users_count: { data.get_u64("followed_users_count").unwrap() },
-            followers_count: { data.get_u64("followers_count").unwrap() },
-            id: data.get_u64("id").unwrap(),
-            image_id: data.get_u64("image_id").unwrap(),
-            last_activity_at: data.get_plaindt("last_activity_at"),
-            last_sign_in_at: data.get_plaindt("last_sign_in_at"),
-            librarian_roles: { data.get_str_vec("librarian_roles") },
-            link: { data.get_str("link") },
-            location: { data.get_str("location") },
-            locked_at: { data.get_plaindt("locked_at") },
-            membership: { data.get_str("membership") },
-            membership_ends_at: { data.get_plaindt("membership_ends_at") },
-            name: { data.get_str("name") },
-            object_type: { data.get_str("object_type") },
-            onboarded: { data.get_bool("onboarded").unwrap() },
-            payment_system_id: { data.get_u64("payment_system_id") },
-            pro: { data.get_bool("pro").unwrap() },
-            pronoun_personal: { data.get_str("pronoun_personal").unwrap() },
-            pronoun_possessive: { data.get_str("pronoun_possessive").unwrap() },
-            referrer_id: { data.get_u64("referrer_id") },
-            referrer_url: { data.get_str("referrer_url") },
-            remember_created_at: { data.get_plaindt("remember_created_at") },
-            reset_password_sent_at: { data.get_plaindt("reset_password_sent_at") },
-            sign_in_count: { data.get_u64("sign_in_count") },
-            status_id: {
-                // we default to activated if the status is unknown, this will never happen, but better to fail open
-                data.get_u64("status_id")
-                    .map(|v| match v {
-                        1 => AccountStatus::Created,
-                        2 => AccountStatus::Activated,
-                        3 => AccountStatus::Banned,
-                        _ => AccountStatus::Activated,
-                    })
-                    .unwrap_or(AccountStatus::Activated)
-            },
-            timezone: { data.get_str("timezone") },
-            unconfirmed_email: { data.get_str("unconfirmed_email") },
-            updated_at: { data.get_offsetdt("updated_at").unwrap() },
-            username: { data.get_str("username").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }
 
@@ -222,11 +152,4 @@ impl User {
 
         Ok(Self::new(data["users"][0].clone()))
     }
-}
-
-#[derive(Debug, Clone, Deserialize)]
-pub enum AccountStatus {
-    Created,
-    Activated,
-    Banned,
 }

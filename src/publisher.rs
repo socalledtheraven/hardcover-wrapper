@@ -1,7 +1,6 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::PlainDateTime;
@@ -57,19 +56,6 @@ impl BaseHardcoverItem for Publisher {
     }
 
     fn new(data: Value) -> Self {
-        Publisher {
-            canonical_id: { data.get_u64("canonical_id") },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            editions_count: { data.get_u64("editions_count").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            locked: { data.get_bool("locked").unwrap() },
-            name: { data.get_str("name") },
-            object_type: { data.get_str("object_type").unwrap() },
-            parent_id: { data.get_u64("parent_id") },
-            slug: { data.get_str("slug").unwrap() },
-            state: { data.get_str("state").unwrap() },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-            user_id: { data.get_u64("user_id") },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

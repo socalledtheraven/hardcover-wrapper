@@ -1,7 +1,6 @@
 use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
-use crate::util::PrivacySetting;
+use crate::util::{PrivacySetting, ReadingStatus};
 use crate::HardcoverClient;
 use reqwest::Error;
 use serde::Deserialize;
@@ -51,19 +50,11 @@ user_id
 "#;
 
 #[derive(Debug, Clone, Deserialize)]
-pub enum ReadingStatus {
-    WantToRead,
-    CurrentlyReading,
-    Read,
-    Paused,
-    DidNotFinish,
-    Ignored,
-}
-
-#[derive(Debug, Clone, Deserialize)]
 pub struct UserBook {
     pub book_id: u64,
+    #[serde(deserialize_with = "date_parsing::offset_datetime")]
     pub created_at: OffsetDateTime,
+    #[serde(deserialize_with = "date_parsing::date")]
     pub date_added: Date,
     pub edition_id: Option<u64>,
     #[serde(deserialize_with = "date_parsing::date_optional")]
@@ -128,56 +119,6 @@ impl BaseHardcoverItem for UserBook {
     }
 
     fn new(data: Value) -> Self {
-        UserBook {
-            book_id: { data.get_u64("book_id").unwrap() },
-            created_at: { data.get_offsetdt("created_at").unwrap() },
-            date_added: { data.get_date("date_added").unwrap() },
-            edition_id: { data.get_u64("edition_id") },
-            first_read_date: { data.get_date("first_read_date") },
-            first_started_reading_date: { data.get_date("first_started_reading_date") },
-            has_review: { data.get_bool("has_review").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            imported: { data.get_bool("imported") },
-            last_read_date: { data.get_date("last_read_date") },
-            likes_count: { data.get_u64("likes_count").unwrap() },
-            media_url: { data.get_str("media_url") },
-            merged_at: { data.get_plaindt("merged_at") },
-            mod_status: { data.get_u64("mod_status").unwrap() },
-            object_type: { data.get_str("object_type").unwrap() },
-            original_book_id: { data.get_u64("original_book_id") },
-            original_edition_id: { data.get_u64("original_edition_id") },
-            owned: { data.get_bool("owned").unwrap() },
-            owned_copies: { data.get_u64("owned_copies") },
-            privacy_setting_id: { data.get_privacysetting("privacy_setting_id") },
-            private_notes: { data.get_str("private_notes") },
-            rating: { data.get_f64("rating") },
-            read_count: { data.get_u64("read_count").unwrap() },
-            recommended_by: { data.get_str("recommended_by") },
-            recommended_for: { data.get_str("recommended_for") },
-            referrer_user_id: { data.get_u64("referrer_user_id") },
-            review: { data.get_str("review") },
-            review_has_spoilers: { data.get_bool("review_has_spoilers").unwrap() },
-            review_length: { data.get_u64("review_length").unwrap() },
-            review_migrated: { data.get_bool("review_migrated") },
-            review_raw: { data.get_str("review_raw") },
-            review_slate: { data["review_slate"].clone() },
-            reviewed_at: { data.get_plaindt("reviewed_at") },
-            sponsored_review: { data.get_bool("sponsored_review").unwrap() },
-            starred: { data.get_bool("starred").unwrap() },
-            status_id: {
-                match data["status_id"].as_u64() {
-                    Some(1) => ReadingStatus::WantToRead,
-                    Some(2) => ReadingStatus::CurrentlyReading,
-                    Some(3) => ReadingStatus::Read,
-                    Some(4) => ReadingStatus::Paused,
-                    Some(5) => ReadingStatus::DidNotFinish,
-                    Some(6) => ReadingStatus::Ignored,
-                    _ => panic!("Unknown reading status"),
-                }
-            },
-            updated_at: { data.get_offsetdt("updated_at") },
-            url: { data.get_str("url") },
-            user_id: { data.get_u64("user_id").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

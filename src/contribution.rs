@@ -1,7 +1,6 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::PlainDateTime;

@@ -1,6 +1,5 @@
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::util::Identifiers;
 use crate::HardcoverClient;
 use serde_json::Value;
@@ -58,21 +57,6 @@ impl BaseHardcoverItem for Series {
     }
 
     fn new(data: Value) -> Self {
-        Series {
-            author_id: { data.get_u64("author_id") },
-            books_count: { data.get_u64("books_count").unwrap() },
-            canonical_id: { data.get_u64("canonical_id") },
-            description: { data.get_str("description") },
-            id: { data.get_u64("id").unwrap() },
-            identifiers: { data.get_identifiers("identifiers") },
-            is_completed: { data.as_bool() },
-            locked: { data.get_bool("locked").unwrap() },
-            name: { data.get_str("name").unwrap() },
-            object_type: { data.get_str("object_type").unwrap() },
-            primary_books_count: { data.get_u64("primary_books_count") },
-            slug: { data.get_str("slug").unwrap() },
-            state: { data.get_str("state").unwrap() },
-            user_id: { data.get_u64("user_id") },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

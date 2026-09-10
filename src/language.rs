@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use crate::client::GraphQLResponse;
 use serde_json::Value;
 
 #[derive(Debug, Clone, Deserialize)]
@@ -12,11 +11,6 @@ pub struct Language {
 
 impl Language {
     pub fn new(resp: Value) -> Self {
-        Language {
-            code2: resp.get_str("code2"),
-            code3: resp.get_str("code3"),
-            id: resp.get_u64("id").unwrap(),
-            language: resp.get_str("language").unwrap(),
-        }
+        serde_json::from_value(resp).unwrap()
     }
 }

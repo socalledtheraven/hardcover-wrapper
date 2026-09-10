@@ -1,8 +1,7 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
-use crate::util::RecordState3;
+use crate::util::{Gender, RecordState3};
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::{Date, PlainDateTime};
@@ -60,11 +59,24 @@ pub enum EditionFormat {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(from = "u64")]
 pub enum ReadingFormat {
     Physical,
     Audio,
     Both,
     Ebook,
+}
+
+impl From<u64> for ReadingFormat {
+    fn from(value: u64) -> Self {
+        match value {
+            1 => ReadingFormat::Physical,
+            2 => ReadingFormat::Audio,
+            3 => ReadingFormat::Both,
+            4 => ReadingFormat::Ebook,
+            _ => panic!("Unknown reading format"),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -134,66 +146,6 @@ impl BaseHardcoverItem for Edition {
     }
 
     fn new(data: Value) -> Self {
-        Edition {
-            alternative_titles: { data.get_str_vec("alternative_titles") },
-            asin: { data.get_str("asin") },
-            audio_seconds: { data.get_u64("audio_seconds") },
-            book_id: { data.get_u64("book_id").unwrap() },
-            canonical_id: { data.get_u64("canonical_id") },
-            compilation: { data.get_bool("compilation").unwrap() },
-            country_id: { data.get_u64("country_id") },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            created_by_user_id: { data.get_u64("created_by_user_id") },
-            curation_status: { data.get_u64("curation_status").unwrap() },
-            edition_format: { data.get_str("edition_format") },
-            edition_information: { data.get_str("edition_information") },
-            id: { data.get_u64("id").unwrap() },
-            image_id: { data.get_u64("image_id") },
-            isbn_10: { data.get_str("isbn_10") },
-            isbn_10_valid: { data["isbn_10_valid"].as_bool() },
-            isbn_13: { data.get_str("isbn_13") },
-            isbn_13_valid: { data["isbn_13_valid"].as_bool() },
-            isbns_match: { data.get_bool("isbns_match") },
-            language_id: { data.get_u64("language_id") },
-            lists_count: { data.get_u64("lists_count").unwrap() },
-            locked: { data.get_bool("locked").unwrap() },
-            normalized_at: { data.get_plaindt("normalized_at") },
-            object_type: { data.get_str("object_type").unwrap() },
-            original_book_id: { data.get_u64("original_book_id") },
-            pages: { data.get_u64("pages") },
-            physical_format: { data.get_str("physical_format") },
-            physical_information: { data.get_str("physical_information") },
-            publisher_id: { data.get_u64("publisher_id") },
-            rating: { data["rating"].as_f64() },
-            reading_format_id: {
-                match data["reading_format_id"].as_u64() {
-                    Some(1) => ReadingFormat::Physical,
-                    Some(2) => ReadingFormat::Audio,
-                    Some(3) => ReadingFormat::Both,
-                    Some(4) => ReadingFormat::Ebook,
-                    _ => panic!("Unknown reading format"),
-                }
-            },
-            release_date: { data.get_date("release_date") },
-            release_year: { data.get_u64("release_year") },
-            score: { data.get_u64("score").unwrap() },
-            source: { data.get_str("source") },
-            state: {
-                match data["state"].as_str() {
-                    Some("pending") => RecordState3::Pending,
-                    Some("linking") => RecordState3::Linking,
-                    Some("linked") => RecordState3::Linked,
-                    Some("normalized") => RecordState3::Normalized,
-                    Some("error") => RecordState3::Error,
-                    Some("duplicate") => RecordState3::Duplicate,
-                    _ => panic!("Unknown record state"),
-                }
-            },
-            subtitle: { data.get_str("subtitle") },
-            title: { data.get_str("title") },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-            users_count: { data.get_u64("users_count").unwrap() },
-            users_read_count: { data.get_u64("users_read_count").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

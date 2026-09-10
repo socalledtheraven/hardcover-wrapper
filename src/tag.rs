@@ -1,5 +1,4 @@
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use reqwest::Error;
 use serde::Deserialize;
@@ -40,12 +39,6 @@ impl BaseHardcoverItem for Tag {
     }
 
     fn new(data: Value) -> Self {
-        Tag {
-            count: { data.get_u64("count").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            slug: { data.get_str("slug").unwrap() },
-            tag: { data.get_str("tag").unwrap() },
-            tag_category_id: { data.get_u64("tag_category_id").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

@@ -1,7 +1,6 @@
 use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::OffsetDateTime;
@@ -42,12 +41,6 @@ impl BaseHardcoverItem for Like {
     }
 
     fn new(resp: Value) -> Self {
-        Like {
-            created_at: resp.get_offsetdt("created_at"),
-            id: resp.get_u64("id").unwrap(),
-            likeable_id: resp.get_u64("likeable_id").unwrap(),
-            likeable_type: resp.get_str("likeable_type").unwrap().to_string(),
-            user_id: resp.get_u64("user_id").unwrap(),
-        }
+        serde_json::from_value(resp).unwrap()
     }
 }

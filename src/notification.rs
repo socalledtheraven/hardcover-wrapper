@@ -1,6 +1,6 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::OffsetDateTime;
@@ -20,6 +20,7 @@ uid
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Notification {
+    #[serde(deserialize_with = "date_parsing::offset_datetime")]
     pub created_at: OffsetDateTime,
     pub description: String,
     pub id: u64,
@@ -50,17 +51,6 @@ impl BaseHardcoverItem for Notification {
     }
 
     fn new(data: Value) -> Self {
-        Notification {
-            created_at: { data.get_offsetdt("created_at").unwrap() },
-            description: { data.get_str("description").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            link: { data.get_str("link") },
-            link_text: { data.get_str("link_text") },
-            notification_type_id: { data.get_u64("notification_type_id").unwrap() },
-            notifier_user_id: { data.get_u64("notifier_user_id").unwrap() },
-            priority: { data.get_u64("priority") },
-            title: { data.get_str("title").unwrap() },
-            uid: { data.get_str("uid").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }
