@@ -5,10 +5,13 @@ async fn main() -> Result<(), reqwest::Error> {
     let api_key = std::env::var("API_KEY").unwrap();
     let client = HardcoverClient::new(api_key);
 
-    let char = Character::from_id(2135, &client).await.unwrap();
+    let contribution = Contribution::from_id(1, &client).await.unwrap();
 
-    println!("Character: {:#?}", char);
-    assert_eq!(char.name, "Arlen Weston");
+    println!("Contribution: {:#?}", contribution);
+    assert_eq!(
+        contribution.contributable_type,
+        contribution::ContributableType::Book
+    );
 
     Ok(())
 }

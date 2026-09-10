@@ -19,12 +19,14 @@ updated_at
 "#;
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum ContributableType {
     Book,
     Edition,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum ContributionRole {
     Author,
     Illustrator,
@@ -69,34 +71,6 @@ impl BaseHardcoverItem for Contribution {
     }
 
     fn new(data: Value) -> Self {
-        Contribution {
-            author_id: { data.get_u64("author_id").unwrap() },
-            contributable_id: { data.get_u64("contributable_id").unwrap() },
-            contributable_type: {
-                match data["contributable_type"].as_str().unwrap() {
-                    "Book" => ContributableType::Book,
-                    "Edition" => ContributableType::Edition,
-                    _ => panic!("Unexpected contributable type"),
-                }
-            },
-            contribution: {
-                match data["contribution"].as_str() {
-                    Some("Author") => Some(ContributionRole::Author),
-                    Some("Illustrator") => Some(ContributionRole::Illustrator),
-                    Some("Translator") => Some(ContributionRole::Translator),
-                    Some("Editor") => Some(ContributionRole::Editor),
-                    Some("Narrator") => Some(ContributionRole::Narrator),
-                    Some("Foreword") => Some(ContributionRole::Foreword),
-                    Some("Afterword") => Some(ContributionRole::Afterword),
-                    Some("CoverArtist") => Some(ContributionRole::CoverArtist),
-                    _ => None,
-                }
-            },
-            contributor_role_id: { data.get_u64("contributor_role_id") },
-            contributor_specialization_id: { data.get_u64("contributor_specialization_id") },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }
