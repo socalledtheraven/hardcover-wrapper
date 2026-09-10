@@ -104,7 +104,8 @@ pub struct User {
     #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub reset_password_sent_at: Option<PlainDateTime>,
     pub sign_in_count: Option<u64>,
-    pub status_id: AccountStatus,
+    #[serde(rename = "status_id")]
+    pub status: AccountStatus,
     pub timezone: Option<String>,
     pub unconfirmed_email: Option<String>,
     #[serde(deserialize_with = "date_parsing::offset_datetime")]

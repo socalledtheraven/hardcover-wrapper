@@ -36,7 +36,8 @@ pub struct Character {
     pub canonical_id: Option<u64>,
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
-    pub gender_id: Option<Gender>,
+    #[serde(rename = "gender_id")]
+    pub gender: Option<Gender>,
     pub has_disability: Option<bool>,
     pub id: u64,
     pub image_id: Option<u64>,

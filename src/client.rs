@@ -1,10 +1,6 @@
-use crate::book::Rating;
-use crate::util::{Identifiers, Link, PrivacySetting, ReadingStatus};
 use reqwest::header::{HeaderMap, AUTHORIZATION, CONTENT_TYPE, USER_AGENT};
 use serde_json::Value;
 use std::collections::HashMap;
-use time::format_description::well_known::Iso8601;
-use time::{Date, OffsetDateTime, PlainDateTime};
 
 pub struct HardcoverClient {
     http: reqwest::Client,

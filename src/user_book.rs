@@ -94,7 +94,8 @@ pub struct UserBook {
     pub reviewed_at: Option<PlainDateTime>,
     pub sponsored_review: bool,
     pub starred: bool,
-    pub status_id: ReadingStatus,
+    #[serde(rename = "status_id")]
+    pub status: ReadingStatus,
     #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub updated_at: Option<OffsetDateTime>,
     pub url: Option<String>,

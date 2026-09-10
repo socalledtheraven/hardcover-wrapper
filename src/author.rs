@@ -50,7 +50,8 @@ pub struct Author {
     #[serde(deserialize_with = "date_parsing::date_optional")]
     pub death_date: Option<Date>,
     pub death_year: Option<u64>,
-    pub gender_id: Option<Gender>,
+    #[serde(rename = "gender_id")]
+    pub gender: Option<Gender>,
     pub id: u64,
     pub identifiers: Identifiers,
     pub image_id: Option<u64>,
