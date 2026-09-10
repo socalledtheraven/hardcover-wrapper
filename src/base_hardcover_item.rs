@@ -4,15 +4,12 @@ use std::collections::HashMap;
 
 pub trait BaseHardcoverItem: Sized {
     #[allow(async_fn_in_trait)]
-    async fn from_data<T: ToString>(
+    async fn from_data(
         query: String,
-        user_data: T,
+        variables: Value,
         client: &HardcoverClient,
     ) -> Result<Value, reqwest::Error> {
-        let mut vars = HashMap::new();
-        vars.insert("id", user_data.to_string());
-
-        let resp = client.graphql_req(query, vars).await?;
+        let resp = client.graphql_req(query, variables).await?;
 
         println!("Resp: {:#?}", resp);
 

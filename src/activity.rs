@@ -56,7 +56,9 @@ impl BaseHardcoverItem for Activity {
         }
         "#;
 
-        let data = Self::from_data(query, id, client).await?;
+        let variables = serde_json::json!({ "id": id });
+
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["activities_by_pk"].clone()))
     }
@@ -83,11 +85,10 @@ impl Activity {
           }
         }
         "#;
+        
+        let variables = serde_json::json!({ "id": user_id });
 
-        let mut vars = HashMap::new();
-        vars.insert("id", user_id.to_string());
-
-        let resp = client.graphql_req(query, vars).await?;
+        let resp = client.graphql_req(query, variables).await?;
 
         println!("Activity response: {resp:#?}");
 

@@ -64,7 +64,8 @@ impl BaseHardcoverItem for Contribution {
         }
         "#;
 
-        let data = Self::from_data(query, id, client).await?;
+        let variables = serde_json::json!({ "id": id });
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["contributions_by_pk"].clone()))
     }

@@ -30,7 +30,7 @@ impl HardcoverClient {
     pub async fn graphql_req(
         &self,
         query: String,
-        variables: HashMap<&str, String>,
+        variables: Value,
     ) -> Result<Value, reqwest::Error> {
         let headers = Self::create_headers(self);
 

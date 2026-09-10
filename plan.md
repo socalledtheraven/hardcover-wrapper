@@ -712,7 +712,7 @@ Similarly, names like `List` can conflict mentally with collection types, though
 
 ---
 
-## 27. `RecordState2` and `RecordState3` are poor public names
+## 27. `BookRecordState` and `EditionRecordState` are poor public names
 
 In `util.rs`:
 
@@ -740,7 +740,7 @@ pub enum LinkingRecordState { ... }
 ```
 
 
-Alpha users will notice `RecordState2`/`RecordState3` immediately.
+Alpha users will notice `BookRecordState`/`EditionRecordState` immediately.
 
 ---
 
@@ -1238,7 +1238,7 @@ If you only handle a few things before release, I would prioritize these:
 2. **Reuse a single `reqwest::Client` instead of creating one per request.**
 3. **Change GraphQL variables from `HashMap<&str, String>` to JSON values.**
 4. **Audit public API exposure in `lib.rs`.**
-5. **Rename obvious temporary/public names like `RecordState2` and `RecordState3`.**
+5. **Rename obvious temporary/public names like `BookRecordState` and `EditionRecordState`.**
 6. **Move `tokio` to dev-dependencies if the library itself does not need it.**
 7. **Add Cargo metadata required for publication.**
 8. **Expand the README with install/auth/usage/status examples.**

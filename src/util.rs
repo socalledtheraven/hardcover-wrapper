@@ -47,7 +47,7 @@ pub enum RecordState {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum RecordState2 {
+pub enum BookRecordState {
     Pending,
     Processing,
     Normalized,
@@ -58,7 +58,7 @@ pub enum RecordState2 {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum RecordState3 {
+pub enum EditionRecordState {
     Pending,
     Linking,
     Linked,

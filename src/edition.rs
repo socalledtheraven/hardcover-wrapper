@@ -1,6 +1,6 @@
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::date_parsing;
-use crate::util::RecordState3;
+use crate::util::EditionRecordState;
 use crate::HardcoverClient;
 use serde::Deserialize;
 use serde_json::Value;
@@ -119,7 +119,7 @@ pub struct Edition {
     pub release_year: Option<u64>,
     pub score: u64,
     pub source: Option<String>,
-    pub state: RecordState3,
+    pub state: EditionRecordState,
     pub subtitle: Option<String>,
     pub title: Option<String>,
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
@@ -140,7 +140,8 @@ impl BaseHardcoverItem for Edition {
         }
         "#;
 
-        let data = Self::from_data(query, id, client).await?;
+        let variables = serde_json::json!({ "id": id });
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["editions_by_pk"].clone()))
     }

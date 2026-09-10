@@ -1,6 +1,6 @@
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::date_parsing;
-use crate::util::{Link, RecordState2};
+use crate::util::{Link, BookRecordState};
 use crate::HardcoverClient;
 use serde::Deserialize;
 use serde_json::Value;
@@ -174,7 +174,7 @@ pub struct Book {
     pub release_year: Option<u64>,
     pub reviews_count: u64,
     pub slug: Option<String>,
-    pub state: RecordState2,
+    pub state: BookRecordState,
     pub subtitle: Option<String>,
     pub title: Option<String>,
 
@@ -196,7 +196,8 @@ impl BaseHardcoverItem for Book {
         }
         "#;
 
-        let data = Self::from_data(query, id, client).await?;
+        let variables = serde_json::json!({ "id": id });
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["books_by_pk"].clone()))
     }

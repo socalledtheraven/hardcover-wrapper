@@ -1,3 +1,4 @@
+use std::env::var;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::date_parsing;
 use crate::util::{AccountStatus, PrivacySetting};
@@ -124,7 +125,8 @@ impl BaseHardcoverItem for User {
         }
         "#;
 
-        let data = Self::from_data(query, id, client).await?;
+        let variables = serde_json::json!({ "id": id });
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["users_from_pk"].clone()))
     }
@@ -140,8 +142,8 @@ impl User {
         client: &HardcoverClient,
     ) -> Result<Self, reqwest::Error> {
         let query = r#"
-        query GetUser($id: citext!) {
-          users(where: {username: {_eq: $id}}, limit: 1) {"#
+        query GetUser($username: citext!) {
+          users(where: {username: {_eq: $username}}, limit: 1) {"#
             .to_string()
             + QUERY_FIELDS
             + r#"
@@ -149,7 +151,8 @@ impl User {
         }
         "#;
 
-        let data = Self::from_data(query, username, client).await?;
+        let variables = serde_json::json!({ "username": username });
+        let data = Self::from_data(query, variables, client).await?;
 
         Ok(Self::from_value(data["users"][0].clone()))
     }
