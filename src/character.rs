@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::{Gender, RecordState};
@@ -27,7 +28,7 @@ updated_at
 user_id
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Character {
     pub biography: Option<String>,
     pub books_count: u64,

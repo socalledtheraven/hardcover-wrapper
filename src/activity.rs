@@ -4,6 +4,7 @@ use crate::util::PrivacySetting;
 use crate::HardcoverClient;
 use serde_json::Value;
 use std::collections::HashMap;
+use serde::Deserialize;
 use time::OffsetDateTime;
 
 const QUERY_FIELDS: &str = r#"
@@ -18,7 +19,7 @@ privacy_setting_id
 uid
 user_id"#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum ActivityType {
     UserBookActivity,
     GoalActivity,
@@ -26,7 +27,7 @@ pub enum ActivityType {
     ListActivity,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Activity {
     pub book_id: Option<u64>,
     pub created_at: Option<OffsetDateTime>,

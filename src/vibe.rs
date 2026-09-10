@@ -3,6 +3,7 @@ use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
 use crate::HardcoverClient;
 use reqwest::Error;
+use serde::Deserialize;
 use serde_json::Value;
 use time::PlainDateTime;
 
@@ -24,12 +25,12 @@ user_id
 vibe_type
 "#;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub enum RecommendationType {
     Book,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub enum VibeType {
     Custom,
     Recommendation,
@@ -37,7 +38,7 @@ pub enum VibeType {
     TopPicks,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Vibe {
     pub books_generated_at: Option<PlainDateTime>,
     pub created_at: PlainDateTime,

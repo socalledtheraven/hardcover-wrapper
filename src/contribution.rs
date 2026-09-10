@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
@@ -16,13 +17,13 @@ id
 updated_at
 "#;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Deserialize)]
 pub enum ContributableType {
     Book,
     Edition,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum ContributionRole {
     Author,
     Illustrator,
@@ -34,7 +35,7 @@ pub enum ContributionRole {
     CoverArtist,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Contribution {
     pub author_id: u64,
     pub contributable_id: u64,

@@ -1,6 +1,7 @@
 mod base_hardcover_item;
 mod client;
 mod util;
+mod date_parsing;
 
 pub mod activity;
 pub mod author;

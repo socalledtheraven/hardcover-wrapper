@@ -1,24 +1,27 @@
-#[derive(Debug, Clone)]
+use serde::Deserialize;
+
+#[derive(Debug, Clone, Deserialize)]
 pub enum PrivacySetting {
     Public,
     FollowersOnly,
     Private,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum Gender {
     Male,
     Female,
     Nonbinary,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum RecordState {
     Active,
     Duplicate,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum RecordState2 {
     Pending,
     Processing,
@@ -28,7 +31,7 @@ pub enum RecordState2 {
     Duplicate,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum RecordState3 {
     Pending,
     Linking,
@@ -38,7 +41,7 @@ pub enum RecordState3 {
     Duplicate,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum ReadingStatus {
     WantToRead,
     CurrentlyReading,
@@ -48,13 +51,13 @@ pub enum ReadingStatus {
     Ignored,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Link {
     pub url: String,
     pub title: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Identifiers {
     pub audible: Option<Vec<String>>,
     pub goodreads: Option<Vec<String>>,

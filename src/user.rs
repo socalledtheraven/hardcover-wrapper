@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
@@ -50,7 +51,7 @@ const QUERY_FIELDS: &str = r"
             updated_at
             username";
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct User {
     pub access_level: Option<u64>,
     pub account_privacy_settings_id: PrivacySetting,
@@ -210,7 +211,7 @@ impl User {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum AccountStatus {
     Created,
     Activated,

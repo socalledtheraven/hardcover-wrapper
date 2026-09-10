@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::{Gender, Identifiers, Link, RecordState};
@@ -34,7 +35,7 @@ user_id
 users_count
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Author {
     pub alias_id: Option<u64>,
     pub alternate_names: Vec<String>,

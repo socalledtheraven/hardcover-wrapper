@@ -392,7 +392,7 @@ This is especially important for type correctness and avoiding weird GraphQL val
 Many public structs and enums derive only:
 
 ```rust
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 ```
 
 

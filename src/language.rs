@@ -1,7 +1,8 @@
+use serde::Deserialize;
 use crate::client::GraphQLResponse;
 use serde_json::Value;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Language {
     pub code2: Option<String>,
     pub code3: Option<String>,

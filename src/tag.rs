@@ -2,6 +2,7 @@ use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use reqwest::Error;
+use serde::Deserialize;
 use serde_json::Value;
 
 const QUERY_FIELDS: &str = r#"
@@ -12,7 +13,7 @@ const QUERY_FIELDS: &str = r#"
     tag_category_id
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Tag {
     pub count: u64,
     pub id: u64,

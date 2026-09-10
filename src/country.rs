@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
@@ -21,7 +22,7 @@ sub_region_code
 updated_at
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Country {
     pub code2: Option<String>,
     pub code3: Option<String>,

@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::RecordState3;
@@ -49,7 +50,7 @@ users_count
 users_read_count
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum EditionFormat {
     Hardcover,
     Paperback,
@@ -57,7 +58,7 @@ pub enum EditionFormat {
     Audiobook,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum ReadingFormat {
     Physical,
     Audio,
@@ -65,7 +66,7 @@ pub enum ReadingFormat {
     Ebook,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Edition {
     pub alternative_titles: Vec<String>,
     pub asin: Option<String>,

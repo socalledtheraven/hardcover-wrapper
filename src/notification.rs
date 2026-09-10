@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
@@ -17,7 +18,7 @@ title
 uid
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Notification {
     pub created_at: OffsetDateTime,
     pub description: String,

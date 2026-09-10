@@ -1,7 +1,8 @@
+use serde::Deserialize;
 use crate::client::GraphQLResponse;
 use serde_json::Value;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Image {
     pub color: Option<String>,
     pub colors: Option<Vec<String>>,
@@ -15,7 +16,7 @@ pub struct Image {
     pub width: Option<u64>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum Imageable {
     Author,
     Book,

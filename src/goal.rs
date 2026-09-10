@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
@@ -20,7 +21,7 @@ state
 user_id
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct GoalConditions {
     pub goal: u64,
     pub r#type: Option<String>,
@@ -32,13 +33,13 @@ pub struct GoalConditions {
     pub specific_start_date: Option<bool>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum GoalMetric {
     Page,
     Book,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Goal {
     pub archived: bool,
     pub completed_at: Option<OffsetDateTime>,

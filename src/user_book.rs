@@ -3,6 +3,7 @@ use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
 use crate::HardcoverClient;
 use reqwest::Error;
+use serde::Deserialize;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 
@@ -48,7 +49,7 @@ url
 user_id
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum ReadingStatus {
     WantToRead,
     CurrentlyReading,
@@ -58,7 +59,7 @@ pub enum ReadingStatus {
     Ignored,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct UserBook {
     pub book_id: u64,
     pub created_at: OffsetDateTime,

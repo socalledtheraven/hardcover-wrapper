@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
 use crate::util::PrivacySetting;
@@ -27,7 +28,7 @@ url
 user_id
 "#;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct List {
     pub books_count: u64,
     pub created_at: Option<PlainDateTime>,
