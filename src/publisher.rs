@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -23,6 +24,7 @@ user_id
 #[derive(Debug, Clone, Deserialize)]
 pub struct Publisher {
     pub canonical_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub editions_count: u64,
     pub id: u64,
@@ -32,6 +34,7 @@ pub struct Publisher {
     pub parent_id: Option<u64>,
     pub slug: String,
     pub state: String,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
     pub user_id: Option<u64>,
 }

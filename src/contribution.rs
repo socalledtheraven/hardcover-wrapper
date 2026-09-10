@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -43,8 +44,10 @@ pub struct Contribution {
     pub contribution: Option<ContributionRole>,
     pub contributor_role_id: Option<u64>,
     pub contributor_specialization_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub id: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
 }
 

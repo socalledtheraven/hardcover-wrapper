@@ -76,6 +76,7 @@ pub struct Edition {
     pub canonical_id: Option<u64>,
     pub compilation: bool,
     pub country_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub created_by_user_id: Option<u64>,
     pub curation_status: u64,
@@ -109,6 +110,7 @@ pub struct Edition {
     pub state: RecordState3,
     pub subtitle: Option<String>,
     pub title: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
     pub users_count: u64,
     pub users_read_count: u64,

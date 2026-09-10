@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -26,6 +27,7 @@ updated_at
 pub struct Country {
     pub code2: Option<String>,
     pub code3: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub id: u64,
     pub intermediate_region: Option<String>,
@@ -37,6 +39,7 @@ pub struct Country {
     pub region_code: Option<String>,
     pub sub_region: Option<String>,
     pub sub_region_code: Option<String>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
 }
 

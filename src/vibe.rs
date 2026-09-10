@@ -43,6 +43,7 @@ pub enum VibeType {
 pub struct Vibe {
     #[serde(deserialize_with = "date_parsing::plain_datetime_optional")]
     pub books_generated_at: Option<PlainDateTime>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub description: Option<String>,
     pub featured: bool,
@@ -55,6 +56,7 @@ pub struct Vibe {
     pub result_type: RecommendationType,
     pub slug: String,
     pub title: String,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
     pub user_id: u64,
     pub vibe_type: VibeType,

@@ -1,3 +1,4 @@
+use crate::date_parsing;
 use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::client::GraphQLResponse;
@@ -34,6 +35,7 @@ pub struct Character {
     pub books_count: u64,
     pub canonical_books_count: u64,
     pub canonical_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub gender_id: Option<Gender>,
     pub has_disability: Option<bool>,
@@ -47,6 +49,7 @@ pub struct Character {
     pub openlibrary_url: Option<String>,
     pub slug: String,
     pub state: RecordState,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
     pub user_id: Option<u64>,
 }
@@ -69,36 +72,6 @@ impl BaseHardcoverItem for Character {
     }
 
     fn new(data: Value) -> Self {
-        Character {
-            biography: { data.get_str("biography") },
-            books_count: { data.get_u64("books_count").unwrap() },
-            canonical_books_count: { data.get_u64("canonical_books_count").unwrap() },
-            canonical_id: { data.get_u64("canonical_id") },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            gender_id: {
-                // there is not a single character with a listed gender in the api
-                None
-            },
-            has_disability: { data.get_bool("has_disability") },
-            id: { data.get_u64("id").unwrap() },
-            image_id: { data.get_u64("image_id") },
-            is_lgbtq: { data.get_bool("is_lgbtq") },
-            is_poc: { data.get_bool("is_poc") },
-            locked: { data.get_bool("locked") },
-            name: { data.get_str("name").unwrap() },
-            object_type: { data.get_str("object_type").unwrap() },
-            openlibrary_url: { data.get_str("openlibrary_url") },
-            slug: { data.get_str("slug").unwrap() },
-            state: {
-                match data["state"].as_str() {
-                    Some("active") => RecordState::Active,
-                    Some("duplicate") => RecordState::Duplicate,
-                    // ahh, error handling
-                    _ => panic!("Unknown record state"),
-                }
-            },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-            user_id: { data.get_u64("user_id") },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }

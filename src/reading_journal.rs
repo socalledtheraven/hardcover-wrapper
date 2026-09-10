@@ -25,8 +25,10 @@ user_id
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct ReadingJournal {
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub action_at: PlainDateTime,
     pub book_id: Option<u64>,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub edition_id: Option<u64>,
     pub entry: Option<String>,
@@ -38,6 +40,7 @@ pub struct ReadingJournal {
     pub metadata: Value,
     pub object_type: String,
     pub privacy_setting_id: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
     pub user_id: Option<u64>,
 }

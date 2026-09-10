@@ -1,5 +1,6 @@
+use crate::date_parsing;
+use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::client::GraphQLResponse;
 use crate::HardcoverClient;
 use serde_json::Value;
 use time::PlainDateTime;
@@ -16,15 +17,18 @@ series_id
 updated_at
 "#;
 
+#[derive(Debug, Clone, Deserialize)]
 pub struct BookSeries {
     pub book_id: u64,
     pub compilation: bool,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
     pub details: String,
     pub featured: bool,
     pub id: u64,
     pub position: f64,
     pub series_id: u64,
+    #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
 }
 
@@ -46,16 +50,6 @@ impl BaseHardcoverItem for BookSeries {
     }
 
     fn new(data: Value) -> Self {
-        BookSeries {
-            book_id: { data.get_u64("book_id").unwrap() },
-            compilation: { data.get_bool("compilation").unwrap() },
-            created_at: { data.get_plaindt("created_at").unwrap() },
-            details: { data.get_str("details").unwrap() },
-            featured: { data.get_bool("featured").unwrap() },
-            id: { data.get_u64("id").unwrap() },
-            position: { data["position"].as_f64().unwrap() },
-            series_id: { data.get_u64("series_id").unwrap() },
-            updated_at: { data.get_plaindt("updated_at").unwrap() },
-        }
+        serde_json::from_value(data).unwrap()
     }
 }
