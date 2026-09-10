@@ -1,10 +1,10 @@
-use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::PrivacySetting;
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 use std::collections::HashMap;
-use serde::Deserialize;
 use time::OffsetDateTime;
 
 const QUERY_FIELDS: &str = r#"
@@ -58,10 +58,10 @@ impl BaseHardcoverItem for Activity {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["activities_by_pk"].clone()))
+        Ok(Self::from_value(data["activities_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }
@@ -99,7 +99,7 @@ impl Activity {
             .as_array()
             .unwrap()
             .iter()
-            .map(|activity_data| Activity::new(activity_data.clone()))
+            .map(|activity_data| Activity::from_value(activity_data.clone()))
             .collect();
 
         Ok(activities)

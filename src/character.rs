@@ -1,8 +1,8 @@
-use crate::date_parsing;
-use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::{Gender, RecordState};
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 use time::PlainDateTime;
 
@@ -68,10 +68,10 @@ impl BaseHardcoverItem for Character {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["characters_by_pk"].clone()))
+        Ok(Self::from_value(data["characters_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }

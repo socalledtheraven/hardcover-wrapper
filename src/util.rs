@@ -124,7 +124,6 @@ impl From<u64> for AccountStatus {
     }
 }
 
-
 #[derive(Clone, Debug, Deserialize)]
 #[serde(from = "u64")]
 pub enum RecommendationType {
@@ -160,4 +159,3 @@ impl From<u64> for VibeType {
         }
     }
 }
-

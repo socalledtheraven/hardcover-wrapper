@@ -1,7 +1,7 @@
-use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::util::Identifiers;
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 
 const QUERY_FIELDS: &str = r#"
@@ -53,10 +53,10 @@ impl BaseHardcoverItem for Series {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["series_by_pk"].clone()))
+        Ok(Self::from_value(data["series_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }

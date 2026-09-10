@@ -35,10 +35,10 @@ impl BaseHardcoverItem for Tag {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["tags_by_pk"].clone()))
+        Ok(Self::from_value(data["tags_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }

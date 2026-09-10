@@ -1,10 +1,10 @@
-use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::{Link, RecordState2};
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
-use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(from = "u64")]
@@ -60,7 +60,6 @@ impl From<u64> for BookStatus {
     }
 }
 
-
 #[derive(Debug, Clone, Deserialize)]
 #[serde(from = "u64")]
 pub enum LiteraryType {
@@ -77,7 +76,6 @@ impl From<u64> for LiteraryType {
         }
     }
 }
-
 
 const QUERY_FIELDS: &str = r#"
 activities_count
@@ -200,10 +198,10 @@ impl BaseHardcoverItem for Book {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["books_by_pk"].clone()))
+        Ok(Self::from_value(data["books_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }

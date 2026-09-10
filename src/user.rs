@@ -1,8 +1,8 @@
-use crate::date_parsing;
-use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::{AccountStatus, PrivacySetting};
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 use time::{Date, OffsetDateTime, PlainDateTime};
 
@@ -116,7 +116,7 @@ impl BaseHardcoverItem for User {
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error> {
         let query = r#"
         query GetUser($user: Int!) {
-          users(where: {id: {_eq: $user}}, limit: 1) {"#
+          users_from_pk(id: $user) {"#
             .to_string()
             + QUERY_FIELDS
             + r#"
@@ -126,10 +126,10 @@ impl BaseHardcoverItem for User {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["users"][0].clone()))
+        Ok(Self::from_value(data["users_from_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }
@@ -151,6 +151,6 @@ impl User {
 
         let data = Self::from_data(query, username, client).await?;
 
-        Ok(Self::new(data["users"][0].clone()))
+        Ok(Self::from_value(data["users"][0].clone()))
     }
 }

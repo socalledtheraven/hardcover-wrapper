@@ -22,5 +22,5 @@ pub trait BaseHardcoverItem: Sized {
     #[allow(async_fn_in_trait)]
     async fn from_id(id: u64, client: &HardcoverClient) -> Result<Self, reqwest::Error>;
 
-    fn new(data: Value) -> Self;
+    fn from_value(data: Value) -> Self;
 }

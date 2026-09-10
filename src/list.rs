@@ -1,8 +1,8 @@
-use crate::date_parsing;
-use serde::Deserialize;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::PrivacySetting;
 use crate::HardcoverClient;
+use serde::Deserialize;
 use serde_json::Value;
 use time::{OffsetDateTime, PlainDateTime};
 
@@ -67,10 +67,10 @@ impl BaseHardcoverItem for List {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["lists_by_pk"].clone()))
+        Ok(Self::from_value(data["lists_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }

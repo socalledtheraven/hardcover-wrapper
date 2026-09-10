@@ -1,5 +1,5 @@
-use crate::date_parsing;
 use crate::base_hardcover_item::BaseHardcoverItem;
+use crate::date_parsing;
 use crate::util::{PrivacySetting, RecommendationType, VibeType};
 use crate::HardcoverClient;
 use reqwest::Error;
@@ -62,10 +62,10 @@ impl BaseHardcoverItem for Vibe {
 
         let data = Self::from_data(query, id, client).await?;
 
-        Ok(Self::new(data["vibes_by_pk"].clone()))
+        Ok(Self::from_value(data["vibes_by_pk"].clone()))
     }
 
-    fn new(data: Value) -> Self {
+    fn from_value(data: Value) -> Self {
         serde_json::from_value(data).unwrap()
     }
 }
