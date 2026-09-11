@@ -5,7 +5,6 @@ mod tests {
     use hardcover_wrapper::models::contribution::{ContributableType, ContributionRole};
     use hardcover_wrapper::utils::enums::Gender;
     use hardcover_wrapper::*;
-    use hardcover_wrapper::models::*;
     use serde_json::Value;
     use time::macros::datetime;
     use tokio::time::{sleep, Duration};
