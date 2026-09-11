@@ -1,10 +1,10 @@
 #[cfg(test)]
 mod tests {
-    use hardcover_wrapper::models::activity::ActivityType;
-    use hardcover_wrapper::models::contribution;
-    use hardcover_wrapper::models::contribution::{ContributableType, ContributionRole};
-    use hardcover_wrapper::utils::enums::Gender;
-    use hardcover_wrapper::*;
+    use hardcover_rs::models::activity::ActivityType;
+    use hardcover_rs::models::contribution;
+    use hardcover_rs::models::contribution::{ContributableType, ContributionRole};
+    use hardcover_rs::utils::enums::Gender;
+    use hardcover_rs::*;
     use serde_json::Value;
     use time::macros::datetime;
     use tokio::time::{sleep, Duration};

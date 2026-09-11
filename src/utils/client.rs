@@ -10,7 +10,7 @@ use serde_json::Value;
 /// # Example
 ///
 /// ```no_run
-/// use hardcover_wrapper::HardcoverClient;
+/// use hardcover_rs::HardcoverClient;
 ///
 /// let client = HardcoverClient::new("your_api_key_here");
 /// ```

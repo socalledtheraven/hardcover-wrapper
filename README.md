@@ -1,4 +1,4 @@
-# hardcover-wrapper
+# hardcover-rs
 
 A strongly typed Rust client library for the [Hardcover](https://hardcover.app/) GraphQL API.
 
@@ -13,7 +13,7 @@ A strongly typed Rust client library for the [Hardcover](https://hardcover.app/)
 ### Basic Example
 
 ```rust
-use hardcover_wrapper::{HardcoverClient, Book, BaseHardcoverItem};
+use hardcover_rs::{HardcoverClient, Book, BaseHardcoverItem};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

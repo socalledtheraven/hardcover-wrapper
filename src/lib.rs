@@ -1,14 +1,14 @@
-//! # hardcover-wrapper
+//! # hardcover-rs
 //!
 //! A strongly typed Rust client library for the [Hardcover](https://hardcover.app/) API.
 //!
-//! `hardcover-wrapper` provides structured data models and an asynchronous client for querying
+//! `hardcover-rs` provides structured data models and an asynchronous client for querying
 //! Hardcover's GraphQL API, mapping resources like Books, Authors, Editions, Users, Lists, and more.
 //!
 //! ## Quickstart
 //!
 //! ```no_run
-//! use hardcover_wrapper::{HardcoverClient, Book, BaseHardcoverItem};
+//! use hardcover_rs::{HardcoverClient, Book, BaseHardcoverItem};
 //!
 //! #[tokio::main]
 //! async fn main() -> Result<(), Box<dyn std::error::Error>> {

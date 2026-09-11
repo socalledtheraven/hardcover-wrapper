@@ -1,4 +1,4 @@
-use hardcover_wrapper::*;
+use hardcover_rs::*;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
