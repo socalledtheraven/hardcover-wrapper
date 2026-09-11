@@ -1,5 +1,6 @@
 [package]
 name = "hardcover_wrapper"
+description = "A Rust API wrapper for the Hardcover API, providing fully typed data."
 version = "0.1.0"
 edition = "2021"
 license = "LGPL-2.1"
