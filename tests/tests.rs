@@ -1,12 +1,9 @@
 #[cfg(test)]
 mod tests {
     use serde_json::Value;
-    use hardcover_wrapper::*;
+    use hardcover_wrapper::{*, activity::ActivityType, contribution::{ContributableType, ContributionRole}, util::Gender};
     use time::macros::datetime;
     use tokio::time::{sleep, Duration};
-    use hardcover_wrapper::activity::ActivityType;
-    use hardcover_wrapper::contribution::{ContributableType, ContributionRole};
-    use hardcover_wrapper::util::Gender;
 
     static CLIENT: std::sync::OnceLock<HardcoverClient> = std::sync::OnceLock::new();
 
