@@ -1,5 +1,7 @@
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::date_parsing;
+//! Like model representing user likes/reactions on items.
+
+use crate::utils::base_hardcover_item::BaseHardcoverItem;
+use crate::utils::date_parsing;
 use crate::HardcoverClient;
 use serde::Deserialize;
 use serde_json::Value;
@@ -13,13 +15,19 @@ likeable_type
 user_id
 "#;
 
+/// Represents a user like on an activity, list, or journal entry.
 #[derive(Debug, Clone, Deserialize)]
 pub struct Like {
+    /// Timestamp when the item was liked.
     #[serde(deserialize_with = "date_parsing::offset_datetime_optional")]
     pub created_at: Option<OffsetDateTime>,
+    /// Unique identifier for the like record.
     pub id: u64,
+    /// ID of the liked entity.
     pub likeable_id: u64,
+    /// Type string of the liked entity.
     pub likeable_type: String,
+    /// User ID of the user who liked the entity.
     pub user_id: u64,
 }
 

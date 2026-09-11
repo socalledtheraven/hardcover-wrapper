@@ -1,13 +1,41 @@
 # hardcover-wrapper
-A Rust API wrapper for the Hardcover API, providing fully typed data. Currently in alpha, not ready for production use yet. Of particular note, there's no error handling whatsoever. If the API gives an error or malformed data, it will panic and crash. If you find any bugs with the library itself, ex. problems with the data model, please open an issue. Thanks!
 
-# Usage
-## Basic Usage
+A strongly typed Rust client library for the [Hardcover](https://hardcover.app/) GraphQL API.
+
+## Features
+
+- **Typed Data Models:** Rich Rust structs and enums matching Hardcover's schema (Books, Editions, Authors, Users, Reading Journals, Series, and more).
+- **Asynchronous API:** Built with Tokio and Reqwest for async network requests.
+- **Convenient Re-exports:** Top-level access to common models and utility clients.
+
+## Usage
+
+### Basic Example
+
 ```rust
-let api_key = std::env::var("API_KEY").unwrap();
-let client = HardcoverClient::new(api_key);
+use hardcover_wrapper::{HardcoverClient, Book, BaseHardcoverItem};
 
-let lotr = Book::from_id(377938, &client).await?;
-println!("Lord of the Rings: {:#?}", lotr);
-println!(lotr.editions_count);
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let api_key = std::env::var("API_KEY").expect("API_KEY must be set");
+    let client = HardcoverClient::new(api_key);
+
+    let lotr = Book::from_id(377938, &client).await?;
+    println!("Lord of the Rings: {:#?}", lotr);
+    println!("Editions: {}", lotr.editions_count);
+
+    Ok(())
+}
 ```
+
+## Documentation
+
+Generate and view documentation locally:
+
+```bash
+cargo doc --open
+```
+
+## License
+
+Licensed under the MIT License.

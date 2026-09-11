@@ -1,12 +1,30 @@
+//! HTTP client for sending requests to the Hardcover GraphQL API.
+
 use reqwest::header::{HeaderMap, AUTHORIZATION, CONTENT_TYPE, USER_AGENT};
 use serde_json::Value;
 
+/// An asynchronous client for interacting with the Hardcover GraphQL API.
+///
+/// `HardcoverClient` manages authentication and HTTP communication with the Hardcover API endpoint.
+///
+/// # Example
+///
+/// ```no_run
+/// use hardcover_wrapper::HardcoverClient;
+///
+/// let client = HardcoverClient::new("your_api_key_here");
+/// ```
 pub struct HardcoverClient {
     http: reqwest::Client,
     api_key: String,
 }
 
 impl HardcoverClient {
+    /// Creates a new `HardcoverClient` instance configured with the specified API key.
+    ///
+    /// # Arguments
+    ///
+    /// * `api_key` - The Hardcover API bearer token (e.g. from developer account settings).
     pub fn new(api_key: impl Into<String>) -> Self {
         Self {
             http: reqwest::Client::new(),
@@ -26,6 +44,16 @@ impl HardcoverClient {
         headers
     }
 
+    /// Sends a GraphQL query or mutation with variables to the Hardcover API.
+    ///
+    /// # Arguments
+    ///
+    /// * `query` - The GraphQL query string.
+    /// * `variables` - A `serde_json::Value` containing variable bindings for the query.
+    ///
+    /// # Returns
+    ///
+    /// The parsed JSON response as a `serde_json::Value` on success, or a `reqwest::Error` on failure.
     pub async fn graphql_req(
         &self,
         query: String,

@@ -714,7 +714,7 @@ Similarly, names like `List` can conflict mentally with collection types, though
 
 ## 27. `BookRecordState` and `EditionRecordState` are poor public names
 
-In `util.rs`:
+In `enums`:
 
 ```rust
 pub enum RecordState2 { ... }

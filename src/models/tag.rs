@@ -1,4 +1,6 @@
-use crate::base_hardcover_item::BaseHardcoverItem;
+//! Tag model representing user-created and algorithmic categorization tags.
+
+use crate::utils::base_hardcover_item::BaseHardcoverItem;
 use crate::HardcoverClient;
 use reqwest::Error;
 use serde::Deserialize;
@@ -12,12 +14,18 @@ const QUERY_FIELDS: &str = r#"
     tag_category_id
 "#;
 
+/// Represents a tag label applied to books or lists.
 #[derive(Debug, Clone, Deserialize)]
 pub struct Tag {
+    /// Total count of items associated with this tag.
     pub count: u64,
+    /// Unique identifier for the tag.
     pub id: u64,
+    /// URL slug for the tag.
     pub slug: String,
+    /// Tag text / name.
     pub tag: String,
+    /// Tag category ID.
     pub tag_category_id: u64,
 }
 

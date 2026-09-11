@@ -1,5 +1,7 @@
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::date_parsing;
+//! Contribution model linking authors to books or editions with specific contributor roles.
+
+use crate::utils::base_hardcover_item::BaseHardcoverItem;
+use crate::utils::date_parsing;
 use crate::HardcoverClient;
 use serde::Deserialize;
 use serde_json::Value;
@@ -17,13 +19,17 @@ id
 updated_at
 "#;
 
+/// Target entity type to which a contribution applies.
 #[derive(Debug, Clone, PartialEq, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum ContributableType {
+    /// Contribution is at the book level.
     Book,
+    /// Contribution is at the specific edition level.
     Edition,
 }
 
+/// Specific role of a contributor on a work or edition.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum ContributionRole {
@@ -37,17 +43,27 @@ pub enum ContributionRole {
     CoverArtist,
 }
 
+/// Represents an author's contribution to a book or edition.
 #[derive(Debug, Clone, Deserialize)]
 pub struct Contribution {
+    /// ID of the contributing author.
     pub author_id: u64,
+    /// ID of the contributable entity (Book or Edition ID).
     pub contributable_id: u64,
+    /// Type of the contributable entity.
     pub contributable_type: ContributableType,
+    /// Named role played by the contributor.
     pub contribution: Option<ContributionRole>,
+    /// Numeric contributor role ID.
     pub contributor_role_id: Option<u64>,
+    /// Numeric contributor specialization ID.
     pub contributor_specialization_id: Option<u64>,
+    /// Creation timestamp.
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
+    /// Unique identifier for this contribution record.
     pub id: u64,
+    /// Last update timestamp.
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
 }

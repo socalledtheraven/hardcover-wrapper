@@ -1,5 +1,7 @@
-use crate::base_hardcover_item::BaseHardcoverItem;
-use crate::date_parsing;
+//! Country model representing geographic regions and ISO codes.
+
+use crate::utils::base_hardcover_item::BaseHardcoverItem;
+use crate::utils::date_parsing;
 use crate::HardcoverClient;
 use serde::Deserialize;
 use serde_json::Value;
@@ -22,22 +24,37 @@ sub_region_code
 updated_at
 "#;
 
+/// Represents a country record with geographic metadata.
 #[derive(Debug, Clone, Deserialize)]
 pub struct Country {
+    /// Two-letter country code (ISO 3166-1 alpha-2).
     pub code2: Option<String>,
+    /// Three-letter country code (ISO 3166-1 alpha-3).
     pub code3: Option<String>,
+    /// Creation timestamp.
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub created_at: PlainDateTime,
+    /// Unique identifier for the country.
     pub id: u64,
+    /// Intermediate geographic region name.
     pub intermediate_region: Option<String>,
+    /// Intermediate geographic region code.
     pub intermediate_region_code: Option<String>,
+    /// Full ISO 3166 standard code.
     pub iso_3166: Option<String>,
+    /// Country name.
     pub name: Option<String>,
+    /// International telephone calling code.
     pub phone_code: Option<String>,
+    /// Macro geographic region (e.g. Europe, Asia, Americas).
     pub region: Option<String>,
+    /// Macro geographic region code.
     pub region_code: Option<String>,
+    /// Sub-regional geographic division name.
     pub sub_region: Option<String>,
+    /// Sub-regional geographic division code.
     pub sub_region_code: Option<String>,
+    /// Last update timestamp.
     #[serde(deserialize_with = "date_parsing::plain_datetime")]
     pub updated_at: PlainDateTime,
 }

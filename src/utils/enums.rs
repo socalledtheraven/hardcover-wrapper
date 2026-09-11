@@ -1,10 +1,16 @@
+//! Enumerations and shared supporting types used across Hardcover data models.
+
 use serde::Deserialize;
 
+/// Privacy levels for user content such as activities, lists, or goals.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum PrivacySetting {
+    /// Visible to everyone.
     Public,
+    /// Visible only to the user's followers.
     FollowersOnly,
+    /// Visible only to the user.
     Private,
 }
 
@@ -14,11 +20,12 @@ impl From<u64> for PrivacySetting {
             1 => PrivacySetting::Public,
             2 => PrivacySetting::FollowersOnly,
             3 => PrivacySetting::Private,
-            _ => panic!("Unknown book_status_id: {value}"),
+            _ => panic!("Unknown privacy_setting_id: {value}"),
         }
     }
 }
 
+/// Gender identification for authors and users.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum Gender {
@@ -38,6 +45,7 @@ impl From<u64> for Gender {
     }
 }
 
+/// General state of an entity record in the Hardcover database.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordState {
@@ -45,6 +53,7 @@ pub enum RecordState {
     Duplicate,
 }
 
+/// Processing status of a book record.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum BookRecordState {
@@ -56,6 +65,7 @@ pub enum BookRecordState {
     Duplicate,
 }
 
+/// Processing and linking status of an edition record.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum EditionRecordState {
@@ -67,6 +77,7 @@ pub enum EditionRecordState {
     Duplicate,
 }
 
+/// Reading progress/status for a user's book entry.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum ReadingStatus {
@@ -92,19 +103,27 @@ impl From<u64> for ReadingStatus {
     }
 }
 
+/// An external hyperlink associated with an entity.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 pub struct Link {
+    /// The target URL.
     pub url: String,
+    /// Title or label of the link.
     pub title: String,
 }
 
+/// External service identifiers (e.g. Goodreads, Audible, OpenLibrary).
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 pub struct Identifiers {
+    /// Audible ASINs or identifiers.
     pub audible: Option<Vec<String>>,
+    /// Goodreads author or book IDs.
     pub goodreads: Option<Vec<String>>,
+    /// OpenLibrary IDs.
     pub openlibrary: Option<Vec<String>>,
 }
 
+/// Account status of a user profile.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum AccountStatus {
@@ -124,6 +143,7 @@ impl From<u64> for AccountStatus {
     }
 }
 
+/// Type of item being recommended.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum RecommendationType {
@@ -139,6 +159,7 @@ impl From<u64> for RecommendationType {
     }
 }
 
+/// Category/nature of a vibe entry.
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum VibeType {
