@@ -1,22 +1,13 @@
-use hardcover_rs::*;
+use hardcover_rs::{HardcoverClient, Book, BaseHardcoverItem};
 
 #[tokio::main]
-async fn main() -> Result<(), reqwest::Error> {
-    let api_key = std::env::var("API_KEY").unwrap();
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let api_key = std::env::var("API_KEY").expect("API_KEY must be set");
     let client = HardcoverClient::new(api_key);
 
-    let _x = client.graphql_req(
-        r#"
-        query GetAllBook {
-            books_by_pk(id: $id) {
-                id
-                title
-                description
-            }
-        }
-        "#.to_string(),
-        serde_json::json!({ "id": 1 }),
-    ).await?;
+    let lotr = Book::from_id(377938, &client).await?;
+    println!("Lord of the Rings: {:#?}", lotr);
+    println!("Editions: {}", lotr.editions_count);
 
     Ok(())
 }

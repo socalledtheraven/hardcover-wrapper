@@ -4,9 +4,8 @@ A strongly typed Rust client library for the [Hardcover](https://hardcover.app/)
 
 ## Features
 
-- **Typed Data Models:** Rich Rust structs and enums matching Hardcover's schema (Books, Editions, Authors, Users, Reading Journals, Series, and more).
+- **Typed Data Models:** Rich Rust structs and enums matching Hardcover's schema (Books, Editions, Authors, Users, etc).
 - **Asynchronous API:** Built with Tokio and Reqwest for async network requests.
-- **Convenient Re-exports:** Top-level access to common models and utility clients.
 
 ## Usage
 
@@ -38,4 +37,4 @@ cargo doc --open
 
 ## License
 
-Licensed under the MIT License.
+Licensed under LGPLv2.
