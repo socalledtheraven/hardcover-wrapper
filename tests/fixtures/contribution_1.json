@@ -1,0 +1,15 @@
+{
+    "data": {
+        "contributions_by_pk": {
+            "author_id": 154428,
+            "contributable_id": 1,
+            "contributable_type": "Book",
+            "contribution": "Author",
+            "contributor_role_id": 1,
+            "contributor_specialization_id": null,
+            "created_at": "2022-05-06T20:42:16.787685",
+            "id": 1,
+            "updated_at": "2022-05-06T20:42:16.787685"
+        }
+    }
+}

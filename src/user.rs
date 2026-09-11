@@ -1,4 +1,3 @@
-use std::env::var;
 use crate::base_hardcover_item::BaseHardcoverItem;
 use crate::date_parsing;
 use crate::util::{AccountStatus, PrivacySetting};

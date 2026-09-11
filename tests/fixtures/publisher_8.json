@@ -1,0 +1,18 @@
+{
+    "data": {
+        "publishers_by_pk": {
+            "canonical_id": null,
+            "created_at": "2024-05-31T19:33:25.688839",
+            "editions_count": 14,
+            "id": 8,
+            "locked": false,
+            "name": "Penguin Viking",
+            "object_type": "Publisher",
+            "parent_id": null,
+            "slug": "penguin-viking",
+            "state": "active",
+            "updated_at": "2026-08-04T07:29:56.637781",
+            "user_id": null
+        }
+    }
+}

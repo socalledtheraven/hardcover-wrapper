@@ -1,0 +1,100 @@
+{
+    "data": {
+        "authors_by_pk": {
+            "alias_id": null,
+            "alternate_names": [
+                "John Ronald Reuel Tolkien",
+                "J. R. R. Tolkein",
+                "J.R.R. Tolkein",
+                "Dzhon R. R. Tolkin",
+                "J. R. R. Tolkin",
+                "J. R. R. Tolkien",
+                "J R R Tolkien",
+                "Tolkien J.R.R.",
+                "J. R. R. Tolkien ( YUE HAN LUO NA DE RUI ER TUO ER JIN )",
+                "Tolkien J R R",
+                "J.R.R.Tolkien",
+                "J.R.R Tolkien",
+                "J-R-R Tolkien",
+                "J. R. R Tolkien",
+                "J. R. R. TOLKIEN",
+                "J.R.R. TOLKIEN",
+                "TOLKIEN J. R. R.",
+                "j.r.r. tolkien",
+                "TOLKIEN J.R.R",
+                "Tolkien J. R. R. ",
+                "Tolkien; J. R. R.",
+                "Tolkien",
+                "John R. R. Tolkien",
+                "D. Tolkin",
+                "Tolkin D.R.R.",
+                "J R R TOLKIEN",
+                "Tolkien J-R-R",
+                "TOLKIEN J.R.R.",
+                "J.r.r. Tolkien",
+                "Tolkien, J. R. R.",
+                "John Ronald Reuel Tolkien; Teiji Seta; Akiko Tanaka",
+                "John R Tolkien",
+                "tolkien john ronald reuel"
+            ],
+            "bio": "John Ronald Reuel Tolkien (1892–1973) was a major scholar of the English language, specialising in Old and Middle English. Twice Professor of Anglo-Saxon (Old English) at the University of Oxford, he also wrote a number of stories, including most famously The Hobbit (1937) and The Lord of the Rings (1954–1955), which are set in a pre-historic era in an invented version of our world which he called by the Middle English name of Middle-earth. This was peopled by Men (and women), Elves, Dwarves, Trolls, Orcs (or Goblins) and of course Hobbits. He has regularly been condemned by the Eng. Lit. establishment, with honourable exceptions, but loved by literally millions of readers worldwide.\n\nIn the 1960s he was taken up by many members of the nascent “counter-culture” largely because of his concern with environmental issues. In 1997 he came top of three British polls, organised respectively by Channel 4 / Waterstone’s, the Folio Society, and SFX, the UK’s leading science fiction media magazine, amongst discerning readers asked to vote for the greatest book of the 20th century. \n\nPlease note also that his name is spelt Tolkien (there is no “Tolkein”).",
+            "books_count": 277,
+            "born_date": "1892-01-03",
+            "born_year": 1892,
+            "canonical_id": null,
+            "death_date": "1973-09-02",
+            "death_year": 1973,
+            "gender_id": 1,
+            "id": 132049,
+            "identifiers": {
+                "audible": [
+                    "B000ARC6KA"
+                ],
+                "goodreads": [
+                    "53725221",
+                    "656983"
+                ],
+                "openlibrary": [
+                    "/authors/OL9089614A",
+                    "/authors/OL26320A",
+                    "/authors/OL15812868A"
+                ]
+            },
+            "image_id": 33205,
+            "is_bipoc": null,
+            "is_lgbtq": null,
+            "links": [
+                {
+                    "url": "https://www.tolkiensociety.org/",
+                    "title": "The Tolkien Society"
+                },
+                {
+                    "url": "https://www.tolkienestate.com/",
+                    "title": "The Official Website of the JRR Tolkien Estate"
+                },
+                {
+                    "url": "https://www.theonering.com/",
+                    "title": "TheOneRing.com"
+                },
+                {
+                    "url": "https://www.planet-tolkien.com/",
+                    "title": "Planet Tolkien"
+                },
+                {
+                    "url": "https://www.tolkienlibrary.com/",
+                    "title": "The Tolkien Library: Collecting Tolkien books"
+                }
+            ],
+            "location": "United Kingdom",
+            "locked": true,
+            "name": "J.R.R. Tolkien",
+            "name_personal": "John Ronald Reuel Tolkien",
+            "object_type": "Author",
+            "slug": "jrr-tolkien",
+            "state": "active",
+            "title": "",
+            "user_id": null,
+            "users_count": 17347
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "data": {
+        "notifications_by_pk": {
+            "created_at": "2026-06-20T16:32:59.38783+00:00",
+            "description": "We successfully merged the Book 'Of Monsters and Mainframes' into 'Of Monsters and Mainframes'.",
+            "id": 440096,
+            "link": "/books/of-monsters-and-mainframes",
+            "link_text": "View",
+            "notification_type_id": 9,
+            "notifier_user_id": 52626,
+            "priority": 1,
+            "title": "We completed your feedback about 'Of Monsters and Mainframes'",
+            "uid": "report-244670"
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "data": {
+        "prompts_by_pk": {
+            "answers_count": 9,
+            "books_count": 9,
+            "created_at": "2023-08-24T17:00:35.633366+00:00",
+            "description": "Within biographies there's a sub-genre of stories focused on personal growth and self improvement. These often focus on the change the author went through, what motivated that action and how it impacted their life as a whole. Different from a straight biography of events, growth stories can be inspirational and spur readers to action. What growth stories have inspired you?",
+            "featured": false,
+            "id": 122,
+            "privacy_setting_id": 1,
+            "question": "What biographical stories of growth inspired you?",
+            "slug": "what-biographical-stories-of-growth-inspired-you",
+            "user_id": 1,
+            "users_count": 2
+        }
+    }
+}

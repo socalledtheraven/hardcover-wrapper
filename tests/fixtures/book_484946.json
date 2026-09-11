@@ -1,0 +1,83 @@
+{
+    "data": {
+        "books_by_pk": {
+            "activities_count": 360,
+            "alternative_titles": [],
+            "audio_seconds": null,
+            "book_category_id": 1,
+            "book_status_id": 1,
+            "canonical_id": null,
+            "compilation": false,
+            "created_at": "2022-05-16T12:33:13.728323",
+            "created_by_user_id": null,
+            "curation_status": 0,
+            "default_audio_edition_id": 31472971,
+            "default_cover_edition_id": 30425677,
+            "default_ebook_edition_id": 31670127,
+            "default_physical_edition_id": 30425677,
+            "description": "A gifted young knight named Collum arrives at Camelot to compete for a place at the Round Table, only to find that he’s too late. King Arthur died two weeks ago at the Battle of Camlann, and only a handful of the knights of the Round Table are left.\n\nThe survivors aren’t the heroes of legend like Lancelot or Gawain. They’re the oddballs of the Round Table, like Sir Palomides, the Saracen Knight, and Sir Dagonet, Arthur’s fool, who was knighted as a joke. They’re joined by Nimue, who was Merlin’s apprentice until she turned on him and buried him under a hill. \n\nBut it’s up to them to rebuild Camelot in a world that has lost its balance, even as God abandons Britain and the fairies and old gods return, led by Morgan le Fay. They must reclaim Excalibur and make this ruined world whole again—but first they’ll have to solve the mystery of why the lonely, brilliant King Arthur fell. \n\nThe first major Arthurian epic of the new millennium, The Bright Sword is steeped in tradition, complete with duels and quests, battles and tournaments, magic swords and Fisher Kings. It’s also a story about imperfect men and women, full of strength and pain, trying to reforge a broken land in spite of being broken themselves.",
+            "editions_count": 17,
+            "featured_book_series_id": null,
+            "header_image_id": null,
+            "headline": null,
+            "image_id": 7257374,
+            "id": 484946,
+            "import_platform_id": 1,
+            "is_partial_book": false,
+            "journals_count": 758,
+            "links": [],
+            "lists_count": 205,
+            "literary_type_id": 1,
+            "locked": false,
+            "pages": 683,
+            "parent_book_id": null,
+            "prompts_count": 1,
+            "rating": 3.9342105263157894,
+            "ratings_count": 152,
+            "ratings_distribution": [
+                {
+                    "count": 2,
+                    "rating": 1
+                },
+                {
+                    "count": 5,
+                    "rating": 2
+                },
+                {
+                    "count": 4,
+                    "rating": 2.5
+                },
+                {
+                    "count": 27,
+                    "rating": 3
+                },
+                {
+                    "count": 9,
+                    "rating": 3.5
+                },
+                {
+                    "count": 57,
+                    "rating": 4
+                },
+                {
+                    "count": 9,
+                    "rating": 4.5
+                },
+                {
+                    "count": 39,
+                    "rating": 5
+                }
+            ],
+            "release_date": "2024-07-16",
+            "release_year": 2024,
+            "reviews_count": 20,
+            "slug": "the-bright-sword",
+            "state": "normalized",
+            "subtitle": "A Novel of King Arthur",
+            "title": "The Bright Sword",
+            "updated_at": "2026-09-10T13:16:16.763428+00:00",
+            "users_count": 700,
+            "users_read_count": 202
+        }
+    }
+}

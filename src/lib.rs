@@ -1,7 +1,6 @@
 mod base_hardcover_item;
 mod client;
 mod date_parsing;
-mod util;
 
 pub mod activity;
 pub mod author;
@@ -27,6 +26,7 @@ pub mod series;
 pub mod tag;
 pub mod user;
 pub mod user_book;
+pub mod util;
 pub mod vibe;
 
 pub use activity::Activity;

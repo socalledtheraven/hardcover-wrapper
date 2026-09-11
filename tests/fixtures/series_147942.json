@@ -1,0 +1,20 @@
+{
+    "data": {
+        "series_by_pk": {
+            "author_id": 678724,
+            "books_count": 8,
+            "canonical_id": null,
+            "description": null,
+            "id": 147942,
+            "identifiers": {},
+            "is_completed": null,
+            "locked": false,
+            "name": "Savage Awakening",
+            "object_type": "Series",
+            "primary_books_count": 8,
+            "slug": "savage-awakening",
+            "state": "active",
+            "user_id": null
+        }
+    }
+}

@@ -1,6 +1,5 @@
 use crate::HardcoverClient;
 use serde_json::Value;
-use std::collections::HashMap;
 
 pub trait BaseHardcoverItem: Sized {
     #[allow(async_fn_in_trait)]

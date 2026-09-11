@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum PrivacySetting {
     Public,
@@ -19,7 +19,7 @@ impl From<u64> for PrivacySetting {
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum Gender {
     Male,
@@ -30,22 +30,22 @@ pub enum Gender {
 impl From<u64> for Gender {
     fn from(value: u64) -> Self {
         match value {
-            1 => Gender::Female,
-            2 => Gender::Male,
+            1 => Gender::Male,
+            2 => Gender::Female,
             3 => Gender::Nonbinary,
             _ => panic!("Unknown gender id: {}", value),
         }
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordState {
     Active,
     Duplicate,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum BookRecordState {
     Pending,
@@ -56,7 +56,7 @@ pub enum BookRecordState {
     Duplicate,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum EditionRecordState {
     Pending,
@@ -67,7 +67,7 @@ pub enum EditionRecordState {
     Duplicate,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum ReadingStatus {
     WantToRead,
@@ -92,20 +92,20 @@ impl From<u64> for ReadingStatus {
     }
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 pub struct Link {
     pub url: String,
     pub title: String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 pub struct Identifiers {
     pub audible: Option<Vec<String>>,
     pub goodreads: Option<Vec<String>>,
     pub openlibrary: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum AccountStatus {
     Created,
@@ -124,7 +124,7 @@ impl From<u64> for AccountStatus {
     }
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum RecommendationType {
     Book,
@@ -139,7 +139,7 @@ impl From<u64> for RecommendationType {
     }
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(from = "u64")]
 pub enum VibeType {
     Custom,

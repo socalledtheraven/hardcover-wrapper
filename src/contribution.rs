@@ -24,7 +24,7 @@ pub enum ContributableType {
     Edition,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum ContributionRole {
     Author,

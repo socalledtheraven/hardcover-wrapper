@@ -1,0 +1,28 @@
+{
+    "data": {
+        "goals_by_pk": {
+            "archived": false,
+            "completed_at": null,
+            "conditions": {
+                "goal": 10,
+                "type": null,
+                "metric": "book",
+                "endDate": "2023-01-01",
+                "startDate": "2022-01-01",
+                "readingFormatId": null,
+                "specificEndDate": false,
+                "specificStartDate": false
+            },
+            "description": "Read 10 books in 2022",
+            "end_date": "2023-01-01",
+            "goal": 10,
+            "id": 16,
+            "metric": "book",
+            "privacy_setting_id": 1,
+            "progress": 0,
+            "start_date": "2022-01-01",
+            "state": "active",
+            "user_id": 65
+        }
+    }
+}

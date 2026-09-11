@@ -1,6 +1,5 @@
 use reqwest::header::{HeaderMap, AUTHORIZATION, CONTENT_TYPE, USER_AGENT};
 use serde_json::Value;
-use std::collections::HashMap;
 
 pub struct HardcoverClient {
     http: reqwest::Client,

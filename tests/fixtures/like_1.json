@@ -1,0 +1,11 @@
+{
+    "data": {
+        "likes_by_pk": {
+            "created_at": "2021-12-13T03:10:24.465366+00:00",
+            "id": 1,
+            "likeable_id": 1,
+            "likeable_type": "Activity",
+            "user_id": 3
+        }
+    }
+}
